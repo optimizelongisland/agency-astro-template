@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Testimonial from '../components/Testimonial.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+// import GHLForm from '../components/GHLForm.astro'; // uncomment once the client's GHL form ID is set up
+
+// ---- CLIENT CONTENT: this is the only file most edits touch day-to-day ----
+const phone = '(631) 555-0148';
+---
+
+<BaseLayout
+  title="Client Business Name | Service Area"
+  description="One or two sentences describing what the business does and where, written for search snippets."
+>
+  <Hero
+    eyebrow="SERVING [REGION] SINCE [YEAR]"
+    headline="A headline that names the outcome the customer wants."
+    subhead="A supporting sentence that explains how you deliver it, specific to this business."
+    phone={phone}
+    trustPoints={['15+ years in business', 'Licensed & insured', '4.9★ from 300+ customers']}
+  />
+
+  <Services
+    heading="What we handle"
+    subheading="A short line framing the service list."
+    services={[
+      { title: 'Service One', description: 'One or two sentences on what this includes.' },
+      { title: 'Service Two', description: 'One or two sentences on what this includes.' },
+      { title: 'Service Three', description: 'One or two sentences on what this includes.' },
+      { title: 'Service Four', description: 'One or two sentences on what this includes.' },
+    ]}
+  />
+
+  <Process
+    heading="How a project runs"
+    subheading="A short line setting expectations for the process."
+    steps={[
+      { title: 'Step one', description: 'What happens first.' },
+      { title: 'Step two', description: 'What happens next.' },
+      { title: 'Step three', description: 'What happens after that.' },
+      { title: 'Step four', description: 'How it wraps up.' },
+    ]}
+  />
+
+  <Testimonial quote="A real or representative customer quote goes here." attribution="Customer Name, Town" />
+
+  <FAQ
+    heading="Frequently asked questions"
+    items={[
+      {
+        question: 'A question a real customer would ask, phrased naturally.',
+        answer:
+          'A direct, complete answer in the first sentence. Keep it under 50 words so AI answer engines can lift it cleanly.',
+      },
+      {
+        question: 'Another common customer question.',
+        answer: 'Direct answer first, then one supporting sentence if needed.',
+      },
+      {
+        question: 'A third question, ideally one people actually search.',
+        answer: 'Same pattern: answer immediately, no throat-clearing.',
+      },
+    ]}
+  />
+
+  <CTA
+    heading="Get a fixed-price estimate"
+    subheading="Tell us about your property and we'll get back to you within one business day."
+    phone={phone}
+    email="hello@clientdomain.com"
+  />
+</BaseLayout>

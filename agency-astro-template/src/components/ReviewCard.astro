@@ -1,0 +1,73 @@
+---
+// A single displayed review, with matching Review schema. Use a few of these
+// on a page (e.g. 3 featured reviews) alongside the aggregateRating in
+// SEO.astro, which summarizes ALL reviews, not just the ones shown here.
+interface Props {
+  authorName: string;
+  reviewBody: string;
+  ratingValue: number; // 1-5
+  datePublished: string; // ISO date, e.g. "2026-06-12"
+  businessName: string;
+}
+const { authorName, reviewBody, ratingValue, datePublished, businessName } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue,
+    bestRating: 5,
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+  },
+  reviewBody,
+  datePublished,
+  itemReviewed: {
+    '@type': 'LocalBusiness',
+    name: businessName,
+  },
+};
+---
+
+<figure class="review-card">
+  <div class="stars" aria-label={`${ratingValue} out of 5 stars`}>
+    {Array.from({ length: 5 }).map((_, i) => (
+      <span class={i < ratingValue ? 'filled' : ''}>★</span>
+    ))}
+  </div>
+  <blockquote>{reviewBody}</blockquote>
+  <figcaption>{authorName}</figcaption>
+</figure>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<style>
+  .review-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .stars {
+    color: var(--line);
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .stars .filled {
+    color: var(--accent);
+  }
+  blockquote {
+    font-size: 15px;
+    color: #2b3530;
+    margin-bottom: 14px;
+  }
+  figcaption {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--deep);
+  }
+</style>

@@ -1,0 +1,25 @@
+/*
+  TOKENS.CSS — the per-client theme file.
+  To reskin a new client: change the values below. That's it.
+  Everything in the component library reads from these variables,
+  nothing else in the codebase should need to change for a restyle.
+*/
+
+:root {
+  /* --- Color: pick 4-6 values grounded in the client's industry --- */
+  --bg: #F7F4EC;        /* page background */
+  --paper: #FFFEFA;     /* card / surface background */
+  --ink: #1B2420;       /* body text */
+  --deep: #1F3D2B;      /* primary brand color (headlines, buttons) */
+  --accent: #5B8C5A;    /* secondary accent */
+  --accent-2: #2E6E7E;  /* tertiary accent (links, highlights) */
+  --line: rgba(27, 36, 32, 0.14); /* borders / dividers */
+
+  /* --- Type --- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* --- Layout --- */
+  --max-width: 1120px;
+  --radius: 2px; /* raise this for a softer/rounder brand */
+}

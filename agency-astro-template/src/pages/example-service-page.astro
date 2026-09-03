@@ -1,0 +1,92 @@
+---
+// This page demonstrates the full component set for a real service page.
+// Copy this file's structure when building actual service pages
+// (e.g. src/pages/sprinkler-repair.astro) - swap the content, keep the pattern.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/schema/Breadcrumbs.astro';
+import ServiceSchema from '../components/schema/ServiceSchema.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import CTA from '../components/CTA.astro';
+
+const phone = '(631) 555-0148';
+---
+
+<!-- Once this business has real reviews, add ratingValue={4.9} reviewCount={127} as props below -->
+<BaseLayout
+  title="Example Service | Client Business Name"
+  description="One or two sentences describing this specific service, written for search snippets."
+>
+  <div class="wrap">
+    <Breadcrumbs items={[{ name: 'Example Service', url: '/example-service-page' }]} />
+  </div>
+
+  <ServiceSchema
+    serviceName="Example Service Name"
+    description="A fuller description of what this service includes, used in the Service schema (can be longer than the meta description above)."
+    businessName="Client Business Name"
+    areaServed={['Town One', 'Town Two', 'Town Three']}
+  />
+
+  <section class="section wrap">
+    <h1>Example Service Name</h1>
+    <p class="intro">
+      An intro paragraph explaining this service - what it is, who it's for, and why this
+      business is the right choice for it.
+    </p>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2>What customers say</h2>
+      <p>Real reviews, not fabricated ones - swap these for the client's actual feedback.</p>
+    </div>
+    <div class="review-grid">
+      <ReviewCard
+        authorName="Example Customer"
+        reviewBody="A real customer quote about this specific service goes here."
+        ratingValue={5}
+        datePublished="2026-06-01"
+        businessName="Client Business Name"
+      />
+    </div>
+  </section>
+
+  <!--
+    Video section - uncomment once a real Higgsfield-generated clip and thumbnail exist.
+    <section class="section wrap">
+      <VideoEmbed
+        videoSrc="/videos/service-demo.mp4"
+        thumbnailSrc="/videos/service-demo-thumb.jpg"
+        name="Example Service Name in action"
+        description="Short description of what the video shows."
+        uploadDate="2026-06-01"
+        durationISO="PT15S"
+      />
+    </section>
+  -->
+
+  <CTA
+    heading="Ready to get started?"
+    subheading="Reach out for a fixed-price estimate on this service."
+    phone={phone}
+    email="hello@clientdomain.com"
+  />
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(32px, 4.5vw, 46px);
+    margin-bottom: 16px;
+  }
+  .intro {
+    font-size: 17px;
+    color: #2b3530;
+    max-width: 65ch;
+  }
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+</style>

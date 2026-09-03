@@ -1,0 +1,33 @@
+---
+// Site-wide schema, rendered once in BaseLayout (not per-page like LocalBusiness
+// in SEO.astro). Organization/WebSite reinforce brand-level identity separate
+// from the location-specific LocalBusiness schema - both can coexist safely.
+interface Props {
+  businessName: string;
+  logoPath?: string; // path relative to /public, e.g. "/logo.png"
+  socialProfiles?: string[];
+}
+const { businessName, logoPath = '/logo.png', socialProfiles = [] } = Astro.props;
+
+const siteURL = Astro.site?.toString() ?? '/';
+const logoURL = new URL(logoPath, Astro.site).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: businessName,
+  url: siteURL,
+  logo: logoURL,
+  ...(socialProfiles.length > 0 && { sameAs: socialProfiles }),
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: businessName,
+  url: siteURL,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />

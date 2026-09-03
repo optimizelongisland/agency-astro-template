@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Explicit allow for AI crawlers that respect robots.txt and power AI-answer
+# citations (ChatGPT, Claude, Perplexity, Google AI Mode/Overviews). This is
+# the real, confirmed lever for AEO/GEO visibility - unlike llms.txt, which
+# major AI labs have publicly said they don't read as of 2026.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://example-client-domain.com/sitemap-index.xml

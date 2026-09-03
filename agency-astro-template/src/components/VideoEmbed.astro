@@ -1,0 +1,60 @@
+---
+// Wraps a video (e.g. Higgsfield-generated) with VideoObject schema so it's
+// eligible for video rich results. Without this schema, Google has no idea
+// the video exists beyond "there's a <video> tag on this page."
+interface Props {
+  videoSrc: string; // path to the video file, e.g. "/videos/hero-clip.mp4"
+  thumbnailSrc: string; // path to a static thumbnail image
+  name: string;
+  description: string;
+  uploadDate: string; // ISO date, e.g. "2026-06-01"
+  durationISO?: string; // ISO 8601 duration, e.g. "PT15S" for 15 seconds
+  autoplay?: boolean;
+}
+const {
+  videoSrc,
+  thumbnailSrc,
+  name,
+  description,
+  uploadDate,
+  durationISO,
+  autoplay = true,
+} = Astro.props;
+
+const thumbnailURL = new URL(thumbnailSrc, Astro.site).toString();
+const videoURL = new URL(videoSrc, Astro.site).toString();
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name,
+  description,
+  thumbnailUrl: thumbnailURL,
+  uploadDate,
+  contentUrl: videoURL,
+  ...(durationISO && { duration: durationISO }),
+};
+---
+
+<video
+  class="video-embed"
+  poster={thumbnailSrc}
+  autoplay={autoplay}
+  muted={autoplay}
+  loop
+  playsinline
+  controls={!autoplay}
+>
+  <source src={videoSrc} type="video/mp4" />
+</video>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<style>
+  .video-embed {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    display: block;
+  }
+</style>
