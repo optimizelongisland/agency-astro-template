@@ -9,9 +9,22 @@ interface Props {
   description: string;
   publishDate: Date;
   updatedDate?: Date;
+  // The business name (the default) is published as an Organization author.
+  // A person's name is published as a Person, so only use one for a real
+  // person who wrote or reviewed the post and has agreed to be named.
   author: string;
+  authorUrl?: string; // that person's bio page on this site
 }
-const { title, description, publishDate, updatedDate, author } = Astro.props;
+const { title, description, publishDate, updatedDate, author, authorUrl } = Astro.props;
+
+const authorIsBusiness = author.trim().toLowerCase() === business.businessName.trim().toLowerCase();
+const authorNode = authorIsBusiness
+  ? { '@type': 'Organization', name: business.businessName }
+  : {
+      '@type': 'Person',
+      name: author,
+      ...(authorUrl && { url: new URL(authorUrl, Astro.site).toString() }),
+    };
 
 const schema = {
   '@context': 'https://schema.org',
@@ -20,7 +33,7 @@ const schema = {
   description,
   datePublished: publishDate.toISOString(),
   dateModified: (updatedDate ?? publishDate).toISOString(),
-  author: { '@type': 'Person', name: author },
+  author: authorNode,
   publisher: { '@type': 'Organization', name: business.businessName },
 };
 ---
