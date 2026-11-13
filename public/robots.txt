@@ -1,23 +1,42 @@
 User-agent: *
 Allow: /
 
-# Explicit allow for AI crawlers that respect robots.txt and power AI-answer
-# citations (ChatGPT, Claude, Perplexity, Google AI Mode/Overviews). This is
-# the real, confirmed lever for AEO/GEO visibility - unlike llms.txt, which
-# major AI labs have publicly said they don't read as of 2026.
-User-agent: GPTBot
+# Everything is open to every crawler by default (the rule above). The groups
+# below name the AI crawlers explicitly so the choice is visible and easy to
+# change for one client.
+#
+# SEARCH AND ANSWER CRAWLERS: these fetch pages to answer a question and can
+# cite the site. Blocking any of them removes the site from that product's
+# answers. Keep them allowed.
+User-agent: OAI-SearchBot
 Allow: /
 
-User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# TRAINING CRAWLERS: these collect text to train AI models. Allowing or
+# blocking them is the client's choice and does not affect whether the site
+# appears in Google results or Google's AI Overviews (those use Googlebot,
+# which the first rule already allows).
+User-agent: GPTBot
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
 User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
 Allow: /
 
 User-agent: Applebot-Extended

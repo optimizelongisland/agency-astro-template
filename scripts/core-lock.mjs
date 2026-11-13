@@ -17,7 +17,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const lockFile = path.join(root, 'core.lock.json');
 
 export const LOCKED_PATHS = ['src/core', 'src/pages/api', 'scripts', 'tests'];
-export const CORE_VERSION = '1.1.0';
+export const CORE_VERSION = '1.2.0';
 
 function walk(dir) {
   if (!fs.existsSync(dir)) return [];

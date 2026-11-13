@@ -10,7 +10,7 @@ interface Props {
   post: CollectionEntry<'blog'>;
 }
 const { post } = Astro.props;
-const { title, metaDescription, publishDate, updatedDate, author, coverImage, coverImageAlt, tags } =
+const { title, metaDescription, publishDate, updatedDate, author, authorUrl, reviewedBy, coverImage, coverImageAlt, tags } =
   post.data;
 
 const formattedDate = publishDate.toLocaleDateString('en-US', {
@@ -20,11 +20,12 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
 });
 ---
 
-<SiteLayout title={`${title} | ${business.businessName}`} description={metaDescription} ogImage={coverImage.src}>
+<SiteLayout title={`${title} | ${business.businessName}`} description={metaDescription} ogImage={coverImage?.src}>
   <article class="post">
     <div class="wrap post-header">
       <p class="post-meta">
         {formattedDate} · {author}
+        {reviewedBy && <> · Reviewed by {reviewedBy}</>}
       </p>
       <h1>{title}</h1>
       {
@@ -38,9 +39,13 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
       }
     </div>
 
-    <div class="cover-wrap">
-      <Image src={coverImage} alt={coverImageAlt} width={1120} height={560} loading="eager" />
-    </div>
+    {
+      coverImage && (
+        <div class="cover-wrap">
+          <Image src={coverImage} alt={coverImageAlt ?? ''} width={1120} height={560} loading="eager" />
+        </div>
+      )
+    }
 
     <div class="wrap post-body">
       <slot />
@@ -53,6 +58,7 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
     publishDate={publishDate}
     updatedDate={updatedDate}
     author={author}
+    authorUrl={authorUrl}
   />
 </SiteLayout>
 

@@ -1,0 +1,36 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// Person structured data for a real, named person at the business: an owner
+// or author bio page. Only for a real person who has agreed to be named, with
+// details they have confirmed. Never invent or embellish credentials.
+//
+// `sameAs` is for profiles that ARE this person (their LinkedIn, a staff page).
+// A license lookup or search page is not one of those: link it in the visible
+// bio text instead.
+import { business } from '../../../site';
+
+interface Props {
+  name: string;
+  jobTitle?: string;
+  url?: string; // the person's page on this site, e.g. "/about/jane-doe/"
+  imagePath?: string; // path under /public or an imported image's .src
+  sameAs?: string[];
+  knowsAbout?: string[]; // topics, in plain words
+}
+const { name, jobTitle, url, imagePath, sameAs = [], knowsAbout = [] } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name,
+  ...(jobTitle && { jobTitle }),
+  ...(url && { url: new URL(url, Astro.site).toString() }),
+  ...(imagePath && { image: new URL(imagePath, Astro.site).toString() }),
+  ...(sameAs.length > 0 && { sameAs }),
+  ...(knowsAbout.length > 0 && { knowsAbout }),
+  worksFor: { '@type': 'LocalBusiness', name: business.businessName },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

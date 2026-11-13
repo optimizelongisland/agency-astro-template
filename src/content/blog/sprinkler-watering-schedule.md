@@ -2,7 +2,6 @@
 title: "How Often Should You Actually Run Your Sprinklers?"
 metaDescription: "Most homeowners overwater. Here's how to set your sprinkler schedule by season, soil type, and grass type for a healthier lawn."
 publishDate: 2026-08-15
-author: "Team"
 coverImage: "./cover-placeholder.svg"
 coverImageAlt: "Illustration of a sprinkler head watering a lawn"
 tags: ["Lawn Care", "Seasonal Tips"]

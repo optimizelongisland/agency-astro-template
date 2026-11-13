@@ -207,7 +207,7 @@ piece of the monthly SEO/AEO cadence, not a one-off feature.
 **Adding a new post:**
 
 1. Create a new `.md` file in `src/content/blog/`
-2. Fill in the required frontmatter (title, metaDescription, publishDate, coverImage, coverImageAlt)
+2. Fill in the required frontmatter (title, metaDescription, publishDate). A cover image is optional; if you add one, `coverImageAlt` is required. The author defaults to the business; name a person only if a real person wrote or reviewed the post.
 3. Write the post body in Markdown below the frontmatter
 4. `npm run dev` to preview at `/blog/your-file-name/`
 
@@ -245,12 +245,18 @@ Google Search Console's Pages report (or crawl the live site), and map each one.
 
 ## AI crawler access (robots.txt)
 
-`public/robots.txt` explicitly allows GPTBot, ClaudeBot, Google-Extended,
-PerplexityBot, OAI-SearchBot, and Applebot-Extended — these are the crawlers
-that actually power AI-answer citations, and this is the confirmed, real lever
-for AEO/GEO visibility. `llms.txt` is intentionally not included: as of 2026,
-adoption sits around 10% of sites and major AI labs have stated they don't
-read it. Not worth the effort yet.
+`public/robots.txt` allows every crawler, and names the AI crawlers in two groups
+so the choice is visible:
+
+- **Search and answer crawlers** (OAI-SearchBot, ChatGPT-User, PerplexityBot,
+  Perplexity-User, Claude-SearchBot, Claude-User). These fetch pages to answer a
+  question and can cite the site. Keep them allowed.
+- **Training crawlers** (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended).
+  These collect text to train models. Allowing or blocking them is the client's
+  choice and does not affect Google results or Google's AI Overviews, which use
+  Googlebot.
+
+`llms.txt` is intentionally not included.
 
 ## Social profiles (sameAs schema)
 
@@ -271,6 +277,7 @@ A design component shows the content; the matching core component emits the sche
 | `Organization` + `WebSite` | `core/components/schema/SiteSchema.astro` | Automatic site-wide |
 | `FAQPage` | `schema/FaqSchema.astro` | Any page with an FAQ section |
 | `BlogPosting` | `schema/BlogPostSchema.astro` | Automatic on every blog post |
+| `Person` | `schema/PersonSchema.astro` | A bio page for a real, named owner or author who has agreed to be named |
 | `Service` | `schema/ServiceSchema.astro` | Individual service pages |
 | `BreadcrumbList` | `schema/BreadcrumbSchema.astro` | Any page nested under the homepage |
 | `AggregateRating` | `ratingValue` and `reviewCount` props on `SiteLayout` | Once a client has real reviews. Never estimate these numbers. |
