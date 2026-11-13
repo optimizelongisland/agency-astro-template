@@ -83,7 +83,7 @@ const description = `Custom web design for Long Island businesses from ${money(p
 
   <TechBand expanded />
 
-  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us.">
+  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us, and it starts on the day you buy.">
     {carePlans.map((p) => <PriceSheet plan={p} />)}
     <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
   </PriceGroup>

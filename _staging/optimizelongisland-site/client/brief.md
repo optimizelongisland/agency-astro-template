@@ -87,6 +87,8 @@ Pay yearly and get two months free ($500 a year for Care). [CONFIRM]
 - Paying by **credit card** adds a 3% card fee, the most the card networks and Square allow. New York requires the credit card price to be shown in dollars and cents next to the regular price, so wherever a price card or Build Sheet shows a price, the credit card price is shown with it: $1,000 is $1,030 by credit card; $2,500 is $2,575; $5,000 is $5,150; $150 is $154.50; $50 a month is $51.50; $149 a month is $153.47; $500 a year is $515; $750 a month is $772.50; $1,500 a month is $1,545; $2,500 a month is $2,575; $500 (setup or monthly management) is $515; $850 a month is $875.50.
 - Bank transfer through Square is at the listed price (owner confirmed 2026-11-13).
 - Monthly plans are paid automatically, by bank transfer or card. Check and cash are for websites, other one-time payments, and a year paid in advance (owner confirmed 2026-11-13).
+- The care plan starts on the day of purchase, not at launch (owner confirmed 2026-11-13).
+- A client can buy a website online without a call first (owner confirmed 2026-11-13). The online checkout is not built yet: do not add buy buttons or say "buy online" on the site until it exists.
 - The card fee applies to credit cards only. Debit cards pay the listed price.
 - Billing is handled through Square.
 - Do NOT mention Zelle or Venmo on the site yet. [CONFIRM later: the owner wants to accept them, but the terms for adding a fee are not confirmed.]
