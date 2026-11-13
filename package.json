@@ -9,11 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/vercel": "^11.0.21",
     "astro": "^7.2.10"
   },
   "allowScripts": {

@@ -1,0 +1,290 @@
+---
+// Native contact form. Posts to /api/contact, which emails the lead to the
+// client and (optionally) copies it to Go High Level or any other webhook.
+//
+// - No third-party iframe: it is styled by tokens.css like everything else.
+// - Works without JavaScript (plain form post, then redirect to /thank-you/).
+// - Spam protection: hidden honeypot field always on; Cloudflare Turnstile is
+//   added automatically when PUBLIC_TURNSTILE_SITE_KEY is set.
+//
+// Setup lives in .env.example and the README ("Contact form" section).
+import { HONEYPOT_FIELD } from '../lib/leads';
+
+interface Props {
+  heading: string;
+  subheading?: string;
+  phone: string; // shown as the fallback if sending fails
+  buttonLabel?: string;
+  messageLabel?: string;
+  id?: string;
+}
+const {
+  heading,
+  subheading,
+  phone,
+  buttonLabel = 'Send message',
+  messageLabel = 'How can we help?',
+  id = 'contact',
+} = Astro.props;
+
+const telHref = `tel:${phone.replace(/[^\d]/g, '')}`;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<section class="contact section" id={id}>
+  <div class="wrap contact-wrap">
+    <div class="contact-intro">
+      <h2>{heading}</h2>
+      {subheading && <p>{subheading}</p>}
+      <p class="contact-phone">
+        Prefer to talk? <a href={telHref}>Call {phone}</a>
+      </p>
+    </div>
+
+    <form class="contact-form" method="post" action="/api/contact" data-contact-form>
+      <div class="field">
+        <label for={`${id}-name`}>Name</label>
+        <input id={`${id}-name`} name="name" type="text" autocomplete="name" maxlength="100" required />
+        <p class="field-error" data-error-for="name" id={`${id}-name-error`}></p>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for={`${id}-email`}>Email</label>
+          <input id={`${id}-email`} name="email" type="email" autocomplete="email" maxlength="254" required />
+          <p class="field-error" data-error-for="email" id={`${id}-email-error`}></p>
+        </div>
+        <div class="field">
+          <label for={`${id}-phone`}>Phone <span class="optional">(optional)</span></label>
+          <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" maxlength="30" />
+          <p class="field-error" data-error-for="phone" id={`${id}-phone-error`}></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for={`${id}-message`}>{messageLabel}</label>
+        <textarea id={`${id}-message`} name="message" rows="5" maxlength="5000" required></textarea>
+        <p class="field-error" data-error-for="message" id={`${id}-message-error`}></p>
+      </div>
+
+      <!-- Honeypot: hidden from people and screen readers, irresistible to bots. -->
+      <div class="hp" aria-hidden="true">
+        <label for={`${id}-hp`}>Leave this field empty</label>
+        <input id={`${id}-hp`} name={HONEYPOT_FIELD} type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light"></div>}
+
+      <button type="submit" class="btn btn-solid">{buttonLabel}</button>
+
+      <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+    </form>
+  </div>
+</section>
+
+{
+  turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}
+
+<script>
+  // Progressive enhancement: submit in the background, show field-level errors
+  // inline, and go to the thank-you page on success. If this script fails to
+  // load, the form still works as a normal page post.
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const idleLabel = button?.textContent ?? '';
+
+    const setStatus = (text: string, isError: boolean) => {
+      if (!status) return;
+      status.textContent = text;
+      status.classList.toggle('is-error', isError);
+    };
+
+    const clearErrors = () => {
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => (el.textContent = ''));
+      form.querySelectorAll('[aria-invalid]').forEach((el) => {
+        el.removeAttribute('aria-invalid');
+        el.removeAttribute('aria-describedby');
+      });
+    };
+
+    const showErrors = (errors: Record<string, string>) => {
+      let first: HTMLElement | null = null;
+      for (const [field, text] of Object.entries(errors)) {
+        const slot = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+        const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+        if (slot) slot.textContent = text;
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          if (slot?.id) input.setAttribute('aria-describedby', slot.id);
+          first ??= input;
+        }
+      }
+      first?.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearErrors();
+      setStatus('Sending…', false);
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending…';
+      }
+
+      const fallback = 'We could not send your message. Please call us instead.';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await response.json().catch(() => null);
+
+        if (response.ok && data?.ok) {
+          window.location.assign(data.redirect ?? '/thank-you/');
+          return;
+        }
+        if (data?.errors) showErrors(data.errors);
+        setStatus(data?.message ?? fallback, true);
+      } catch {
+        setStatus(fallback, true);
+      }
+
+      // Only reached on failure: let the visitor try again.
+      if (button) {
+        button.disabled = false;
+        button.textContent = idleLabel;
+      }
+      const turnstile = (window as unknown as { turnstile?: { reset: () => void } }).turnstile;
+      turnstile?.reset();
+    });
+  });
+</script>
+
+<style>
+  .contact {
+    scroll-margin-top: 72px; /* keeps the heading clear of the sticky header on #contact jumps */
+  }
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: start;
+  }
+  .contact-intro h2 {
+    font-size: clamp(28px, 3.4vw, 38px);
+    margin-bottom: 16px;
+  }
+  .contact-intro p {
+    color: #4b5750;
+    font-size: 16px;
+    margin-bottom: 16px;
+    max-width: 44ch;
+  }
+  .contact-phone a {
+    color: var(--deep);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .contact-form {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: grid;
+    gap: 20px;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start; /* an error under one field must not stretch its neighbor */
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+  label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .optional {
+    font-weight: 400;
+    color: #4b5750;
+  }
+  input,
+  textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px; /* 16px stops iOS from zooming in on focus */
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid rgba(27, 36, 32, 0.45);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    border-color: #b3261e;
+  }
+  .field-error {
+    color: #b3261e;
+    font-size: 14px;
+  }
+  .field-error:empty {
+    display: none;
+  }
+  .contact-form .btn {
+    justify-self: start;
+    font-family: inherit;
+  }
+  .contact-form .btn[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .form-status {
+    font-size: 15px;
+    color: #4b5750;
+  }
+  .form-status:empty {
+    display: none;
+  }
+  .form-status.is-error {
+    color: #b3261e;
+    font-weight: 600;
+  }
+
+  /* Honeypot: off-screen rather than display:none, which some bots skip. */
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 820px) {
+    .contact-wrap {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .contact-form {
+      padding: 24px 20px;
+    }
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

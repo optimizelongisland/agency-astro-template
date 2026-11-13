@@ -6,14 +6,15 @@ reskin and recopy this one.
 ## What's reusable vs. what you edit per client
 
 **Never edit (shared structure):**
-- `src/components/*.astro` — Header, Hero, Services, Process, Testimonial, CTA, Footer
+- `src/components/*.astro` — Header, Hero, Services, Process, Testimonial, ContactForm, CTA, Footer
+- `src/lib/leads.ts` and `src/pages/api/contact.ts` — contact form handling
 - `src/layouts/BaseLayout.astro` — page shell
 - `src/styles/global.css` — base rules, buttons, section spacing
 
 **Edit for every new client:**
 - `src/styles/tokens.css` — colors, fonts, radius. This alone reskins the whole site.
 - `src/layouts/BaseLayout.astro` — the `business` object (name, phone, address, service area)
-- `src/pages/index.astro` — headline, service list, steps, testimonial, CTA copy
+- `src/pages/index.astro` — headline, service list, steps, testimonial, contact form copy
 - `astro.config.mjs` — set `site:` to the client's real domain (powers sitemap + canonical URLs)
 - `public/robots.txt` — update the sitemap URL to match the real domain
 - `public/favicon.svg` / `favicon.ico` — swap for the client's mark
@@ -24,8 +25,9 @@ reskin and recopy this one.
 2. `npm install`
 3. Edit `tokens.css`, `BaseLayout.astro`, `index.astro` as above
 4. `npm run dev` to preview at localhost
-5. Push to GitHub, connect the repo to Vercel or Netlify (auto-deploys on push)
-6. Point the client's domain DNS at the host
+5. Push to GitHub, connect the repo to Vercel (auto-deploys on push)
+6. Set the contact form environment variables in Vercel (see "Contact form" below)
+7. Point the client's domain DNS at the host
 
 ## Ongoing changes
 
@@ -55,20 +57,64 @@ the URL automatically.
 3. `PUBLIC_GSC_VERIFICATION` — from Search Console: Settings > Ownership verification > HTML tag (copy just the token, not the full tag)
 4. Both are conditional in `BaseLayout.astro` — if left blank, no broken/empty tracking tags ship to production
 
-## Go High Level (GHL) lead capture
+## Contact form (native, no iframe)
 
-`src/components/GHLForm.astro` embeds a GHL-hosted form via iframe so leads land
-directly in the client's CRM. To wire it up:
+`src/components/ContactForm.astro` is a real form built into the site. It posts
+to `src/pages/api/contact.ts`, which runs as a small Vercel function and:
 
-1. In GHL: Sites > Forms > build the form > Embed Code
-2. Copy the `FORM_ID` out of the iframe `src` URL in that embed snippet
-3. Uncomment the import in `index.astro` and use `<GHLForm formId="..." />` in place of, or alongside, the CTA section
+1. Emails the lead to the client through [Resend](https://resend.com), with
+   reply-to set to the visitor so the client can just hit reply.
+2. Optionally copies the lead as JSON to any webhook URLs (Go High Level
+   inbound webhook, a Google Sheet log, Zapier).
+3. Sends the visitor to `/thank-you/`, a clean URL to count as a conversion in
+   GA4 and Google Ads.
 
-If a client isn't on GHL, skip this component — the CTA's call/email links work standalone.
+Every page is still static. The form endpoint is the only server code.
+
+**Per-client setup** (set these in Vercel > Project > Settings > Environment
+Variables; descriptions are in `.env.example`):
+
+| Variable | Required | What it is |
+|---|---|---|
+| `RESEND_API_KEY` | Yes | Resend API key |
+| `LEAD_FROM_EMAIL` | Yes | Sender, on a domain verified in Resend, e.g. `Website Leads <leads@send.youragency.com>` |
+| `LEAD_TO_EMAIL` | Yes | The client's inbox. Comma-separate for several. |
+| `LEAD_WEBHOOK_URLS` | No | Extra copies of each lead. Comma-separate for several. |
+| `PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` | Recommended | Cloudflare Turnstile spam check. The widget appears on its own once the site key is set. |
+
+**Go High Level upsell:** in the client's GHL sub-account create a workflow with
+an "Inbound Webhook" trigger, copy its URL into `LEAD_WEBHOOK_URLS`, and redeploy.
+Nothing on the site changes; leads start landing in the CRM as well as email.
+
+**Always set a backup copy.** Email delivery occasionally fails. Put at least
+one webhook (a Google Sheet log is enough) in `LEAD_WEBHOOK_URLS` so a lead is
+never lost. If email fails but a webhook succeeds, the visitor still sees
+success and the failure is written to the Vercel function logs.
+
+**Spam protection:** a hidden honeypot field is always on. Turnstile is the
+real defense and should be on for every live site. Cross-site form posts are
+rejected by Astro automatically.
+
+**Testing locally:** with no variables set, `npm run dev` prints each submitted
+lead in the terminal instead of sending it. `npm test` runs the unit tests for
+validation, spam checks and delivery.
+
+**If nothing is configured in production**, the visitor is told to call instead
+and `NO DELIVERY CONFIGURED` is written to the Vercel logs. Always send a real
+test lead before launch.
+
+**On handover**, the form leaves with the site. The client only needs their own
+Resend key and (if wanted) Turnstile keys.
+
+**Hosting note:** the form endpoint uses the Vercel adapter (`astro.config.mjs`).
+To host elsewhere, swap in that host's Astro adapter.
 
 ## Pre-launch QC checklist (run this on every client site before going live)
 
 - [ ] `npm run build` completes with zero errors
+- [ ] `npm test` passes
+- [ ] Contact form: a real test lead submitted on the live domain arrives in the client's inbox AND in the backup webhook
+- [ ] Contact form: Turnstile keys set and the widget shows on the live site
 - [ ] Mobile nav opens/closes correctly at <820px (tested on an actual phone, not just resized browser)
 - [ ] Every page has a unique, accurate `title` and `description`
 - [ ] `og-image.jpg` (1200x630) exists in `/public` and shows correctly when the URL is shared

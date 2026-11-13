@@ -5,8 +5,7 @@ import Services from '../components/Services.astro';
 import Process from '../components/Process.astro';
 import Testimonial from '../components/Testimonial.astro';
 import FAQ from '../components/FAQ.astro';
-import CTA from '../components/CTA.astro';
-// import GHLForm from '../components/GHLForm.astro'; // uncomment once the client's GHL form ID is set up
+import ContactForm from '../components/ContactForm.astro';
 
 // ---- CLIENT CONTENT: this is the only file most edits touch day-to-day ----
 const phone = '(631) 555-0148';
@@ -67,10 +66,9 @@ const phone = '(631) 555-0148';
     ]}
   />
 
-  <CTA
+  <ContactForm
     heading="Get a fixed-price estimate"
     subheading="Tell us about your property and we'll get back to you within one business day."
     phone={phone}
-    email="hello@clientdomain.com"
   />
 </BaseLayout>

@@ -15,6 +15,7 @@ interface Props {
   socialProfiles?: string[]; // full URLs: Facebook, Instagram, GBP, Yelp, LinkedIn, etc.
   ratingValue?: number; // e.g. 4.9. Only set once real reviews exist - never fabricate this.
   reviewCount?: number; // real count matching ratingValue above
+  noindex?: boolean; // true on utility pages that should stay out of search results
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   socialProfiles = [],
   ratingValue,
   reviewCount,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -70,6 +72,7 @@ const schema = {
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex, follow" />}
 
 <!-- Open Graph -->
 <meta property="og:title" content={title} />

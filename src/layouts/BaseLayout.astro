@@ -12,9 +12,10 @@ interface Props {
   ogImage?: string;
   ratingValue?: number;
   reviewCount?: number;
+  noindex?: boolean; // keep utility pages (thank-you, etc.) out of search results
 }
 
-const { title, description, ogImage, ratingValue, reviewCount } = Astro.props;
+const { title, description, ogImage, ratingValue, reviewCount, noindex } = Astro.props;
 
 // ---- CLIENT INFO: edit these once per client build ----
 const business = {
@@ -61,6 +62,7 @@ const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
       ogImage={ogImage}
       ratingValue={ratingValue}
       reviewCount={reviewCount}
+      noindex={noindex}
       {...business}
     />
     <SiteSchema businessName={business.businessName} socialProfiles={business.socialProfiles} />
