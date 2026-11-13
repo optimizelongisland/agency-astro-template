@@ -94,7 +94,7 @@ Pay yearly and get two months free ($500 a year for Care). [CONFIRM]
 - Do NOT mention Zelle or Venmo on the site yet. [CONFIRM later: the owner wants to accept them, but the terms for adding a fee are not confirmed.]
 - Never describe the card fee as a percentage alone. Always show the dollar price.
 
-SEO decisions (owner, 2026-11-13): citation building for every SEO client; a press release up to once a quarter on BOTH SEO plans, only when there is real news; paid link placements are an opt-in add-on ("link packages"), not part of either plan, and are NOT shown on the public site.
+SEO decisions (owner, 2026-11-13): citation building for every SEO client; a press release up to once a quarter on BOTH SEO plans, only when there is real news; paid link placements are one opt-in add-on (a "link package" of 2 to 3 placements a month), not part of either plan, and are NOT shown on the public site; citation building continues at 5 to 10 new listings a month per SEO client (do not state the number on the site).
 
 Every plan starts with a free consultation / free analysis (the current site offers this).
 
