@@ -180,9 +180,10 @@ export const seoPlans: Plan[] = [
     ],
     items: [
       'Google Business Profile optimization and weekly posts',
-      'Business listings cleaned up and kept consistent',
+      'Business listings built, cleaned up and kept consistent',
       'On-page optimization',
       'Two new pieces of content a month',
+      'A press release up to once a quarter, when you have news',
       'Monthly report',
     ],
     featured: true,
