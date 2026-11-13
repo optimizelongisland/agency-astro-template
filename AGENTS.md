@@ -20,3 +20,14 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Quality checks and model routing
+
+Keep AI cost down by using the cheapest thing that does the job:
+
+1. `npm run qc` first, always. It builds the site and runs mechanical checks with no model. Run it after every change, and never spend model effort re-checking what it covers.
+2. Delegate routine content edits (text, phone, hours, prices, photo swaps, testimonials, FAQs) to the `site-editor` agent (Haiku).
+3. Delegate site builds, new pages and new sections to the `site-builder` agent (Sonnet).
+4. Run the `site-qa` agent (Opus, read-only) once before a new site launches or a large change ships. Not for routine edits.
+
+Do not edit files under `src/components/`, `src/lib/` or `src/pages/api/` for a single client. They are shared across every client site.

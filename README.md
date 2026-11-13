@@ -18,6 +18,7 @@ reskin and recopy this one.
 - `astro.config.mjs` — set `site:` to the client's real domain (powers sitemap + canonical URLs)
 - `public/robots.txt` — update the sitemap URL to match the real domain
 - `public/favicon.svg` / `favicon.ico` — swap for the client's mark
+- `public/apple-touch-icon.png` (180x180) and `public/og-image.jpg` (1200x630) — add for every client; `npm run qc` fails until both exist
 
 ## New client setup
 
@@ -109,10 +110,32 @@ Resend key and (if wanted) Turnstile keys.
 **Hosting note:** the form endpoint uses the Vercel adapter (`astro.config.mjs`).
 To host elsewhere, swap in that host's Astro adapter.
 
+## Automated QC and agents
+
+**`npm run qc`** builds the site and runs `scripts/qc.mjs`. It uses no AI model,
+so it costs nothing and should run after every edit. It fails on: leftover
+template placeholder text, missing or duplicate titles and meta descriptions,
+pages without exactly one H1, images without alt text, broken internal links
+and anchors, a sitemap URL that does not match the site, and a missing share
+image. On the unfilled template it fails by design.
+
+**Agents** live in `.claude/agents/` and travel with every client repo created
+from this template. Each is pinned to the cheapest model that does its job well:
+
+| Agent | Model | Use for |
+|---|---|---|
+| `site-editor` | Haiku | Routine content edits. The highest-volume job, so the cheapest model. Hands anything structural back. |
+| `site-builder` | Sonnet | Building a site from an approved brief; new pages and sections. |
+| `site-qa` | Opus | Independent pre-launch review, once per site. Read-only: it reports, it never fixes. |
+
+Rule of thumb: script first, then the cheapest agent that fits, and the
+expensive review only at launch.
+
 ## Pre-launch QC checklist (run this on every client site before going live)
 
-- [ ] `npm run build` completes with zero errors
+- [ ] `npm run qc` passes with zero errors
 - [ ] `npm test` passes
+- [ ] `site-qa` agent review returns PASS
 - [ ] Contact form: a real test lead submitted on the live domain arrives in the client's inbox AND in the backup webhook
 - [ ] Contact form: Turnstile keys set and the widget shows on the live site
 - [ ] Mobile nav opens/closes correctly at <820px (tested on an actual phone, not just resized browser)

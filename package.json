@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --test"
+    "test": "node --test",
+    "qc": "astro build && node scripts/qc.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
