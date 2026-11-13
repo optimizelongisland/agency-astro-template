@@ -1,0 +1,52 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+// One displayed customer review. Structured data comes from the locked core
+// component ReviewSchema. Real reviews only.
+import ReviewSchema from '../../core/components/schema/ReviewSchema.astro';
+
+interface Props {
+  authorName: string;
+  reviewBody: string;
+  ratingValue: number; // 1-5
+  datePublished: string; // ISO date, e.g. "2026-06-12"
+}
+const { authorName, reviewBody, ratingValue, datePublished } = Astro.props;
+---
+
+<figure class="review-card">
+  <div class="stars" role="img" aria-label={`${ratingValue} out of 5 stars`}>
+    {Array.from({ length: 5 }).map((_, i) => <span class={i < ratingValue ? 'filled' : ''}>★</span>)}
+  </div>
+  <blockquote>{reviewBody}</blockquote>
+  <figcaption>{authorName}</figcaption>
+</figure>
+
+<ReviewSchema {...Astro.props} />
+
+<style>
+  .review-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .stars {
+    color: var(--line);
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .stars .filled {
+    color: var(--accent);
+  }
+  blockquote {
+    font-size: 15px;
+    color: #2b3530;
+    margin-bottom: 14px;
+  }
+  figcaption {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--deep);
+  }
+</style>

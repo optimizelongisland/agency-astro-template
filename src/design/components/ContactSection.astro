@@ -1,0 +1,77 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+// The section around the lead form: heading, intro and layout. The form itself
+// (fields, spam protection, sending) is the locked core component LeadForm.
+import LeadForm from '../../core/components/LeadForm.astro';
+import { business, telHref } from '../../site';
+
+interface Props {
+  heading: string;
+  subheading?: string;
+  buttonLabel?: string;
+  messageLabel?: string;
+  id?: string;
+}
+const { heading, subheading, buttonLabel, messageLabel, id = 'contact' } = Astro.props;
+---
+
+<section class="contact section" id={id}>
+  <div class="wrap contact-wrap">
+    <div class="contact-intro">
+      <h2>{heading}</h2>
+      {subheading && <p>{subheading}</p>}
+      <p class="contact-phone">
+        Prefer to talk? <a href={telHref}>Call {business.phone}</a>
+      </p>
+    </div>
+
+    <div class="contact-card">
+      <LeadForm buttonLabel={buttonLabel} messageLabel={messageLabel} id={id} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    scroll-margin-top: 72px; /* keeps the heading clear of the sticky header on #contact jumps */
+  }
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: start;
+  }
+  .contact-intro h2 {
+    font-size: clamp(28px, 3.4vw, 38px);
+    margin-bottom: 16px;
+  }
+  .contact-intro p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 16px;
+    max-width: 44ch;
+  }
+  .contact-phone a {
+    color: var(--deep);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .contact-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    --field-bg: #fff;
+  }
+
+  @media (max-width: 820px) {
+    .contact-wrap {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .contact-card {
+      padding: 24px 20px;
+    }
+  }
+</style>

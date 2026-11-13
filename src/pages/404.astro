@@ -1,14 +1,14 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteLayout from '../design/layouts/SiteLayout.astro';
 ---
 
-<BaseLayout title="Page Not Found" description="This page couldn't be found.">
+<SiteLayout title="Page Not Found" description="This page couldn't be found.">
   <section class="section wrap not-found">
     <h1>Page not found</h1>
     <p>The page you're looking for doesn't exist or may have moved.</p>
     <a href="/" class="btn btn-solid">Back to homepage</a>
   </section>
-</BaseLayout>
+</SiteLayout>
 
 <style>
   .not-found {
@@ -20,7 +20,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 16px;
   }
   .not-found p {
-    color: #4b5750;
+    color: var(--muted);
     margin-bottom: 32px;
   }
 </style>

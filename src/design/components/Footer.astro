@@ -1,0 +1,78 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+import { business, telHref } from '../../site';
+const { businessName, phone, areaServed } = business;
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>{businessName}</h4>
+        <ul>
+          <li>Serving {areaServed.slice(0, 2).join(' & ')} and surrounding areas</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/#services">Our Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Service Area</h4>
+        <ul>
+          {areaServed.map((town) => <li>{town}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href={telHref}>{phone}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© {year} {businessName}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--deep);
+    color: color-mix(in srgb, var(--paper) 80%, transparent);
+    padding: 48px 0 28px;
+    font-size: 14px;
+  }
+  .foot-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    margin-bottom: 20px;
+  }
+  .foot-grid h4 {
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-weight: 500;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  .foot-grid ul {
+    list-style: none;
+  }
+  .foot-grid li {
+    margin-bottom: 8px;
+  }
+  .foot-grid a:hover {
+    color: var(--accent);
+  }
+  .foot-bottom {
+    opacity: 0.7;
+    font-size: 13px;
+  }
+</style>

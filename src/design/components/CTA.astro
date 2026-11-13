@@ -1,0 +1,45 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+// A simple call/email band for pages that do not carry the full contact form.
+import { business, telHref } from '../../site';
+
+interface Props {
+  heading: string;
+  subheading: string;
+}
+const { heading, subheading } = Astro.props;
+const { phone, email } = business;
+---
+
+<section class="cta-band" id="contact">
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <p>{subheading}</p>
+    <div class="cta-actions">
+      <a href={telHref} class="btn btn-solid">Call {phone}</a>
+      <a href={`mailto:${email}`} class="btn btn-line">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .cta-band h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    margin-bottom: 16px;
+  }
+  .cta-band p {
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-size: 16px;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

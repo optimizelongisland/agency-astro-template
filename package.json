@@ -11,7 +11,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test",
-    "qc": "astro build && node scripts/qc.mjs"
+    "qc": "astro build && node scripts/qc.mjs",
+    "core:lock": "node scripts/core-lock.mjs --write",
+    "shots": "node scripts/shots.cjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

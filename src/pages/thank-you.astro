@@ -2,10 +2,10 @@
 // Shown after a successful contact form submission. Having a real page (rather
 // than an inline message) gives GA4 and Google Ads a clean URL to count as a
 // conversion. It is kept out of search results and the sitemap.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteLayout from '../design/layouts/SiteLayout.astro';
 ---
 
-<BaseLayout
+<SiteLayout
   title="Thank You | Message Received"
   description="Thanks for getting in touch. We'll be in contact shortly."
   noindex
@@ -15,7 +15,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p>We'll get back to you within one business day.</p>
     <a href="/" class="btn btn-solid">Back to homepage</a>
   </section>
-</BaseLayout>
+</SiteLayout>
 
 <style>
   .thank-you {
@@ -27,7 +27,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 16px;
   }
   .thank-you p {
-    color: #4b5750;
+    color: var(--muted);
     margin-bottom: 32px;
   }
 </style>

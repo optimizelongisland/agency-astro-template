@@ -12,7 +12,7 @@ import {
   splitList,
   validateLead,
   verifyTurnstile,
-} from '../src/lib/leads.ts';
+} from '../src/core/lib/leads.ts';
 
 function form(fields) {
   const fd = new FormData();

@@ -12,10 +12,11 @@ You run on a more expensive model than the builder because this review happens o
 
 ## How to work
 
-1. Run `npm run qc` and `npm test`. Record the results. Do not re-check by hand what the script already covers (placeholder text, titles, descriptions, headings, alt text, internal links, sitemap URL).
-2. Read every page's source under `src/pages/` and `src/content/`, and the `business` object in `src/layouts/BaseLayout.astro`.
+1. Run `npm run qc` and `npm test`. Record the results. Do not re-check by hand what the script already covers (placeholder text, titles, descriptions, headings, alt text, internal links, color contrast, sitemap URL, and whether the locked core was edited).
+2. Read `src/site.ts` and every page's source under `src/pages/` and `src/content/`.
 3. Compare against the approved brief, line by line for facts.
-4. Start the site and look at it: `astro dev --background`, then load the home page and at least one inner page at phone width (390px) and desktop width with Playwright (pre-installed; `require('playwright')`, `chromium.launch()`), take screenshots and view them. Stop the server with `astro dev stop` when finished.
+4. Start the site and look at it: `astro dev --background`, then `npm run shots -- --out .design-refs/qa http://localhost:4321/ http://localhost:4321/<an-inner-page>/`. View the desktop and phone screenshots it saves and read the measured JSON. Stop the server with `astro dev stop` when finished.
+5. If `client/design-direction.md` exists, compare the build with it, and compare the screenshots with the reference captures in `.design-refs/` if they are present.
 
 ## What to look for
 
@@ -24,6 +25,7 @@ You run on a more expensive model than the builder because this review happens o
 - **Leftovers the script cannot recognize.** Generic filler that is not literal placeholder text, the example service page or sample blog post still present, a `site` URL that is not the client's real domain.
 - **Copy quality.** Text a customer would find confusing, misleading, or obviously machine-written. House style is no em dashes and no en dashes as punctuation.
 - **Visual problems.** Overlapping or cut-off text, horizontal scrolling on a phone, unreadable contrast, broken or stretched images, a form that is hard to use on a phone.
+- **Design.** Does the build match the direction's tokens and structure? Does it look made for this client, or like a recolored template? Is any page a section-for-section copy of a reference site, or using a reference's images, icons or wording? That last one is a Blocker.
 - **Launch settings** you can verify from the repo: redirects mapped for a migration, `og-image.jpg` present, analytics IDs documented.
 
 ## Report format

@@ -1,0 +1,30 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// FAQPage structured data. AI answer engines and Google lift question/answer
+// pairs from this almost verbatim, so render it on every page that shows FAQs.
+// Pass the SAME items the page displays, so the two can never drift apart.
+//
+// Writing guidance for answers: lead with the direct answer, keep each under
+// about 50 words, and write it as you would want it read aloud.
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+interface Props {
+  items: FaqItem[];
+}
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

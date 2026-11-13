@@ -1,0 +1,31 @@
+/*
+  TOKENS.CSS - the site's design tokens. DESIGN LAYER: set these per client.
+
+  REQUIRED TOKENS. The locked core components (lead form, skip link, video)
+  read the tokens marked [core]. Keep every name in this file defined; change
+  the values freely and add new tokens of your own below.
+  `npm run qc` checks that the required tokens exist and that the text/background
+  pairs below meet accessibility contrast (4.5:1).
+*/
+
+:root {
+  /* --- Color --- */
+  --bg: #F7F4EC;        /* page background */
+  --paper: #FFFEFA;     /* [core] card / surface background */
+  --ink: #1B2420;       /* [core] body text. Must contrast with --bg and --paper */
+  --muted: #4B5750;     /* [core] secondary text. Must contrast with --bg and --paper */
+  --deep: #1F3D2B;      /* [core] primary brand color (headlines, buttons) */
+  --on-deep: #FFFEFA;   /* [core] text on top of --deep. Must contrast with --deep */
+  --accent: #5B8C5A;    /* secondary accent */
+  --accent-2: #2E6E7E;  /* tertiary accent (links, highlights, focus ring) */
+  --line: rgba(27, 36, 32, 0.14); /* borders / dividers */
+  --error: #B3261E;     /* [core] form errors. Must contrast with --paper */
+
+  /* --- Type --- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif; /* [core] */
+
+  /* --- Layout --- */
+  --max-width: 1120px;
+  --radius: 2px;        /* [core] corner radius */
+}

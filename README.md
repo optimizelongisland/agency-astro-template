@@ -1,66 +1,84 @@
 # Agency Astro Template
 
-Reusable starter for every new client site. Don't rebuild layouts per client —
-reskin and recopy this one.
+The starting point for every client site. It has two layers:
 
-## What's reusable vs. what you edit per client
+| Layer | Where | Rule |
+|---|---|---|
+| **Locked foundation** | `src/core/`, `src/pages/api/`, `scripts/`, `tests/` | Identical on every client site. Never edited per client. |
+| **Open design layer** | `src/design/`, `src/pages/` | Fresh for every client. Restyle, replace, add or delete freely. |
 
-**Never edit (shared structure):**
-- `src/components/*.astro` — Header, Hero, Services, Process, Testimonial, ContactForm, CTA, Footer
-- `src/lib/leads.ts` and `src/pages/api/contact.ts` — contact form handling
-- `src/layouts/BaseLayout.astro` — page shell
-- `src/styles/global.css` — base rules, buttons, section spacing
+The foundation is the plumbing a visitor never sees: SEO tags, structured data,
+the lead form and its delivery, analytics, and the quality checks. Keeping it
+identical everywhere means a fix made once can be copied to every site.
 
-**Edit for every new client:**
-- `src/styles/tokens.css` — colors, fonts, radius. This alone reskins the whole site.
-- `src/layouts/BaseLayout.astro` — the `business` object (name, phone, address, service area)
-- `src/pages/index.astro` — headline, service list, steps, testimonial, contact form copy
-- `astro.config.mjs` — set `site:` to the client's real domain (powers sitemap + canonical URLs)
-- `public/robots.txt` — update the sitemap URL to match the real domain
-- `public/favicon.svg` / `favicon.ico` — swap for the client's mark
-- `public/apple-touch-icon.png` (180x180) and `public/og-image.jpg` (1200x630) — add for every client; `npm run qc` fails until both exist
+The design layer is everything a visitor does see. The look that ships here is
+a neutral scaffold, not a house style. Each client gets their own design.
 
-## New client setup
+## Where things live
 
-1. Use this repo as a GitHub template ("Use this template" button) -> creates `client-name-site`
-2. `npm install`
-3. Edit `tokens.css`, `BaseLayout.astro`, `index.astro` as above
-4. `npm run dev` to preview at localhost
-5. Push to GitHub, connect the repo to Vercel (auto-deploys on push)
-6. Set the contact form environment variables in Vercel (see "Contact form" below)
-7. Point the client's domain DNS at the host
+| Path | What it is |
+|---|---|
+| `src/site.ts` | The client's business details (name, phone, address, service area). The single source of truth; change them here and nowhere else. |
+| `src/design/tokens.css` | Colors, fonts, radius. |
+| `src/design/global.css` | Base rules, buttons, section spacing. |
+| `src/design/components/` | Header, footer, hero and every other visual section. |
+| `src/design/layouts/` | `SiteLayout` (the visible page shell) and `BlogPostLayout`. |
+| `src/pages/` | The pages. The filename becomes the URL. |
+| `src/content/blog/` | Blog posts in Markdown. |
+| `src/core/` | Locked foundation. See `src/core/README.md`. |
+| `client/` | This client's approved brief and design direction. Not published. |
+| `.claude/` | The agents and the design skill that travel with every client repo. |
+
+## New client site
+
+1. Use this repo as a GitHub template to create `client-name-site`, then `npm install`.
+2. Write the content brief: copy `client/brief.example.md` to `client/brief.md`, fill it in, and get the client's sign-off.
+3. Put the client's logo and photos under `src/assets/`.
+4. Design and build. In Claude Code, ask for a new design and give two or three reference sites you like. The `site-design` skill runs the steps: capture the references, write a design direction, build it, check it.
+5. Add `public/favicon.svg`, `public/apple-touch-icon.png` (180x180) and `public/og-image.jpg` (1200x630).
+6. `npm run qc` until it passes, then run the `site-qa` agent once.
+7. Push to GitHub, connect the repo to Vercel, set the contact form environment variables (see "Contact form" below), and point the domain at Vercel.
+8. Send a real test lead on the live domain.
+
+## Design from reference sites
+
+The `site-design` skill (`.claude/skills/site-design/SKILL.md`) is the process.
+In short:
+
+1. `npm run shots -- --out .design-refs <url> <url>` screenshots each reference at desktop and phone width and measures its fonts, sizes and colors. No AI model is used.
+2. The `site-designer` agent studies those and the brief, and writes `client/design-direction.md`: concept, exact colors and type, and the home page section by section.
+3. The `site-builder` agent builds it.
+4. `npm run qc` and a screenshot review catch what is off.
+
+References give direction, not a blueprint. Nothing of theirs (images, icons,
+wording, logo) is used, and no page mirrors one of them section for section.
 
 ## Ongoing changes
 
-Open the client's repo in Claude Code, describe the change in plain language,
-preview with `npm run dev`, push. Deploys automatically.
-
-## Adding a new page (e.g. a service-area page)
-
-Create a new file under `src/pages/`, e.g. `src/pages/huntington-sprinkler-repair.astro`,
-wrap it in `<BaseLayout>`, and reuse whichever components fit (Hero, Services, CTA —
-you don't need Process or Testimonial on every page). Astro turns the filename into
-the URL automatically.
+Open the client's repo in Claude Code and describe the change. Text, phone,
+hours, price and photo changes go to the `site-editor` agent; new pages or
+sections go to `site-builder`. Preview, get approval, push. Vercel deploys
+automatically.
 
 ## SEO checklist per new client
 
-- [ ] `astro.config.mjs` site URL set to real domain
-- [ ] `robots.txt` sitemap URL matches
-- [ ] LocalBusiness schema fields in `BaseLayout.astro` accurate (name, phone, address, service area)
-- [ ] Every page has a unique `title` and `description` prop
+- [ ] `astro.config.mjs` `site` set to the real domain
+- [ ] `public/robots.txt` sitemap URL matches
+- [ ] `src/site.ts` accurate, including `socialProfiles`
+- [ ] Every page has a unique `title` and `description`
 - [ ] Google Business Profile claimed and linked
-- [ ] Site submitted to Google Search Console
+- [ ] Site and sitemap submitted to Google Search Console
 
 ## Analytics & search console setup (per client)
 
 1. Copy `.env.example` to `.env`
-2. `PUBLIC_GA_MEASUREMENT_ID` — from GA4: Admin > Data Streams > your stream
-3. `PUBLIC_GSC_VERIFICATION` — from Search Console: Settings > Ownership verification > HTML tag (copy just the token, not the full tag)
-4. Both are conditional in `BaseLayout.astro` — if left blank, no broken/empty tracking tags ship to production
+2. `PUBLIC_GA_MEASUREMENT_ID` from GA4: Admin > Data Streams > your stream
+3. `PUBLIC_GSC_VERIFICATION` from Search Console: Settings > Ownership verification > HTML tag (copy just the token, not the full tag)
+4. Both are optional in `CoreLayout`: if left blank, no empty tracking tags ship
 
 ## Contact form (native, no iframe)
 
-`src/components/ContactForm.astro` is a real form built into the site. It posts
+`src/core/components/LeadForm.astro` is a real form built into the site. It posts
 to `src/pages/api/contact.ts`, which runs as a small Vercel function and:
 
 1. Emails the lead to the client through [Resend](https://resend.com), with
@@ -71,6 +89,10 @@ to `src/pages/api/contact.ts`, which runs as a small Vercel function and:
    GA4 and Google Ads.
 
 Every page is still static. The form endpoint is the only server code.
+
+`LeadForm` renders only the form. The section around it is design: see
+`src/design/components/ContactSection.astro`. To restyle the fields, set the
+CSS variables listed at the top of `LeadForm.astro`; do not edit the file.
 
 **Per-client setup** (set these in Vercel > Project > Settings > Environment
 Variables; descriptions are in `.env.example`):
@@ -113,23 +135,40 @@ To host elsewhere, swap in that host's Astro adapter.
 ## Automated QC and agents
 
 **`npm run qc`** builds the site and runs `scripts/qc.mjs`. It uses no AI model,
-so it costs nothing and should run after every edit. It fails on: leftover
-template placeholder text, missing or duplicate titles and meta descriptions,
-pages without exactly one H1, images without alt text, broken internal links
-and anchors, a sitemap URL that does not match the site, and a missing share
-image. On the unfilled template it fails by design.
+so it costs nothing and should run after every edit. It fails on:
 
-**Agents** live in `.claude/agents/` and travel with every client repo created
-from this template. Each is pinned to the cheapest model that does its job well:
+- leftover template placeholder text
+- missing or duplicate titles and meta descriptions, or a page without exactly one H1
+- images without alt text
+- broken internal links and anchors
+- body text, muted text or button text that does not meet 4.5:1 color contrast
+- a required design token missing from `tokens.css`
+- any change to the locked foundation (compared against `core.lock.json`)
+- a sitemap URL that does not match the site, or a missing share image
+
+On the unfilled template it fails by design.
+
+**`npm run shots -- --out <folder> <url>...`** saves desktop and phone
+screenshots and measured design facts for any page, including the local build.
+
+**Agents** live in `.claude/agents/` and travel with every client repo. Each is
+pinned to the cheapest model that does its job well:
 
 | Agent | Model | Use for |
 |---|---|---|
 | `site-editor` | Haiku | Routine content edits. The highest-volume job, so the cheapest model. Hands anything structural back. |
-| `site-builder` | Sonnet | Building a site from an approved brief; new pages and sections. |
+| `site-builder` | Sonnet | Building a site from the brief and design direction; new pages and sections. |
+| `site-designer` | Opus | Writing the design direction, once per site. |
 | `site-qa` | Opus | Independent pre-launch review, once per site. Read-only: it reports, it never fixes. |
 
 Rule of thumb: script first, then the cheapest agent that fits, and the
-expensive review only at launch.
+expensive models only for the two once-per-site judgment calls.
+
+## Updating the locked foundation
+
+Only in this template repo, never on a client site. Change the core with tests,
+bump `CORE_VERSION` in `scripts/core-lock.mjs`, run `npm run core:lock`, then
+copy the locked folders and `core.lock.json` to each client repo.
 
 ## Pre-launch QC checklist (run this on every client site before going live)
 
@@ -138,12 +177,12 @@ expensive review only at launch.
 - [ ] `site-qa` agent review returns PASS
 - [ ] Contact form: a real test lead submitted on the live domain arrives in the client's inbox AND in the backup webhook
 - [ ] Contact form: Turnstile keys set and the widget shows on the live site
-- [ ] Mobile nav opens/closes correctly at <820px (tested on an actual phone, not just resized browser)
+- [ ] Mobile navigation works on an actual phone, not just a resized browser
 - [ ] Every page has a unique, accurate `title` and `description`
 - [ ] `og-image.jpg` (1200x630) exists in `/public` and shows correctly when the URL is shared
-- [ ] LocalBusiness schema in `BaseLayout.astro` has real business info, not placeholders
+- [ ] `src/site.ts` has the real business info
 - [ ] FAQ schema present on homepage and any service pages with FAQs
-- [ ] All images use `<Photo>` / `astro:assets`, not raw `<img src="/foo.jpg">`
+- [ ] All images use `Photo` / `astro:assets`, not raw `<img src="/foo.jpg">`
 - [ ] Every image has real, descriptive alt text
 - [ ] `astro.config.mjs` `site:` matches the real production domain
 - [ ] `robots.txt` sitemap URL matches the real domain
@@ -172,7 +211,7 @@ not `post-1.md`.
 - Individual post pages with `BlogPosting` schema
 - RSS feed at `/rss.xml`
 - Responsive, optimized cover images via `astro:assets`
-- Every post's `og:image` uses its cover image automatically
+- Every post's share image (`og:image`) is its cover image
 
 **Cover images** go in the same folder as the post's `.md` file (or a subfolder),
 referenced as a relative path in frontmatter, e.g. `coverImage: "./my-cover.jpg"`.
@@ -207,7 +246,7 @@ read it. Not worth the effort yet.
 
 ## Social profiles (sameAs schema)
 
-Set `socialProfiles` in `BaseLayout.astro`'s `business` object to the client's
+Set `socialProfiles` in `src/site.ts` to the client's
 real Facebook, Instagram, Google Business Profile, Yelp, and LinkedIn URLs.
 This populates the `LocalBusiness` schema's `sameAs` field, which is how
 Google and AI engines confirm the website and those profiles are the same
@@ -215,20 +254,20 @@ business entity - directly reinforces citation/directory work.
 
 ## Full schema library
 
-All schema is confirmed valid JSON-LD via automated build checks, not just written by hand.
+All structured data comes from the locked core, so it is the same on every site.
+A design component shows the content; the matching core component emits the schema.
 
-| Schema | Where it lives | When to use |
+| Schema | Core component | When to use |
 |---|---|---|
-| `LocalBusiness` | `SEO.astro`, every page | Automatic on every page |
-| `Organization` + `WebSite` | `schema/SiteSchema.astro`, in `BaseLayout` | Automatic site-wide |
-| `FAQPage` | `FAQ.astro` | Any page with an FAQ section |
-| `BlogPosting` | `BlogPostLayout.astro` | Automatic on every blog post |
+| `LocalBusiness` | `core/components/SEO.astro` | Automatic on every page |
+| `Organization` + `WebSite` | `core/components/schema/SiteSchema.astro` | Automatic site-wide |
+| `FAQPage` | `schema/FaqSchema.astro` | Any page with an FAQ section |
+| `BlogPosting` | `schema/BlogPostSchema.astro` | Automatic on every blog post |
 | `Service` | `schema/ServiceSchema.astro` | Individual service pages |
-| `BreadcrumbList` | `schema/Breadcrumbs.astro` | Any page nested under the homepage |
-| `AggregateRating` | Props on `SEO.astro`/`BaseLayout` (`ratingValue`, `reviewCount`) | Once a client has real reviews - never fabricate these numbers |
-| `Review` | `ReviewCard.astro` | Displaying individual testimonials |
-| `VideoObject` | `VideoEmbed.astro` | Any Higgsfield-generated or other video content |
+| `BreadcrumbList` | `schema/BreadcrumbSchema.astro` | Any page nested under the homepage |
+| `AggregateRating` | `ratingValue` and `reviewCount` props on `SiteLayout` | Once a client has real reviews. Never estimate these numbers. |
+| `Review` | `schema/ReviewSchema.astro` | Displaying individual real reviews |
+| `VideoObject` | `core/components/VideoEmbed.astro` | Any video content |
 
-See `src/pages/example-service-page.astro` for a working example combining
-breadcrumbs, service schema, and reviews together - copy its structure for
-real service pages.
+`src/pages/example-service-page.astro` is a working example combining
+breadcrumbs, service schema and reviews.

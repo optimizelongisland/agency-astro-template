@@ -1,0 +1,62 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+// Visible breadcrumb trail. Structured data comes from the locked core
+// component BreadcrumbSchema, fed the same items.
+// Usage: <Breadcrumbs items={[{ name: 'Sprinkler Repair', url: '/sprinkler-repair' }]} />
+// Do not include "Home"; it is added automatically.
+import BreadcrumbSchema, { type Crumb } from '../../core/components/schema/BreadcrumbSchema.astro';
+
+interface Props {
+  items: Crumb[];
+}
+const { items } = Astro.props;
+const allItems = [{ name: 'Home', url: '/' }, ...items];
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    {
+      allItems.map((item, i) => (
+        <li>
+          {i < allItems.length - 1 ? (
+            <>
+              <a href={item.url}>{item.name}</a>
+              <span aria-hidden="true">/</span>
+            </>
+          ) : (
+            <span aria-current="page">{item.name}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<BreadcrumbSchema items={items} />
+
+<style>
+  .breadcrumbs {
+    padding: 20px 0 0;
+  }
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .breadcrumbs li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumbs a:hover {
+    color: var(--accent-2);
+  }
+  .breadcrumbs [aria-current='page'] {
+    color: var(--deep);
+    font-weight: 500;
+  }
+</style>

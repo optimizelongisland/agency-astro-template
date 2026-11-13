@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Vercel build output
 .vercel/
+
+# Reference-site screenshots used during design (third-party material, never shipped)
+.design-refs/

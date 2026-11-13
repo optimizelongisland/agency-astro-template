@@ -1,4 +1,6 @@
-// Receives the native contact form (ContactForm.astro) and delivers the lead.
+// CORE - do not edit per client. See src/core/README.md.
+//
+// Receives the lead form (src/core/components/LeadForm.astro) and delivers the lead.
 // This is the only server-rendered route on the site; every page stays static.
 //
 // Works two ways:
@@ -23,7 +25,7 @@ import {
   verifyTurnstile,
   type DeliveryConfig,
   type FieldErrors,
-} from '../../lib/leads';
+} from '../../core/lib/leads';
 
 export const prerender = false;
 

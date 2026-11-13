@@ -1,0 +1,28 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// BlogPosting structured data for a single blog post.
+import { business } from '../../../site';
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  author: string;
+}
+const { title, description, publishDate, updatedDate, author } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: publishDate.toISOString(),
+  dateModified: (updatedDate ?? publishDate).toISOString(),
+  author: { '@type': 'Person', name: author },
+  publisher: { '@type': 'Organization', name: business.businessName },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

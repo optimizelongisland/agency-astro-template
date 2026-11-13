@@ -2,19 +2,18 @@
 // This page demonstrates the full component set for a real service page.
 // Copy this file's structure when building actual service pages
 // (e.g. src/pages/sprinkler-repair.astro) - swap the content, keep the pattern.
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumbs from '../components/schema/Breadcrumbs.astro';
-import ServiceSchema from '../components/schema/ServiceSchema.astro';
-import ReviewCard from '../components/ReviewCard.astro';
-import VideoEmbed from '../components/VideoEmbed.astro';
-import CTA from '../components/CTA.astro';
-
-const phone = '(631) 555-0148';
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import Breadcrumbs from '../design/components/Breadcrumbs.astro';
+import ReviewCard from '../design/components/ReviewCard.astro';
+import CTA from '../design/components/CTA.astro';
+import ServiceSchema from '../core/components/schema/ServiceSchema.astro';
+// import VideoEmbed from '../core/components/VideoEmbed.astro'; // for the video section below
+import { business } from '../site';
 ---
 
 <!-- Once this business has real reviews, add ratingValue={4.9} reviewCount={127} as props below -->
-<BaseLayout
-  title="Example Service | Client Business Name"
+<SiteLayout
+  title={`Example Service | ${business.businessName}`}
   description="One or two sentences describing this specific service, written for search snippets."
 >
   <div class="wrap">
@@ -24,8 +23,6 @@ const phone = '(631) 555-0148';
   <ServiceSchema
     serviceName="Example Service Name"
     description="A fuller description of what this service includes, used in the Service schema (can be longer than the meta description above)."
-    businessName="Client Business Name"
-    areaServed={['Town One', 'Town Two', 'Town Three']}
   />
 
   <section class="section wrap">
@@ -39,7 +36,7 @@ const phone = '(631) 555-0148';
   <section class="section wrap">
     <div class="section-head">
       <h2>What customers say</h2>
-      <p>Real reviews, not fabricated ones - swap these for the client's actual feedback.</p>
+      <p>Real reviews only. Replace these with the client's actual feedback.</p>
     </div>
     <div class="review-grid">
       <ReviewCard
@@ -47,7 +44,6 @@ const phone = '(631) 555-0148';
         reviewBody="A real customer quote about this specific service goes here."
         ratingValue={5}
         datePublished="2026-06-01"
-        businessName="Client Business Name"
       />
     </div>
   </section>
@@ -69,10 +65,8 @@ const phone = '(631) 555-0148';
   <CTA
     heading="Ready to get started?"
     subheading="Reach out for a fixed-price estimate on this service."
-    phone={phone}
-    email="hello@clientdomain.com"
   />
-</BaseLayout>
+</SiteLayout>
 
 <style>
   h1 {

@@ -1,17 +1,15 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import Services from '../components/Services.astro';
-import Process from '../components/Process.astro';
-import Testimonial from '../components/Testimonial.astro';
-import FAQ from '../components/FAQ.astro';
-import ContactForm from '../components/ContactForm.astro';
-
-// ---- CLIENT CONTENT: this is the only file most edits touch day-to-day ----
-const phone = '(631) 555-0148';
+// Home page. Business details (name, phone number, address) live in src/site.ts.
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import Hero from '../design/components/Hero.astro';
+import Services from '../design/components/Services.astro';
+import Process from '../design/components/Process.astro';
+import Testimonial from '../design/components/Testimonial.astro';
+import FAQ from '../design/components/FAQ.astro';
+import ContactSection from '../design/components/ContactSection.astro';
 ---
 
-<BaseLayout
+<SiteLayout
   title="Client Business Name | Service Area"
   description="One or two sentences describing what the business does and where, written for search snippets."
 >
@@ -19,7 +17,6 @@ const phone = '(631) 555-0148';
     eyebrow="SERVING [REGION] SINCE [YEAR]"
     headline="A headline that names the outcome the customer wants."
     subhead="A supporting sentence that explains how you deliver it, specific to this business."
-    phone={phone}
     trustPoints={['15+ years in business', 'Licensed & insured', '4.9★ from 300+ customers']}
   />
 
@@ -66,9 +63,8 @@ const phone = '(631) 555-0148';
     ]}
   />
 
-  <ContactForm
+  <ContactSection
     heading="Get a fixed-price estimate"
     subheading="Tell us about your property and we'll get back to you within one business day."
-    phone={phone}
   />
-</BaseLayout>
+</SiteLayout>

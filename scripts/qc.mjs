@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { verifyLock } from './core-lock.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist', 'client');
@@ -87,6 +88,7 @@ for (const f of htmlFiles) {
 const SERVER_ROUTES = [/^\/api\//, /^\/_image/, /^\/_server-islands\//];
 
 const titles = new Map();
+let pagesWithForm = 0;
 const descriptions = new Map();
 
 for (const file of htmlFiles) {
@@ -159,11 +161,75 @@ for (const file of htmlFiles) {
       error(page, `anchor link #${m[1]} has no matching id on the page`);
   }
 
-  // 7. House style: no em dashes in visible copy.
+  // 7. The skip link in the core layout needs its target.
+  if (!/\sid=["']main-content["']/.test(html)) error(page, 'missing <main id="main-content"> (the skip link targets it)');
+  if (/data-lead-form/.test(html)) pagesWithForm++;
+
+  // 8. House style: no em dashes in visible copy.
   if (text.includes('—')) warn(page, 'em dash found in visible text (house style: none)');
 }
 
-// 8. Site-level settings.
+// 9. The locked foundation is untouched.
+for (const problem of verifyLock()) {
+  error('core', `${problem}. Core files are shared by every client site and must not be edited per client; put the change in src/design/ instead.`);
+}
+
+// 10. Design tokens: the names the core relies on exist, and text is readable.
+const REQUIRED_TOKENS = ['--bg', '--paper', '--ink', '--muted', '--deep', '--on-deep', '--line', '--error', '--font-body', '--radius'];
+const tokensPath = path.join(root, 'src', 'design', 'tokens.css');
+if (!fs.existsSync(tokensPath)) error('src/design/tokens.css', 'missing');
+else {
+  const css = fs.readFileSync(tokensPath, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const tokens = Object.fromEntries([...css.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
+  for (const name of REQUIRED_TOKENS) {
+    if (!(name in tokens)) error('src/design/tokens.css', `required token ${name} is not defined`);
+  }
+
+  const hexToRgb = (value) => {
+    let hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value ?? '')?.[1];
+    if (!hex) return null;
+    if (hex.length === 3) hex = [...hex].map((c) => c + c).join('');
+    return [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  };
+  const luminance = (rgb) => {
+    const [r, g, b] = rgb.map((v) => {
+      const c = v / 255;
+      return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a, b) => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+  // [text token, background token]. 4.5:1 is the WCAG AA minimum for body text.
+  const PAIRS = [
+    ['--ink', '--bg'],
+    ['--ink', '--paper'],
+    ['--muted', '--bg'],
+    ['--muted', '--paper'],
+    ['--on-deep', '--deep'],
+    ['--error', '--paper'],
+  ];
+  for (const [fg, bg] of PAIRS) {
+    const a = hexToRgb(tokens[fg]);
+    const b = hexToRgb(tokens[bg]);
+    if (!a || !b) {
+      if (fg in tokens && bg in tokens) warn('src/design/tokens.css', `cannot check contrast of ${fg} on ${bg}: use hex colors for these tokens`);
+      continue;
+    }
+    const ratio = contrast(a, b);
+    if (ratio < 4.5) error('src/design/tokens.css', `${fg} on ${bg} has contrast ${ratio.toFixed(2)}:1 (needs 4.5:1 to be readable)`);
+  }
+  // Headlines and buttons use --deep on the page background; large text needs 3:1.
+  const deep = hexToRgb(tokens['--deep']);
+  const bg = hexToRgb(tokens['--bg']);
+  if (deep && bg && contrast(deep, bg) < 3) error('src/design/tokens.css', `--deep on --bg has contrast ${contrast(deep, bg).toFixed(2)}:1 (needs 3:1)`);
+}
+
+if (pagesWithForm === 0) warn('site', 'no page contains the lead form (LeadForm). Visitors have no way to send an enquiry.');
+
+// 11. Site-level settings.
 const config = fs.readFileSync(path.join(root, 'astro.config.mjs'), 'utf8');
 const site = config.match(/site:\s*['"]([^'"]+)['"]/)?.[1];
 if (!site) error('astro.config.mjs', '`site` is not set');

@@ -1,0 +1,27 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// Review structured data for one displayed customer review. Render it next to
+// the visible review, with the same values. Only for real reviews.
+import { business } from '../../../site';
+
+interface Props {
+  authorName: string;
+  reviewBody: string;
+  ratingValue: number; // 1-5
+  datePublished: string; // ISO date, e.g. "2026-06-12"
+}
+const { authorName, reviewBody, ratingValue, datePublished } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  reviewRating: { '@type': 'Rating', ratingValue, bestRating: 5 },
+  author: { '@type': 'Person', name: authorName },
+  reviewBody,
+  datePublished,
+  itemReviewed: { '@type': 'LocalBusiness', name: business.businessName },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
