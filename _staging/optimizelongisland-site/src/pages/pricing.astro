@@ -4,9 +4,10 @@ import PageHead from '../design/components/PageHead.astro';
 import PriceGroup from '../design/components/PriceGroup.astro';
 import PriceSheet from '../design/components/PriceSheet.astro';
 import BundleBar from '../design/components/BundleBar.astro';
+import CardPrice from '../design/components/CardPrice.astro';
 import FAQ from '../design/components/FAQ.astro';
 import ContactSection from '../design/components/ContactSection.astro';
-import { money, prices, websitePlans, carePlans, seoPlans, googleAdsPlan, socialAdsPlan } from '../design/pricing';
+import { cardLine, money, prices, websitePlans, carePlans, seoPlans, googleAdsPlan, socialAdsPlan } from '../design/pricing';
 import { faq } from '../design/content';
 
 const chips = [
@@ -33,11 +34,30 @@ const chips = [
     </ul>
   </PageHead>
 
+  <section class="section pay" id="how-to-pay">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Payment</p>
+          <h2>How you can pay.</h2>
+        </div>
+      </div>
+      <ul class="paylist">
+        <li>Websites and other one-time payments: check, cash, bank transfer or card.</li>
+        <li>Monthly plans are paid automatically, by bank transfer or card. A year paid in advance can also be paid by check or cash.</li>
+        <li>The listed prices are for check, cash or bank transfer.</li>
+        <li>Credit cards add a 3% card fee. The credit card price is shown with every price on this page, in dollars and cents.</li>
+        <li>Debit cards pay the listed price.</li>
+        <li>Billing is handled through Square.</li>
+      </ul>
+    </div>
+  </section>
+
   <PriceGroup id="websites" eyebrow="Websites" heading="Fixed-price websites.">
     {websitePlans.map((p) => <PriceSheet plan={p} />)}
     <div slot="notes" class="notes">
       <div>
-        <p><strong>Extra pages:</strong> {money(prices.extraPage)} each.</p>
+        <p><strong>Extra pages:</strong> {money(prices.extraPage)} each. <CardPrice text={`${cardLine(prices.extraPage)} for an extra page`} /></p>
         <p><strong>What you provide for Launch:</strong> answers to a short questionnaire, your logo and your photos.</p>
       </div>
       <div>
@@ -48,7 +68,7 @@ const chips = [
 
   <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us.">
     {carePlans.map((p) => <PriceSheet plan={p} />)}
-    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.</p>
+    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
   </PriceGroup>
 
   <PriceGroup id="seo" eyebrow="SEO" heading="Monthly SEO plans.">
@@ -61,7 +81,7 @@ const chips = [
     <Fragment slot="notes"><BundleBar /></Fragment>
   </PriceGroup>
 
-  <FAQ heading="Pricing questions." items={[faq.cost, faq.care, faq.changes, faq.adspend, faq.wordpress]} pricingLink={false} />
+  <FAQ heading="Pricing questions." items={[faq.pay, faq.cost, faq.care, faq.changes, faq.adspend, faq.wordpress]} pricingLink={false} />
 
   <ContactSection />
 </SiteLayout>
@@ -73,6 +93,10 @@ const chips = [
   .notes { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; border-top: 1px solid var(--line); padding-top: 32px; font-size: 15px; color: var(--muted); }
   .notes p + p { margin-top: 10px; }
   .notes strong { color: var(--ink); font-weight: 600; }
+  .paylist { list-style: none; display: grid; gap: 10px; max-width: 70ch; font-size: 17px; }
+  .paylist li { padding-left: 18px; position: relative; }
+  .paylist li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 7px; height: 7px; background: var(--accent); border-radius: 1px; }
+  .pay { padding-bottom: 0; }
   .after { text-align: center; font-size: 17px; }
   @media (max-width: 900px) { .notes { grid-template-columns: 1fr; gap: 12px; } }
 </style>

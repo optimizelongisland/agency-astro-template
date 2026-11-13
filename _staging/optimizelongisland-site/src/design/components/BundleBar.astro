@@ -1,9 +1,11 @@
 ---
 import { bundleLine } from '../pricing';
+import CardPrice from './CardPrice.astro';
 ---
 
 <div class="bundle">
   <p class="line">{bundleLine.text} <strong class="num">{bundleLine.price}</strong>.</p>
+  <CardPrice text={bundleLine.card} />
 </div>
 <p class="note">Ad spend is paid directly to Google or Meta and is separate from the management fee.</p>
 

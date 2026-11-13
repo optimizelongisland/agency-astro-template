@@ -1,4 +1,5 @@
 ---
+import CardPrice from '../../design/components/CardPrice.astro';
 import SiteLayout from '../../design/layouts/SiteLayout.astro';
 import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
 import PageHead from '../../design/components/PageHead.astro';
@@ -13,7 +14,7 @@ import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
 import CheckStamp from '../../design/components/CheckStamp.astro';
-import { money, prices, websitePlans, carePlans } from '../../design/pricing';
+import { cardLine, money, prices, websitePlans, carePlans } from '../../design/pricing';
 import { buildSteps, testimonials, faq, launchSheetRows } from '../../design/content';
 
 const items = [faq.cost, faq.template, faq.time, faq.own, faq.care, faq.wordpress, faq.content, faq.changes, faq.ai];
@@ -35,11 +36,12 @@ const description = `Custom web design for Long Island businesses from ${money(p
       subtitle="Launch website"
       rows={launchSheetRows}
       price={money(prices.launch)}
+      card={cardLine(prices.launch)}
       unit="one time"
     />
   </PageHead>
 
-  <PriceGroup id="websites" eyebrow="Packages and prices" heading="Pick a package." intro={`Extra pages are ${money(prices.extraPage)} each.`}>
+  <PriceGroup id="websites" eyebrow="Packages and prices" heading="Pick a package." intro={`Extra pages are ${money(prices.extraPage)} each.`} introCard={`${cardLine(prices.extraPage)} for an extra page`}>
     {websitePlans.map((p) => <PriceSheet plan={p} />)}
   </PriceGroup>
 
@@ -83,7 +85,7 @@ const description = `Custom web design for Long Island businesses from ${money(p
 
   <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us.">
     {carePlans.map((p) => <PriceSheet plan={p} />)}
-    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.</p>
+    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
   </PriceGroup>
 
   <OwnershipBlock size="regular" />

@@ -1,10 +1,12 @@
 ---
+import CardPrice from '../../design/components/CardPrice.astro';
+import PriceNote from '../../design/components/PriceNote.astro';
 import SiteLayout from '../../design/layouts/SiteLayout.astro';
 import PageHead from '../../design/components/PageHead.astro';
 import ServiceList from '../../design/components/ServiceList.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { money, prices } from '../../design/pricing';
+import { cardPrice, money, prices } from '../../design/pricing';
 import { services, faq } from '../../design/content';
 ---
 
@@ -22,6 +24,7 @@ import { services, faq } from '../../design/content';
   <section class="section">
     <div class="wrap">
       <ServiceList items={services} large />
+      <PriceNote />
     </div>
   </section>
 
@@ -30,6 +33,7 @@ import { services, faq } from '../../design/content';
       <div>
         <p class="eyebrow">Care plans</p>
         <h2>Care plans from {money(prices.care)} a month.</h2>
+        <CardPrice text={`${cardPrice(prices.care)} a month by credit card`} />
       </div>
       <a class="link" href="/pricing/#care">See care plans →</a>
     </div>

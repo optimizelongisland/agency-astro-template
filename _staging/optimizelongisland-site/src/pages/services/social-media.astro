@@ -11,7 +11,7 @@ import QuoteBand from '../../design/components/QuoteBand.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { money, prices, socialAdsPlan } from '../../design/pricing';
+import { adsCardLine, money, prices, socialAdsPlan } from '../../design/pricing';
 import { testimonials, faq } from '../../design/content';
 
 const items = [
@@ -51,6 +51,7 @@ const description = `Facebook and Instagram ads management for Long Island busin
       ]}
       price={`${money(prices.adsManagement)} a month`}
       unit={`+ ${money(prices.adsSetup)} setup`}
+      card={adsCardLine}
     />
   </PageHead>
 

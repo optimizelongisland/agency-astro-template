@@ -4,6 +4,19 @@
 
 export const money = (n: number) => `$${n.toLocaleString('en-US')}`;
 
+// Listed prices are for check, cash or bank transfer. Credit cards add this percentage.
+export const cardFeeRate = 3;
+
+/** Credit card price for an amount in dollars: amount plus the card fee, rounded to the cent. Cents shown only when not zero. */
+export const cardPrice = (n: number) => {
+  const cents = Math.round(n * (100 + cardFeeRate));
+  const dollars = Math.floor(cents / 100);
+  const rest = cents % 100;
+  return `$${dollars.toLocaleString('en-US')}${rest ? `.${String(rest).padStart(2, '0')}` : ''}`;
+};
+/** "$1,030 by credit card" or, with a prefix, "from $5,150 by credit card". */
+export const cardLine = (n: number, prefix?: string) => `${prefix ? `${prefix.toLowerCase()} ` : ''}${cardPrice(n)} by credit card`;
+
 export const prices = {
   launch: 1000,
   growth: 2500,
@@ -35,7 +48,8 @@ export interface Plan {
   pricePrefix?: string;
   price?: string;
   unit?: string;
-  fees?: { label: string; price: string; unit: string }[];
+  card?: string;
+  fees?: { label: string; price: string; unit: string; card: string }[];
   specs: Row[];
   plusLabel?: string;
   items: string[];
@@ -52,6 +66,7 @@ export const websitePlans: Plan[] = [
     kicker: 'Website',
     name: 'Launch Website',
     price: money(prices.launch),
+    card: cardLine(prices.launch),
     unit: 'one time',
     specs: [
       { label: 'Pages', value: 'up to 5' },
@@ -77,6 +92,7 @@ export const websitePlans: Plan[] = [
     kicker: 'Website',
     name: 'Growth Website',
     price: money(prices.growth),
+    card: cardLine(prices.growth),
     unit: 'one time',
     specs: [
       { label: 'Pages', value: 'up to 12' },
@@ -99,6 +115,7 @@ export const websitePlans: Plan[] = [
     name: 'Custom build',
     pricePrefix: 'From',
     price: money(prices.customFrom),
+    card: cardLine(prices.customFrom, 'From'),
     unit: 'quoted',
     specs: [],
     items: ['Online booking', 'Customer logins', 'Databases', 'E-commerce or anything else beyond an informational site'],
@@ -113,6 +130,7 @@ export const carePlans: Plan[] = [
     kicker: 'Care plan',
     name: 'Care',
     price: money(prices.care),
+    card: cardLine(prices.care),
     unit: 'a month',
     specs: [
       { label: 'Edits', value: 'unlimited, within 1 business day' },
@@ -135,6 +153,7 @@ export const carePlans: Plan[] = [
     kicker: 'Care plan',
     name: 'Care Plus',
     price: money(prices.carePlus),
+    card: cardLine(prices.carePlus),
     unit: 'a month',
     specs: [
       { label: 'New content', value: '1 page or post a month' },
@@ -153,6 +172,7 @@ export const seoPlans: Plan[] = [
     kicker: 'SEO plan',
     name: 'Local SEO',
     price: money(prices.seoLocal),
+    card: cardLine(prices.seoLocal),
     unit: 'a month',
     specs: [
       { label: 'Content', value: '2 pieces a month' },
@@ -174,6 +194,7 @@ export const seoPlans: Plan[] = [
     kicker: 'SEO plan',
     name: 'Growth SEO',
     price: money(prices.seoGrowth),
+    card: cardLine(prices.seoGrowth),
     unit: 'a month',
     specs: [
       { label: 'Content', value: '4 pieces a month' },
@@ -198,6 +219,7 @@ export const seoPlans: Plan[] = [
     name: 'Multi-location or highly competitive markets',
     pricePrefix: 'From',
     price: money(prices.seoMultiFrom),
+    card: cardLine(prices.seoMultiFrom, 'From'),
     unit: 'a month, quoted after a free audit',
     specs: [],
     items: ['Quoted after a free audit'],
@@ -212,8 +234,8 @@ const adSpecs = (who: string): Row[] => [
   { label: 'Ad spend', value: `paid directly to ${who}` },
 ];
 const adFees = [
-  { label: 'Setup', price: money(prices.adsSetup), unit: 'one time' },
-  { label: 'Management', price: money(prices.adsManagement), unit: 'a month' },
+  { label: 'Setup', price: money(prices.adsSetup), unit: 'one time', card: cardLine(prices.adsSetup) },
+  { label: 'Management', price: money(prices.adsManagement), unit: 'a month', card: cardLine(prices.adsManagement) },
 ];
 
 export const googleAdsPlan: Plan = {
@@ -243,12 +265,18 @@ export const socialAdsPlan: Plan = {
   ctaHref: '#contact',
 };
 
-export const bundleLine = { text: 'Google Ads and social ads together:', price: `${money(prices.adsBundle)} a month` };
+export const bundleLine = { text: 'Google Ads and social ads together:', price: `${money(prices.adsBundle)} a month`, card: cardLine(prices.adsBundle) };
 
 // Short price summaries used by the services list.
 export const serviceTiers = {
+  webCard: `Launch ${cardPrice(prices.launch)} · Growth ${cardPrice(prices.growth)} · Custom from ${cardPrice(prices.customFrom)} by credit card`,
+  seoCard: `Local ${cardPrice(prices.seoLocal)} · Growth ${cardPrice(prices.seoGrowth)} · Multi-location from ${cardPrice(prices.seoMultiFrom)} by credit card`,
+  adsCard: `Setup ${cardPrice(prices.adsSetup)} · ${cardPrice(prices.adsManagement)} a month by credit card`,
   web: `Launch ${money(prices.launch)} · Growth ${money(prices.growth)} · Custom from ${money(prices.customFrom)}`,
   seo: `Local ${money(prices.seoLocal)} · Growth ${money(prices.seoGrowth)} · Multi-location from ${money(prices.seoMultiFrom)}`,
   ppc: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} a month in ad spend`,
   social: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} a month in ad spend`,
 };
+
+/** Card line for ads fees shown as "$500 a month + $500 setup". */
+export const adsCardLine = `${cardPrice(prices.adsManagement)} a month + ${cardPrice(prices.adsSetup)} setup by credit card`;

@@ -1,5 +1,6 @@
 ---
 import Wordmark from './Wordmark.astro';
+import PriceNote from './PriceNote.astro';
 import { business, telHref } from '../../site';
 const { phone, email, city, region, postalCode, socialProfiles } = business;
 const year = new Date().getFullYear();
@@ -46,6 +47,7 @@ const [facebook, instagram, gbp] = socialProfiles;
         </ul>
       </nav>
     </div>
+    <div class="pricenote"><PriceNote tone="dark" /></div>
     <div class="bottom">
       <span>© {year} {business.businessName}</span>
       <span>This site was designed and built with Claude on Astro and checked by a person, the same way we build yours.</span>
@@ -64,7 +66,8 @@ const [facebook, instagram, gbp] = socialProfiles;
   li a { display: inline-block; padding: 6px 0; }
   a:hover { color: var(--accent); }
   .site-footer :focus-visible { outline-color: var(--accent); }
-  .bottom { display: flex; justify-content: space-between; gap: 12px 40px; flex-wrap: wrap; border-top: 1px solid var(--line-deep); padding-top: 24px; font-size: 13px; }
+  .pricenote { border-top: 1px solid var(--line-deep); padding: 20px 0; }
+  .bottom { display: flex; justify-content: space-between; gap: 12px 40px; flex-wrap: wrap; padding-top: 20px; font-size: 13px; }
   .bottom span:last-child { max-width: 52ch; text-align: right; }
   @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 32px; } .site-footer { padding-top: 48px; } .bottom span:last-child { text-align: left; } }

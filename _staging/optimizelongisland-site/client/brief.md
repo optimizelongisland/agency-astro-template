@@ -82,6 +82,16 @@ Pay yearly and get two months free ($500 a year for Care). [CONFIRM]
 - Ad spend is paid directly to Meta and is separate from the management fee.
 - Google Ads and social ads together: $850 a month. [CONFIRM]
 
+### How clients pay (owner's decision, 2026-11-13)
+- The listed prices are the price when paying by **check, cash or bank transfer**.
+- Paying by **credit card** adds a 3% card fee, the most the card networks and Square allow. New York requires the credit card price to be shown in dollars and cents next to the regular price, so wherever a price card or Build Sheet shows a price, the credit card price is shown with it: $1,000 is $1,030 by credit card; $2,500 is $2,575; $5,000 is $5,150; $150 is $154.50; $50 a month is $51.50; $149 a month is $153.47; $500 a year is $515; $750 a month is $772.50; $1,500 a month is $1,545; $2,500 a month is $2,575; $500 (setup or monthly management) is $515; $850 a month is $875.50.
+- Bank transfer through Square is at the listed price (owner confirmed 2026-11-13).
+- Monthly plans are paid automatically, by bank transfer or card. Check and cash are for websites, other one-time payments, and a year paid in advance (owner confirmed 2026-11-13).
+- The card fee applies to credit cards only. Debit cards pay the listed price.
+- Billing is handled through Square.
+- Do NOT mention Zelle or Venmo on the site yet. [CONFIRM later: the owner wants to accept them, but the terms for adding a fee are not confirmed.]
+- Never describe the card fee as a percentage alone. Always show the dollar price.
+
 Every plan starts with a free consultation / free analysis (the current site offers this).
 
 ## Proof (real only)
@@ -131,6 +141,7 @@ FAQ material (use on the relevant pages; answers must lead with the direct answe
 - Do you write the content? Launch uses the client's own answers and materials; Growth includes copywriting.
 - What if I need changes later? Text and photo edits are unlimited on a care plan and done within one business day. New pages are $150 or included monthly with Care Plus.
 - Will AI search (ChatGPT, Google AI Overviews) find my site? Sites are built with the structured data and clear question-and-answer content those systems read. Ongoing visibility work is part of the SEO plans.
+- How can I pay? By check, cash, bank transfer or card, billed through Square. Monthly plans are paid automatically by bank transfer or card. Listed prices are for check, cash or bank transfer; credit cards add a 3% card fee, and the credit card price is shown next to every price.
 - How much should I spend on ads? No fixed answer; say that most local businesses start between $1,000 and $3,000 a month in ad spend and that it is discussed in the free consultation.
 
 ## Lead form

@@ -2,19 +2,21 @@
 // The Build Sheet: an itemized spec card that always ends in a check stamp.
 import CheckStamp from './CheckStamp.astro';
 import SheetRows from './SheetRows.astro';
+import CardPrice from './CardPrice.astro';
 interface Props {
   title: string;
   subtitle?: string;
   rows: { label: string; value: string }[];
   checkLabel?: string;
   price?: string;
+  card?: string;
   unit?: string;
   pricePrefix?: string;
   link?: { href: string; label: string };
   tone?: 'light' | 'dark';
   animate?: boolean;
 }
-const { title, subtitle, rows, checkLabel = 'Checked by a person', price, unit, pricePrefix, link, tone = 'light', animate = false } = Astro.props;
+const { title, subtitle, rows, checkLabel = 'Checked by a person', price, unit, pricePrefix, card, link, tone = 'light', animate = false } = Astro.props;
 ---
 
 <div class:list={['sheet', tone, { animate }]}>
@@ -31,6 +33,7 @@ const { title, subtitle, rows, checkLabel = 'Checked by a person', price, unit, 
           <span class="n num">{price}</span>
           {unit && <span class="u">{unit}</span>}
         </div>
+        {card && <CardPrice text={card} tone={tone} />}
         {link && <a class="link" href={link.href}>{link.label}</a>}
       </div>
     )
@@ -54,6 +57,7 @@ const { title, subtitle, rows, checkLabel = 'Checked by a person', price, unit, 
   .pre { font-size: 15px; color: var(--muted); }
   .n { font-size: clamp(40px, 5vw, 48px); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
   .u { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--muted); }
+  .foot > :global(.cp) { flex-basis: 100%; margin-top: -2px; }
   .foot .link { font-size: 15px; font-weight: 500; }
   @media (max-width: 640px) { .sheet { padding: 20px; } .check { font-size: 13px; } }
 </style>

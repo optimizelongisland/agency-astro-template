@@ -1,15 +1,18 @@
 ---
 // Section wrapper for a group of price cards.
+import CardPrice from './CardPrice.astro';
+import PriceNote from './PriceNote.astro';
 interface Props {
   id?: string;
   eyebrow: string;
   heading: string;
   intro?: string;
+  introCard?: string;
   cols?: 1 | 2 | 3;
   narrow?: boolean; // 2-card group centered as a pair (care plans)
   tone?: 'bg' | 'paper';
 }
-const { id, eyebrow, heading, intro, cols = 3, narrow = false, tone = 'bg' } = Astro.props;
+const { id, eyebrow, heading, intro, introCard, cols = 3, narrow = false, tone = 'bg' } = Astro.props;
 ---
 
 <section class:list={['section', { 'section--paper': tone === 'paper' }]} id={id}>
@@ -19,12 +22,14 @@ const { id, eyebrow, heading, intro, cols = 3, narrow = false, tone = 'bg' } = A
         <p class="eyebrow">{eyebrow}</p>
         <h2>{heading}</h2>
         {intro && <p class="sub">{intro}</p>}
+        {introCard && <CardPrice text={introCard} />}
       </div>
     </div>
     <div class:list={['grid', `c${cols}`, { narrow }]}>
       <slot />
     </div>
     <div class="notes"><slot name="notes" /></div>
+    <PriceNote />
   </div>
 </section>
 

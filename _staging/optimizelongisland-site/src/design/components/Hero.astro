@@ -1,6 +1,7 @@
 ---
 // Home hero: navy, with the faint drafting grid, the headline, and the Build Sheet.
 import CheckStamp from './CheckStamp.astro';
+import PriceNote from './PriceNote.astro';
 import { business, telHref } from '../../site';
 interface Props { eyebrow: string; lede: string; facts: string[] }
 const { eyebrow, lede, facts } = Astro.props;
@@ -22,6 +23,7 @@ const { eyebrow, lede, facts } = Astro.props;
       </div>
       <div class="sheet"><slot name="sheet" /></div>
     </div>
+    <div class="hnote"><PriceNote tone="dark" /></div>
     <ul class="facts">
       {facts.map((f) => <li><CheckStamp size={16} /><span>{f}</span></li>)}
     </ul>
@@ -38,12 +40,13 @@ const { eyebrow, lede, facts } = Astro.props;
   .lede { color: var(--on-deep-muted); margin-bottom: 36px; }
   .call { margin-top: 20px; font-size: 14px; color: var(--on-deep-muted); }
   .call a { color: var(--accent); font-size: 14px; }
-  .facts { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 72px; border-top: 1px solid var(--line-deep); }
+  .hnote { margin-top: 28px; }
+  .facts { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 20px; border-top: 1px solid var(--line-deep); }
   .facts li { display: flex; align-items: center; gap: 10px; padding: 28px 16px 28px 0; font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--on-deep-muted); }
   .facts li + li { padding-left: 20px; border-left: 1px solid var(--line-deep); }
   @media (max-width: 900px) {
     .cols { grid-template-columns: 1fr; gap: 40px; }
-    .facts { grid-template-columns: 1fr 1fr; margin-top: 48px; }
+    .facts { grid-template-columns: 1fr 1fr; margin-top: 16px; }
     .facts li { font-size: 12px; padding: 18px 12px 18px 0; }
     .facts li + li { padding-left: 0; border-left: 0; }
     .facts li:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line-deep); }

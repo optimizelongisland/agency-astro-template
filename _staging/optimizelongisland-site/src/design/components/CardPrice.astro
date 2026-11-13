@@ -1,0 +1,12 @@
+---
+// The quiet second line that shows the credit card price next to a regular price.
+interface Props { text: string; tone?: 'light' | 'dark' }
+const { text, tone = 'light' } = Astro.props;
+---
+
+<span class:list={['cp', tone]}>{text}</span>
+
+<style>
+  .cp { display: block; font-family: var(--font-mono); font-weight: 500; font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .cp.dark { color: var(--on-deep-muted); }
+</style>

@@ -10,7 +10,7 @@ import QuoteBand from '../../design/components/QuoteBand.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { money, prices, seoPlans } from '../../design/pricing';
+import { cardLine, money, prices, seoPlans } from '../../design/pricing';
 import { testimonials, faq } from '../../design/content';
 
 const items = [faq.ai, faq.cost, faq.own];
@@ -38,6 +38,7 @@ const description = `Local SEO for Long Island businesses from ${money(prices.se
       ]}
       pricePrefix="From"
       price={money(prices.seoLocal)}
+      card={cardLine(prices.seoLocal, 'From')}
       unit="a month"
     />
   </PageHead>

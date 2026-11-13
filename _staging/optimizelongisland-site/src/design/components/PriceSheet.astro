@@ -2,10 +2,11 @@
 // The price card. Same row and stamp styles as BuildSheet.
 import CheckStamp from './CheckStamp.astro';
 import SheetRows from './SheetRows.astro';
+import CardPrice from './CardPrice.astro';
 import type { Plan } from '../pricing';
 interface Props { plan: Plan; columns?: boolean }
 const { plan, columns = false } = Astro.props;
-const { kicker, name, pricePrefix, price, unit, fees, specs, plusLabel, items, featured, ctaLabel, ctaHref } = plan;
+const { kicker, name, pricePrefix, price, card, unit, fees, specs, plusLabel, items, featured, ctaLabel, ctaHref } = plan;
 ---
 
 <article class:list={['ps', { featured }]} id={['google-ads', 'social-ads'].includes(plan.id) ? plan.id : `plan-${plan.id}`}>
@@ -13,11 +14,14 @@ const { kicker, name, pricePrefix, price, unit, fees, specs, plusLabel, items, f
   <h3>{name}</h3>
   {
     price && (
+      <>
       <p class="price">
         {pricePrefix && <span class="pre">{pricePrefix}</span>}
         <span class="n num">{price}</span>
         {unit && <span class="u">{unit}</span>}
       </p>
+      {card && <p class="cardrow"><CardPrice text={card} /></p>}
+      </>
     )
   }
   {
@@ -28,6 +32,7 @@ const { kicker, name, pricePrefix, price, unit, fees, specs, plusLabel, items, f
             <span class="fl">{f.label}</span>
             <span class="n small num">{f.price}</span>
             <span class="u">{f.unit}</span>
+            <CardPrice text={f.card} />
           </p>
         ))}
       </div>
@@ -50,6 +55,8 @@ const { kicker, name, pricePrefix, price, unit, fees, specs, plusLabel, items, f
   .price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: 20px; }
   .pre { font-size: 15px; color: var(--muted); }
   .n { font-size: clamp(40px, 5vw, 48px); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+  .cardrow { margin-top: 6px; }
+  .fee :global(.cp) { flex-basis: 100%; }
   .n.small { font-size: 32px; }
   .u { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--muted); }
   .fees { margin-top: 20px; display: grid; gap: 10px; }

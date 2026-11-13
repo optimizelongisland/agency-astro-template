@@ -1,4 +1,5 @@
 ---
+import PriceNote from '../design/components/PriceNote.astro';
 import SiteLayout from '../design/layouts/SiteLayout.astro';
 import Hero from '../design/components/Hero.astro';
 import BuildSheet from '../design/components/BuildSheet.astro';
@@ -9,7 +10,7 @@ import OwnershipBlock from '../design/components/OwnershipBlock.astro';
 import Testimonial from '../design/components/Testimonial.astro';
 import FAQ from '../design/components/FAQ.astro';
 import ContactSection from '../design/components/ContactSection.astro';
-import { money, prices } from '../design/pricing';
+import { cardLine, money, prices } from '../design/pricing';
 import { services, buildSteps, testimonials, faq, launchSheetRows } from '../design/content';
 ---
 
@@ -31,6 +32,7 @@ import { services, buildSteps, testimonials, faq, launchSheetRows } from '../des
       rows={launchSheetRows}
       checkLabel="Checked by a person"
       price={money(prices.launch)}
+      card={cardLine(prices.launch)}
       unit="one time"
       link={{ href: '/pricing/#websites', label: "What's included →" }}
     />
@@ -46,6 +48,7 @@ import { services, buildSteps, testimonials, faq, launchSheetRows } from '../des
         <a class="link head-link" href="/pricing/">Full price list →</a>
       </div>
       <ServiceList items={services} />
+      <PriceNote />
     </div>
   </section>
 

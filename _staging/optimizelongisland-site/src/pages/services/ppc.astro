@@ -11,7 +11,7 @@ import QuoteBand from '../../design/components/QuoteBand.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { money, prices, googleAdsPlan } from '../../design/pricing';
+import { adsCardLine, money, prices, googleAdsPlan } from '../../design/pricing';
 import { testimonials, faq } from '../../design/content';
 
 const items = [
@@ -50,6 +50,7 @@ const description = `Google Ads management for Long Island businesses: ${money(p
       ]}
       price={`${money(prices.adsManagement)} a month`}
       unit={`+ ${money(prices.adsSetup)} setup`}
+      card={adsCardLine}
     />
   </PageHead>
 

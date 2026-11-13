@@ -1,0 +1,14 @@
+---
+// One short line: what the listed prices mean. Sits under sections that mention prices.
+interface Props { tone?: 'light' | 'dark' }
+const { tone = 'light' } = Astro.props;
+---
+
+<p class:list={['pn', tone]}>Prices are for check, cash or bank transfer. Credit card prices are shown with each price on the <a href="/pricing/">pricing page</a>.</p>
+
+<style>
+  .pn { margin-top: 20px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .pn a { text-decoration: underline; text-underline-offset: 2px; }
+  .pn.dark { color: var(--on-deep-muted); margin-top: 0; }
+  .pn.dark a:hover { color: var(--accent); }
+</style>

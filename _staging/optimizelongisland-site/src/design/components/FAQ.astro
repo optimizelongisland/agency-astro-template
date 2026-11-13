@@ -2,6 +2,7 @@
 // Visible FAQ list; FaqSchema (locked core) is fed the same items.
 import FaqSchema, { type FaqItem } from '../../core/components/schema/FaqSchema.astro';
 import { business, telHref } from '../../site';
+import PriceNote from './PriceNote.astro';
 
 interface Props {
   heading?: string;
@@ -35,6 +36,7 @@ const { heading = 'Straight answers.', eyebrow = 'Questions', items, pricingLink
           </details>
         ))
       }
+      {items.some((i) => i.answer.includes('$')) && <PriceNote />}
     </div>
   </div>
 </section>

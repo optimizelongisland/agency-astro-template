@@ -1,5 +1,6 @@
 ---
 import ServiceList from './ServiceList.astro';
+import PriceNote from './PriceNote.astro';
 import { services } from '../content';
 interface Props { current: string; tone?: 'bg' | 'paper' }
 const { current, tone = 'bg' } = Astro.props;
@@ -15,5 +16,6 @@ const { current, tone = 'bg' } = Astro.props;
       <a class="link head-link" href="/pricing/">Full price list →</a>
     </div>
     <ServiceList items={services.filter((s) => s.href !== current)} />
+    <PriceNote />
   </div>
 </section>

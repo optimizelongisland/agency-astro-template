@@ -1,6 +1,6 @@
 // Shared copy used on several pages: services, FAQ answers, testimonials, the
 // four build steps and the contact form fields. Prices come from pricing.ts.
-import { money, prices, serviceTiers } from './pricing';
+import { money, prices, serviceTiers, cardLine, adsCardLine } from './pricing';
 import type { ExtraField } from '../core/components/LeadForm.astro';
 
 export const services = [
@@ -10,9 +10,11 @@ export const services = [
     description: 'Custom websites, designed and built with AI and reviewed by a person, at a fixed public price.',
     pricePrefix: 'From',
     price: money(prices.launch),
+    card: cardLine(prices.launch, 'From'),
     unit: 'one time',
     href: '/services/long-island-web-design-company/',
     tiers: serviceTiers.web,
+    tiersCard: serviceTiers.webCard,
   },
   {
     number: '02',
@@ -20,31 +22,41 @@ export const services = [
     description: 'Local search optimization, including Google Maps and AI search visibility.',
     pricePrefix: 'From',
     price: money(prices.seoLocal),
+    card: cardLine(prices.seoLocal, 'From'),
     unit: 'a month',
     href: '/services/seo/',
     tiers: serviceTiers.seo,
+    tiersCard: serviceTiers.seoCard,
   },
   {
     number: '03',
     name: 'Google Ads',
     description: 'Google Ads management with conversion and call tracking.',
     price: money(prices.adsManagement),
+    card: adsCardLine,
     unit: `a month + ${money(prices.adsSetup)} setup`,
     href: '/services/ppc/',
     tiers: serviceTiers.ppc,
+    tiersCard: serviceTiers.adsCard,
   },
   {
     number: '04',
     name: 'Social media ads',
     description: 'Facebook and Instagram ads management, with new ad creative every month.',
     price: money(prices.adsManagement),
+    card: adsCardLine,
     unit: `a month + ${money(prices.adsSetup)} setup`,
     href: '/services/social-media/',
     tiers: serviceTiers.social,
+    tiersCard: serviceTiers.adsCard,
   },
 ];
 
 export const faq = {
+  pay: {
+    question: 'How can I pay?',
+    answer: 'By check, cash, bank transfer or card, billed through Square. Monthly plans are paid automatically by bank transfer or card. Listed prices are for check, cash or bank transfer; credit cards add a 3% card fee, and the credit card price is shown next to every price.',
+  },
   cost: {
     question: `How can a custom website cost ${money(prices.launch)}?`,
     answer: 'AI does most of the design and build work that used to take a team weeks. A person directs it and checks it. You pay for the result, not the hours.',
