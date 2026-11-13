@@ -3,6 +3,14 @@
     { "source": "/services/website-design", "destination": "/services/long-island-web-design-company/", "permanent": true },
     { "source": "/services/website-design/", "destination": "/services/long-island-web-design-company/", "permanent": true },
     { "source": "/contact-us", "destination": "/contact/", "permanent": true },
-    { "source": "/contact-us/", "destination": "/contact/", "permanent": true }
+    { "source": "/contact-us/", "destination": "/contact/", "permanent": true },
+    { "source": "/blog/category/seo", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/category/seo/", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/category/website-design", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/category/website-design/", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/2022/08/20", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/2022/08/20/", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/2022/09/20", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/2022/09/20/", "destination": "/blog/", "permanent": true }
   ]
 }

@@ -1,0 +1,31 @@
+---
+// Ruled list of "label plus one or two sentences" rows (what we measure, what
+// is included). Use inside ProseSection. Text is plain; set href to add a link.
+interface Props {
+  items: { label: string; text: string; href?: string; linkText?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<dl class="def">
+  {
+    items.map((i) => (
+      <div class="row">
+        <dt>{i.label}</dt>
+        <dd>
+          {i.text}
+          {i.href && <> <a href={i.href}>{i.linkText ?? 'Read more'}</a></>}
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .def { border-top: 1px solid var(--line); font-size: 17px; line-height: 1.6; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 8px 32px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  dt { font-weight: 600; color: var(--ink); }
+  dd { color: var(--muted); max-width: 60ch; }
+  dd a { color: var(--accent-2); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  @media (max-width: 640px) { .row { grid-template-columns: minmax(0, 1fr); padding: 16px 0; } .def { font-size: 16px; } }
+</style>

@@ -1,0 +1,109 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import CardPrice from '../../design/components/CardPrice.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import DefTable from '../../design/components/DefTable.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import RelatedLinks from '../../design/components/RelatedLinks.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { cardLine, cardPrice, money, prices, carePlans } from '../../design/pricing';
+
+const wc = (n: number, unit = '') => `${money(n)}${unit} (${cardPrice(n)}${unit} by credit card)`;
+
+const lede = `A care plan keeps your website hosted, secure, up to date and edited for a fixed monthly price. Care is ${wc(prices.care, ' a month')}: hosting, a security certificate, every change saved and reversible, software kept up to date, unlimited text and photo edits done within one business day, and a monthly report on visitors and Google searches. Care Plus is ${wc(prices.carePlus, ' a month')} and adds one new page or blog post every month and a quarterly review call. Pay yearly and get two months free: ${wc(prices.careYearly, ' a year')} for Care. A care plan is required to host with us and starts on the day you buy.`;
+
+const covers = [
+  { label: 'Hosting', text: 'Your site is served from Vercel\'s global network, so it is online and loads quickly for visitors wherever they are.' },
+  { label: 'Security certificate', text: 'The padlock in the browser bar. It means the connection between your visitor and your site is encrypted.' },
+  { label: 'Every change saved and reversible', text: 'Your site\'s code is stored and versioned on GitHub. If an edit goes wrong, it can be rolled back to the version before it.' },
+  { label: 'Software kept up to date', text: 'We keep the software your site runs on current, so you do not have to think about it.' },
+  { label: 'Unlimited text and photo edits', text: 'Change a phone number, a price, a sentence or a photo as often as you need to. Edits are done within one business day.' },
+  { label: 'A monthly report', text: 'A plain report on visitors and Google searches, so you can see what the site is doing.', href: '/reporting/', linkText: 'What the monthly report shows.' },
+];
+
+const items = [
+  {
+    question: 'How much does website maintenance cost?',
+    answer: `Our care plans are ${wc(prices.care, ' a month')} for Care and ${wc(prices.carePlus, ' a month')} for Care Plus. Paying yearly gets you two months free, which is ${wc(prices.careYearly, ' a year')} for Care. A care plan is required to host with us, and the listed prices are for check, cash or bank transfer.`,
+  },
+  {
+    question: 'Do I need a care plan?',
+    answer: 'Yes, if you host your website with us. A care plan is required for hosting, and it covers the hosting itself, a security certificate, updates, edits and a monthly report. It starts on the day you buy it, not on the day your site launches, so you are covered from the start.',
+  },
+  {
+    question: 'What if I need a new page?',
+    answer: `A new page is ${wc(prices.extraPage)}. With Care Plus, one new page or blog post every month is included at ${wc(prices.carePlus, ' a month')}. Text and photo edits to existing pages are unlimited on both plans.`,
+  },
+];
+---
+
+<SiteLayout
+  title="Website Care Plans from $50 a Month | Optimize Long Island"
+  description="Website care plans for $50 or $149 a month: hosting, security certificate, software updates, unlimited text and photo edits and a monthly report."
+>
+  <ServiceSchema serviceName="Website care plan" description="Monthly website care plans covering hosting, a security certificate, updates, unlimited text and photo edits and a monthly report." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Website care plans', url: '/services/website-care-plans/' }]}
+    eyebrow="Website care plans"
+    title="Hosting, edits and updates, handled every month."
+    lede={lede}
+  />
+
+  <PriceGroup
+    id="plans"
+    cols={2}
+    narrow
+    eyebrow="Plans and prices"
+    heading="What does a website care plan cost?"
+    intro="Two plans, one fixed price each. Care Plus includes everything in Care."
+    more={{ href: '/pricing/#care', text: 'All prices' }}
+  >
+    {carePlans.map((p) => <PriceSheet plan={p} />)}
+    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
+  </PriceGroup>
+
+  <ProseSection heading="What does the $50 a month cover?" eyebrow="Care" tone="paper">
+    <p>Care is the plan that keeps a site running. Here is each part and what it means for you as the owner.</p>
+    <DefTable items={covers} />
+    <p>Care costs {wc(prices.care, ' a month')}. If you are weighing it against the one-time price of a site, <a href="/blog/how-much-does-a-website-cost/">what a small business website costs</a> sets out both sides.</p>
+  </ProseSection>
+
+  <ProseSection heading="What does Care Plus add?" eyebrow="Care Plus">
+    <p>Care Plus is {wc(prices.carePlus, ' a month')} and includes everything in Care. It adds two things.</p>
+    <ul>
+      <li><strong>One new page or blog post every month.</strong> A new service page, a town page or an article, added to your site without paying {wc(prices.extraPage)} each time.</li>
+      <li><strong>A quarterly review call.</strong> Four times a year we go over how the site is doing and what to do next.</li>
+    </ul>
+    <p>It suits a business that wants its site to keep growing. If you only need the site kept running and edited, Care is enough.</p>
+  </ProseSection>
+
+  <ProseSection heading="Why is there no WordPress to update?" eyebrow="How the sites are built" tone="paper">
+    <p>Our sites are built on Astro, not WordPress, so there are no plugins to break or get hacked. That is why software upkeep is a short line on this page and not a long list of chores. <a href="/services/long-island-web-design-company/">How our sites are built</a> explains the technology and what it means for you.</p>
+  </ProseSection>
+
+  <ProseSection heading="Can I leave and take my site?" eyebrow="Ownership">
+    <p>Yes. You own the site, the content and the domain. If you leave, you take everything with you.</p>
+  </ProseSection>
+
+  <FAQ tone="paper" heading="Questions about care plans." items={items} />
+
+  <RelatedLinks
+    heading="More on what a site costs and reports."
+    items={[
+      { href: '/services/long-island-web-design-company/', title: 'Long Island web design', text: 'The packages, the build steps and how our sites are built.' },
+      { href: '/reporting/', title: 'What the monthly report shows', text: 'The measures behind the numbers you receive.' },
+      { href: '/blog/how-much-does-a-website-cost/', title: 'What a small business website costs', text: 'Build price and monthly cost, side by side.' },
+    ]}
+  />
+
+  <ContactSection heading="Get my free analysis." />
+</SiteLayout>
+
+<style>
+  .after { text-align: center; margin-top: 8px; font-size: 17px; }
+</style>

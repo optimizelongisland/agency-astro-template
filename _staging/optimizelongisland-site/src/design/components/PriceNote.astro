@@ -1,10 +1,19 @@
 ---
-// One short line: what the listed prices mean. Sits under sections that mention prices.
+// One short line: what the listed prices mean. Shown once per page, at the first place prices appear.
 interface Props { tone?: 'light' | 'dark' }
 const { tone = 'light' } = Astro.props;
+const locals = Astro.locals as Record<string, unknown>;
+const show = !locals.priceNoteShown;
+locals.priceNoteShown = true;
+const onPricing = Astro.url.pathname === '/pricing/';
 ---
 
-<p class:list={['pn', tone]}>Prices are for check, cash or bank transfer. Credit card prices are shown with each price on the <a href="/pricing/">pricing page</a>.</p>
+{show && (
+  <p class:list={['pn', tone]}>
+    Prices are for check, cash or bank transfer.{' '}
+    {onPricing ? 'Credit card prices are shown beside each price on this page.' : <>Credit card prices are shown with each price on the <a href="/pricing/">pricing page</a>.</>}
+  </p>
+)}
 
 <style>
   .pn { margin-top: 20px; font-size: 13px; line-height: 1.5; color: var(--muted); }

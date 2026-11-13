@@ -8,11 +8,12 @@ interface Props {
   heading: string;
   intro?: string;
   introCard?: string;
+  more?: { href: string; text: string } | { href: string; text: string }[]; // link to the service page for this group
   cols?: 1 | 2 | 3;
   narrow?: boolean; // 2-card group centered as a pair (care plans)
   tone?: 'bg' | 'paper';
 }
-const { id, eyebrow, heading, intro, introCard, cols = 3, narrow = false, tone = 'bg' } = Astro.props;
+const { id, eyebrow, heading, intro, introCard, more, cols = 3, narrow = false, tone = 'bg' } = Astro.props;
 ---
 
 <section class:list={['section', { 'section--paper': tone === 'paper' }]} id={id}>
@@ -23,6 +24,7 @@ const { id, eyebrow, heading, intro, introCard, cols = 3, narrow = false, tone =
         <h2>{heading}</h2>
         {intro && <p class="sub">{intro}</p>}
         {introCard && <CardPrice text={introCard} />}
+        {more && <p class="morelink">{[more].flat().map((m) => <a class="link" href={m.href}>{m.text} →</a>)}</p>}
       </div>
     </div>
     <div class:list={['grid', `c${cols}`, { narrow }]}>
@@ -34,6 +36,8 @@ const { id, eyebrow, heading, intro, introCard, cols = 3, narrow = false, tone =
 </section>
 
 <style>
+  .morelink { margin-top: 14px; font-weight: 500; display: flex; flex-wrap: wrap; gap: 4px 24px; }
+  .morelink a { padding: 6px 0; }
   section { scroll-margin-top: var(--header-h); }
   .grid { display: grid; gap: 24px; }
   .c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }

@@ -19,6 +19,8 @@ const blog = defineCollection({
       coverImageAlt: z.string().optional(),
       // Short list of related service/town names - powers internal linking suggestions.
       tags: z.array(z.string()).default([]),
+      // Optional questions and answers. Rendered under the post and sent as FAQPage data.
+      faq: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
       draft: z.boolean().default(false),
     }),
 });

@@ -45,6 +45,33 @@ Who it is for: owners of local businesses on Long Island (contractors, home serv
 
 Tone: confident, plain, specific. No hype words, no "revolutionary", no "cutting-edge", no "unleash". Short sentences. Prices and facts instead of adjectives. No guarantees of rankings or results (the current site says "we guarantee results"; do not carry that over).
 
+## Measurement and AI search visibility (owner's direction, 2026-11-13)
+The owner wants visitors to understand three things together: we build with AI, we get businesses found inside AI answers and track it, and our SEO runs on advanced search data and analytics. Describe the capabilities in depth. **Never name the data providers or tools we use** (no vendor, platform or product names for our data sources). Google's own products may be named where the data is the client's own (Google Search Console, Google Analytics, Google Business Profile), and the AI assistants may be named as places a business can appear (Google AI Overviews, ChatGPT, Gemini, Claude, Perplexity).
+
+What we actually do, and may describe:
+- **Search performance from the client's own Google data.** Clicks, impressions and average position for every search and every page, compared with the same month a year earlier, because most local businesses are seasonal and a month-to-month comparison misleads.
+- **Website analytics.** Visits, where visitors came from, and leads (form submissions and tracked calls where set up).
+- **Google Business Profile results.** Calls, direction requests, website clicks and views from the profile.
+- **Keyword research on real demand.** Monthly search volume, competition difficulty and intent for every keyword, measured for the client's own service area and not a national average.
+- **Live search results as a local customer sees them.** We check results from the client's own area: who ranks, who is in the map results, whether an AI Overview appears, and which sites it cites.
+- **AI answer tracking.** A fixed set of questions real customers ask, put to the major AI assistants on a schedule, recording whether the business is named, which competitors are named instead, and which sources the answer cites. The set stays the same so one month can be compared with the next.
+- **Competitor analysis.** Which searches competitors rank for that the client does not, and which sites link to them and not to the client.
+- **Backlink monitoring.** New and lost links, referring sites, link quality and anchor text.
+- **Technical audits.** Page speed and Core Web Vitals, crawling and indexing, mobile usability, structured data, and whether AI crawlers are allowed to read the site.
+- **A conflict check before anything is written.** Every new page or post is checked against the pages the site already has, so new content does not compete with existing pages.
+- **Plain reporting.** A monthly report in plain English with the numbers above and what was done, on every plan. A quarterly call only where the plan includes one: the quarterly strategy call on Growth SEO and the quarterly review call on Care Plus.
+- **Ad accounts.** Spend, cost per lead and wasted search terms checked weekly, and the ad platform's conversion count checked against the leads the business really received.
+
+How AI is used in the work (state plainly): AI does the analysis and drafting across all of the above; a person sets the direction, approves what goes out and approves every change to an ad account.
+
+Limits on these claims:
+- No guarantee that a business will appear in an AI answer or at any ranking. Say what we do and what we measure.
+- Map-grid rank tracking (rank checked point by point across a town) is NOT yet in place. [CONFIRM: add once the grid tracking tool is connected; do not mention it until then]
+- Do not claim real-time or live dashboards. Reporting is monthly. [CONFIRM if a client dashboard is added]
+- AI answers are tracked on ChatGPT, Google AI Overviews and Perplexity, as part of Growth SEO only. Gemini and Claude may be named as places a business can appear, not as tracked. Say tracking runs "on a schedule"; do not state how often. [CONFIRM the assistants and the frequency]
+- Do not say who keeps Search Console, Analytics or ad account access when a client leaves. The brief's ownership promise covers the site, the content and the domain. [CONFIRM]
+- Do not state how many data points, keywords or sources we track as a number unless the owner supplies it.
+
 ## Pricing (the owner wants prices shown publicly) [CONFIRM all prices]
 
 ### Websites
@@ -73,12 +100,12 @@ Pay yearly and get two months free ($500 a year for Care). [CONFIRM]
 
 ### Google Ads management
 - Setup: $500 one time (account structure, conversion and call tracking, a landing page).
-- Management: $500 a month for ad budgets up to $3,000 a month. Above that, 15% of ad spend.
+- Management: $500 a month for ad budgets up to $3,000 a month. For larger budgets the fee is 15% of ad spend, and never less than $500. [CONFIRM: this wording replaces "above that, 15% of ad spend", which read as a lower fee at $3,100 than at $3,000]
 - Ad spend is paid directly to Google and is separate from the management fee.
 
 ### Social media ads management (Facebook and Instagram)
 - Setup: $500 one time (pixel and conversion tracking, audiences, first set of ads).
-- Management: $500 a month for ad budgets up to $3,000 a month. Above that, 15% of ad spend. Includes new ad creative every month.
+- Management: $500 a month for ad budgets up to $3,000 a month. For larger budgets the fee is 15% of ad spend, and never less than $500. [CONFIRM: this wording replaces "above that, 15% of ad spend", which read as a lower fee at $3,100 than at $3,000] Includes new ad creative every month.
 - Ad spend is paid directly to Meta and is separate from the management fee.
 - Google Ads and social ads together: $850 a month. [CONFIRM]
 
@@ -113,6 +140,25 @@ Do not show: a Google star rating or review count (not supplied), client logos (
 - Photos: none supplied. Do not use stock photos of people (the current site's stock office photo is exactly what to move away from). The design should work with type, color, layout and simple drawn or coded graphics.
 - No reference sites were supplied. `.design-refs/` holds only a capture of the CURRENT site, for brand continuity, not as a model. The direction should come from the positioning above: it should look like the future of web design, not like a 2018 agency template.
 
+## Site plan from keyword research (owner's request, 2026-11-13)
+The owner asked for the site to be rebuilt with content planned from keyword and competitor research. The plan is in `client/seo/`:
+- `client/seo/site-plan.md`: the full site map, navigation, internal links, redirects, what was rejected and why.
+- `client/seo/pages/<slug>.md`: one brief per page with its title, meta description, H1, the heading outline, FAQ, internal links, structured data and word target. **Build each page from its brief.**
+- `client/seo/posts/<slug>.md`: the same for each launch blog post.
+- `client/seo/blog-calendar.md`: future posts. Do not write these now.
+
+How the two documents work together: the page briefs say what each page covers and how it is structured. This brief remains the only source of FACTS about the business. Where a page brief asks for a fact this brief does not contain (the page briefs list these under "Flags" or "Missing facts"), leave it out and write around it. Never fill the gap.
+
+Changes to the page list below, all approved to build:
+- Three new pages: `/services/ai-search-visibility/`, `/reporting/` (shown in menus as "How We Measure"), `/services/website-care-plans/`.
+- Seven new blog posts (see `client/seo/posts/`); the two existing posts stay at their URLs.
+- Header navigation becomes: Web Design, SEO, AI Search, Google Ads, Social Ads, Pricing, About, the phone number and a Contact button. [CONFIRM: "AI Search" added to the header because the owner named AI search visibility as a lead message on 2026-11-13]
+- Footer navigation as listed in `client/seo/site-plan.md`.
+- The home page title becomes "Long Island Marketing Agency | Optimize Long Island" so the SEO and web design pages own their own search phrases. [CONFIRM]
+- Redirects to add: `/blog/category/seo/` and `/blog/category/website-design/` to `/blog/`.
+- Our own research findings (for example how often AI assistants name the agency) are NOT approved for publication. Do not publish them.
+- AI answer tracking is part of Growth SEO only, as priced below. Do not offer it separately.
+
 ## Pages (keep these exact URLs: they match the current site, so no rankings are lost)
 | URL | Page | Search focus |
 |---|---|---|
@@ -135,7 +181,7 @@ Home page must cover, in whatever order the design direction decides: the positi
 
 Web design page must cover: the Launch and Growth packages with prices and inclusions, what the client provides, the build process step by step, the technology and why it matters to the client (speed, security, no plugins), care plans, ownership, and an FAQ (see below).
 
-FAQ material (use on the relevant pages; answers must lead with the direct answer and stay under 50 words):
+FAQ material (use on the relevant pages; answers must lead with the direct answer and run 40 to 70 words, the agency's own standard for answers that AI systems can lift):
 - How can a custom website cost $1,000? AI does most of the design and build work that used to take a team weeks. A person directs it and checks it. You pay for the result, not the hours.
 - Is it a template? No. Each site is designed for the business from its own content, colors and reference sites the owner likes.
 - How long does it take? Typically within 7 business days of receiving your content. [CONFIRM]

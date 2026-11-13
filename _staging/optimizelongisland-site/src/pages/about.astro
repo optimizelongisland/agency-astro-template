@@ -1,57 +1,61 @@
 ---
 import SiteLayout from '../design/layouts/SiteLayout.astro';
 import PageHead from '../design/components/PageHead.astro';
-import TechBand from '../design/components/TechBand.astro';
+import ProseSection from '../design/components/ProseSection.astro';
+import DefTable from '../design/components/DefTable.astro';
 import Testimonial from '../design/components/Testimonial.astro';
 import ContactSection from '../design/components/ContactSection.astro';
+import { cardPrice, money, prices } from '../design/pricing';
 import { testimonials } from '../design/content';
+
+const beliefs = [
+  { label: 'Speed', text: 'A custom site in days, not months. Typically live within 7 business days of receiving your content.' },
+  { label: 'A published price', text: `${money(prices.launch)} (${cardPrice(prices.launch)} by credit card) for a custom-designed site, because AI removes most of the labor cost, not because corners are cut.` },
+  { label: 'Custom design', text: 'Every site is designed for the business, not taken from a template. It is fast, mobile-first and built to be found on Google and in AI answers.' },
+  { label: 'A person checks it', text: 'Every site is reviewed by a person before it goes live.' },
+  { label: 'No lock-in', text: 'You own the site, the content and the domain. If you leave, you take everything with you.' },
+];
+
+const facts = [
+  { label: 'Based in', text: 'West Islip, NY 11795.' },
+  { label: 'Serving', text: 'Long Island (Suffolk and Nassau) and clients across the United States.' },
+  { label: 'Experience', text: 'More than 10 years in internet marketing and web design.' },
+];
 ---
 
 <SiteLayout
   title="About Optimize Long Island | West Islip, NY"
-  description="Optimize Long Island is a West Islip, NY agency that builds websites with AI, has a person check every one, and serves Long Island and clients across the US."
+  description="Optimize Long Island is a West Islip, NY internet marketing and web design agency. AI does the heavy lifting; a person directs and checks the work."
 >
   <PageHead
     crumbs={[{ name: 'About', url: '/about/' }]}
     eyebrow="About"
     title="A Long Island agency that builds the new way."
-    lede="AI does the heavy lifting on a modern technology stack. Experienced people direct and check the work."
+    lede="Optimize Long Island is an internet marketing and web design agency in West Islip, NY. We serve Long Island (Suffolk and Nassau counties) and clients across the United States, with more than 10 years in internet marketing and web design. AI does the heavy lifting, and an experienced person directs and checks the work."
   />
 
-  <section class="section section--paper">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Who does what</p>
-          <h2>AI builds. People decide.</h2>
-        </div>
-      </div>
-      <div class="two">
-        <div>
-          <h3>AI does the heavy lifting</h3>
-          <p>Design and build work that used to take a team weeks is done with Claude, an AI model made by Anthropic, on Astro. That is why a custom site can cost $1,000, and why it can be live in days, not months.</p>
-        </div>
-        <div>
-          <h3>People direct and check it</h3>
-          <p>An experienced person directs the work and reviews every site before it goes live. After launch, a person handles your edits, updates and monthly report on a care plan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ProseSection heading="Who does what?" eyebrow="AI builds. People decide.">
+    <h3>AI does the analysis and drafting</h3>
+    <p>Across websites, SEO and ads, AI does the analysis and the drafting. Design and build work that used to take a team weeks is done in far less time. That is why a custom site can cost {money(prices.launch)} ({cardPrice(prices.launch)} by credit card), and why it can be live in days.</p>
+    <h3>People set the direction and approve</h3>
+    <p>A person sets the direction, approves what goes out and approves every change to an ad account. A person reviews every site before it goes live. After launch, a person handles your edits and updates on a care plan.</p>
+    <p>Our <a href="/services/">services and prices</a> are all published, and <a href="/reporting/">how we measure results</a> is explained in full.</p>
+  </ProseSection>
 
-  <section class="section">
-    <div class="wrap">
-      <ul class="facts">
-        <li><span class="k mono">Based in</span><span class="v">West Islip, NY</span></li>
-        <li><span class="k mono">Serving</span><span class="v">Long Island (Suffolk and Nassau) and clients across the United States</span></li>
-        <li><span class="k mono">Experience</span><span class="v">More than 10 years in internet marketing and web design</span></li>
-      </ul>
-    </div>
-  </section>
+  <ProseSection heading="What do we believe a client should get?" eyebrow="Our standard" tone="paper">
+    <DefTable items={beliefs} />
+  </ProseSection>
 
-  <TechBand />
+  <ProseSection heading="What are the facts?" eyebrow="At a glance">
+    <DefTable items={facts} />
+    <p>We also track how a business appears in AI assistants as part of Growth SEO. Here is how <a href="/services/ai-search-visibility/">AI answer tracking</a> works. To reach us another way, use the <a href="/contact/">contact page</a>.</p>
+  </ProseSection>
 
-  <section class="section section--paper">
+  <ProseSection heading="What tools do we build with?" eyebrow="The stack" tone="paper">
+    <p>Claude (an AI model made by Anthropic), Astro, GitHub and Vercel. No WordPress. We use these tools and are not partners of, or endorsed by, the companies behind them. Read <a href="/services/long-island-web-design-company/#technology">why the technology matters</a> to the site you get.</p>
+  </ProseSection>
+
+  <section class="section" id="clients">
     <div class="wrap">
       <div class="section-head">
         <div>
@@ -73,15 +77,7 @@ import { testimonials } from '../design/content';
 </SiteLayout>
 
 <style>
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-  h3 { font-size: 28px; margin-bottom: 16px; }
-  .two p { color: var(--muted); max-width: 46ch; }
-  .facts { list-style: none; border-bottom: 1px solid var(--line); }
-  .facts li { display: grid; grid-template-columns: 1fr 3fr; gap: 24px; padding: 28px 0; border-top: 1px solid var(--line); align-items: baseline; }
-  .k { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .v { font-size: clamp(20px, 2.4vw, 26px); font-weight: 600; letter-spacing: -0.01em; }
   .quotes { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; }
   .side { display: grid; gap: 40px; }
-  @media (max-width: 900px) { .two, .quotes { grid-template-columns: 1fr; gap: 40px; } }
-  @media (max-width: 640px) { .facts li { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; } }
+  @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; gap: 40px; } }
 </style>

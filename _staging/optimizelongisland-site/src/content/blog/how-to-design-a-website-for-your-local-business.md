@@ -1,13 +1,14 @@
 ---
 title: "How To Design A Website For Your Local Business"
-seoTitle: "Design a Website for Your Local Business"
+seoTitle: "Designing a Local Business Website"
 metaDescription: "What a local business website is for, what to look for in a web design company, and three things to remember when you design yours."
 publishDate: 2022-09-20
+updatedDate: 2026-11-13
 author: "Optimize Long Island"
 tags: ["Web Design"]
 ---
 
-Does your local service business need an online presence? If so, consider creating a website as part of your marketing strategy. Having an online presence is advantageous for any business because it helps potential customers find your services more easily. In fact, statistics show that 77% of consumers conduct online research before visiting a company's physical location. If you're not the type of person who can see the value in having your own website, perhaps reading this article won't be much fun for you. But if you read on and discover some useful information about the pros of having your own website, we think that's a win for both of us! This blog post covers everything you need to know about creating a website to help promote your business. We'll first explain why so many people recommend having one and then dive into details about what makes a strong website useful for everyone involved.
+Does your local service business need an online presence? If so, consider creating a website as part of your marketing strategy. Having an online presence is advantageous for any business because it helps potential customers find your services more easily. If you're not the type of person who can see the value in having your own website, perhaps reading this article won't be much fun for you. But if you read on and discover some useful information about the pros of having your own website, we think that's a win for both of us! This blog post covers everything you need to know about creating a website to help promote your business. We'll first explain why so many people recommend having one and then dive into details about what makes a strong website useful for everyone involved.
 
 ## What is a Website and Why Is It Important?
 
@@ -23,7 +24,7 @@ As we mentioned earlier, having a website is a must for most businesses in the m
 
 **Experience:** You want a company that has plenty of experience designing websites for businesses like yours. Ideally, they've worked with businesses in your niche before. If they haven't, then their ability to understand your business and its needs will be limited.
 
-**Pricing:** While you definitely want to make sure you're getting a fair price for the work you're having done, you don't want to overspend on your website development. Research the going rates for website design and make sure to set a realistic budget for the project.
+**Pricing:** While you definitely want to make sure you're getting a fair price for the work you're having done, you don't want to overspend on your website development. Research the going rates for website design and make sure to set a realistic budget for the project. Our post on [what a small business website costs](/blog/how-much-does-a-website-cost/) is a place to start.
 
 ## 3 Things to Always Remember When Designing Your Website
 

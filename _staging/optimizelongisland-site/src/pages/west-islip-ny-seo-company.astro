@@ -1,40 +1,75 @@
 ---
 import SiteLayout from '../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../core/components/schema/ServiceSchema.astro';
 import PageHead from '../design/components/PageHead.astro';
 import PriceSheet from '../design/components/PriceSheet.astro';
+import ProseSection from '../design/components/ProseSection.astro';
 import QuoteBand from '../design/components/QuoteBand.astro';
+import FAQ from '../design/components/FAQ.astro';
 import ContactSection from '../design/components/ContactSection.astro';
-import { money, prices, seoPlans } from '../design/pricing';
+import { cardPrice, money, prices, seoPlans } from '../design/pricing';
 import { testimonials } from '../design/content';
+
+const items = [
+  {
+    question: 'Are you actually based in West Islip?',
+    answer: 'Yes. Optimize Long Island is based in West Islip, NY 11795. We do not publish a street address. We work with clients across Long Island and the United States, so you do not need to be in West Islip to work with us, and every plan starts with a free analysis.',
+  },
+  {
+    question: 'Do you only work with West Islip businesses?',
+    answer: 'No. We work with businesses across Long Island, in both Suffolk and Nassau counties, and with clients across the United States. West Islip is where we are based. The services and the published prices are the same wherever the business is located.',
+  },
+  {
+    question: 'How much does SEO cost for a small business in West Islip?',
+    answer: `The prices are the same everywhere. Local SEO is ${money(prices.seoLocal)} a month (${cardPrice(prices.seoLocal)} by credit card), Growth SEO is ${money(prices.seoGrowth)} a month (${cardPrice(prices.seoGrowth)}), and multi-location or highly competitive markets start at ${money(prices.seoMultiFrom)} a month (${cardPrice(prices.seoMultiFrom)}), quoted after a free audit.`,
+  },
+];
 ---
 
 <SiteLayout
   title="SEO Company in West Islip, NY | Optimize Long Island"
-  description={`Optimize Long Island is a West Islip, NY SEO company. Local SEO from ${money(prices.seoLocal)} a month, including Google Maps and AI search. Free analysis.`}
+  description={`Optimize Long Island is an SEO company based in West Islip, NY 11795. Local SEO from ${money(prices.seoLocal)} a month, including Google Maps and AI search visibility.`}
 >
+  <ServiceSchema serviceName="Local SEO" description="Local search engine optimization, including Google Maps and AI search visibility." areaServed={['West Islip', 'Long Island']} />
+
   <PageHead
     crumbs={[{ name: 'SEO company in West Islip, NY', url: '/west-islip-ny-seo-company/' }]}
     eyebrow="West Islip, NY"
-    title="SEO company in West Islip, NY."
-    lede="We are based in West Islip and work with local businesses on Long Island and across the United States."
+    title="An SEO company based in West Islip, NY."
+    lede={`Optimize Long Island is based in West Islip, NY 11795, and provides local SEO for West Islip businesses and businesses across Long Island, from ${money(prices.seoLocal)} a month (${cardPrice(prices.seoLocal)} by credit card), including Google Maps and AI search visibility. Every plan starts with a free analysis.`}
   />
 
-  <section class="section">
-    <div class="wrap">
-      <div class="prose narrow">
-        <p>Local SEO is how a business shows up when someone nearby searches for what it sells. We handle Google Business Profile optimization, business listings, on-page optimization and new content, with a monthly report so you can see what was done.</p>
-        <p>It includes Google Maps and AI search visibility. Every plan starts with a free analysis.</p>
-        <p><a href="/services/seo/">All SEO plans →</a></p>
-      </div>
-      <div class="card"><PriceSheet plan={seoPlans[0]} /></div>
-    </div>
-  </section>
+  <ProseSection heading="What does local SEO cover for a West Islip business?" eyebrow="Local SEO">
+    <p>Local SEO is how a business shows up when someone nearby searches for what it sells. The Local SEO plan covers:</p>
+    <ul>
+      <li>Google Business Profile optimization and weekly posts</li>
+      <li>Business listings built, cleaned up and kept consistent</li>
+      <li>On-page optimization</li>
+      <li>Two new pieces of content a month</li>
+      <li>A press release up to once a quarter, when you have news</li>
+      <li>A monthly report</li>
+    </ul>
+    <p>For the full set of plans, see our <a href="/services/seo/">Long Island SEO services</a>. If your Google Business Profile needs work first, start with the <a href="/blog/google-business-profile-optimization/">Google Business Profile checklist</a>.</p>
+    <div class="card"><PriceSheet plan={seoPlans[0]} /></div>
+  </ProseSection>
+
+  <ProseSection heading="How do you check results for West Islip searches?" eyebrow="Measuring" tone="paper">
+    <p>We look at search results the way a West Islip customer sees them, from your own area. That shows who ranks, who is in the map results, whether an AI Overview appears, and which sites it cites.</p>
+    <p>Keyword demand is measured for your service area, not a national average. What matters to a West Islip business is who searches near West Islip, not the country as a whole.</p>
+    <p>Each month you get a plain-English report that shows what was done and how your Google data changed against the same month last year.</p>
+  </ProseSection>
+
+  <ProseSection heading="Do you build websites for West Islip businesses too?" eyebrow="Web design">
+    <p>Yes. We build <a href="/services/long-island-web-design-company/">custom websites from {money(prices.launch)}</a> ({cardPrice(prices.launch)} by credit card), designed for your business and checked by a person before they go live.</p>
+  </ProseSection>
 
   <QuoteBand tone="paper" {...testimonials.solar} />
+
+  <FAQ heading="Questions about SEO in West Islip." items={items} />
 
   <ContactSection heading="Get a free SEO analysis." />
 </SiteLayout>
 
 <style>
-  .card { max-width: 420px; margin-top: 48px; }
+  .card { max-width: 420px; margin-top: 32px; }
 </style>

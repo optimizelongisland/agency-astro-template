@@ -6,7 +6,7 @@ import { business } from '../site';
 
 <SiteLayout
   title="Privacy Policy | Optimize Long Island"
-  description="How Optimize Long Island handles the information you send through this website."
+  description="How Optimize Long Island handles the information you send through this website: what we collect, how we use it, and how to have it deleted."
   noindex
 >
   <PageHead crumbs={[{ name: 'Privacy', url: '/privacy/' }]} eyebrow="Privacy" title="Privacy policy." cta={false} />
@@ -20,10 +20,12 @@ import { business } from '../site';
         <p>The form sends what you entered to {business.businessName} by email so we can reply to you. We use it only to answer your enquiry. Form submissions are delivered through an email delivery provider and may also be stored in the business's customer management system. The form may use a spam-prevention check (Cloudflare Turnstile).</p>
         <h2>Analytics</h2>
         <p>This site may use Google Analytics to count visits and see which pages are read. It does not collect your name or contact details.</p>
+        <h2>Fonts and hosting</h2>
+        <p>This site loads its fonts from Google Fonts, which means your browser contacts Google's servers when a page loads. Our hosting provider keeps standard server logs.</p>
         <h2>We do not sell your data</h2>
         <p>We do not sell your information.</p>
         <h2>Deleting your information</h2>
-        <p>To ask us to delete what you sent, email <a href={`mailto:${business.email}`}>{business.email}</a>.</p>
+        <p>To ask us to delete what you sent, email <a href={`mailto:${business.email}`}>{business.email}</a> or use the <a href="/contact/">contact page</a>.</p>
       </div>
     </div>
   </section>

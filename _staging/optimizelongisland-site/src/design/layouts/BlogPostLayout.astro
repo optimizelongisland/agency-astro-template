@@ -4,6 +4,7 @@ import SiteLayout from './SiteLayout.astro';
 import BlogPostSchema from '../../core/components/schema/BlogPostSchema.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTA from '../components/CTA.astro';
+import FAQ from '../components/FAQ.astro';
 import type { CollectionEntry } from 'astro:content';
 import { business } from '../../site';
 
@@ -12,7 +13,7 @@ interface Props {
   cta: { text: string; href: string; linkText: string };
 }
 const { post, cta } = Astro.props;
-const { title, seoTitle, metaDescription, publishDate, updatedDate, author } = post.data;
+const { title, seoTitle, metaDescription, publishDate, updatedDate, author, faq } = post.data;
 
 const formattedDate = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
@@ -30,13 +31,26 @@ const formattedDate = publishDate.toLocaleDateString('en-US', { year: 'numeric',
     </div>
   </article>
 
+  {faq.length > 0 && <FAQ tone="paper" heading="Questions on this topic." items={faq} />}
+
   <BlogPostSchema title={title} description={metaDescription} publishDate={publishDate} updatedDate={updatedDate} author={author} />
 </SiteLayout>
 
 <style>
   .head { padding-bottom: 24px; }
   .meta { font-size: 13px; color: var(--muted); margin: 28px 0 16px; letter-spacing: 0.04em; }
-  h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; max-width: 20ch; }
+  h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; max-width: 24ch; }
   .body { padding-bottom: var(--section-y); font-size: 18px; line-height: 1.7; }
   @media (max-width: 640px) { .body { font-size: 17px; } }
+  /* Tables in post bodies */
+  .body :global(table) { width: 100%; border-collapse: collapse; margin: 8px 0 28px; font-size: 15px; line-height: 1.5; }
+  .body :global(th), .body :global(td) { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .body :global(th) { font-weight: 600; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+  .body :global(tbody tr:last-child td) { border-bottom: 0; }
+  @media (max-width: 640px) {
+    /* Wide tables scroll sideways inside their own box instead of squeezing into an unreadable block. */
+    .body :global(table) { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 14px; }
+    .body :global(td:nth-child(2)) { min-width: 240px; }
+    .body :global(th), .body :global(td) { padding: 10px 12px; }
+  }
 </style>

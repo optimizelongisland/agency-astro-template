@@ -10,9 +10,16 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-const web = { text: 'Need a website that brings in calls and leads?', href: '/services/long-island-web-design-company/', linkText: 'See our web design service.' };
-const seo = { text: 'Want more local customers from Google?', href: '/services/seo/', linkText: 'See our SEO service.' };
-const cta = post.data.tags.includes('SEO') ? seo : web;
+// The CTA box is chosen by the post's first matching tag; Web Design is the fallback.
+const ctas: Record<string, { text: string; href: string; linkText: string }> = {
+  'Web Design': { text: 'Need a website that brings in calls and leads?', href: '/services/long-island-web-design-company/', linkText: 'See our web design service.' },
+  SEO: { text: 'Want more local customers from Google?', href: '/services/seo/', linkText: 'See our SEO service.' },
+  'AI Search': { text: 'Want your business named in AI answers?', href: '/services/ai-search-visibility/', linkText: 'See how we track AI answers.' },
+  'Google Ads': { text: 'Want Google Ads that bring in calls and leads?', href: '/services/ppc/', linkText: 'See our Google Ads management.' },
+  'Social Ads': { text: 'Want Facebook and Instagram ads that bring in leads?', href: '/services/social-media/', linkText: 'See our social ads service.' },
+};
+const tag = ['AI Search', 'Google Ads', 'Social Ads', 'SEO', 'Web Design'].find((t) => post.data.tags.includes(t)) ?? 'Web Design';
+const cta = ctas[tag];
 ---
 
 <BlogPostLayout post={post} cta={cta}>

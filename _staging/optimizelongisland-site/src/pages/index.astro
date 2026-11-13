@@ -1,29 +1,42 @@
 ---
-import PriceNote from '../design/components/PriceNote.astro';
 import SiteLayout from '../design/layouts/SiteLayout.astro';
 import Hero from '../design/components/Hero.astro';
 import BuildSheet from '../design/components/BuildSheet.astro';
 import ServiceList from '../design/components/ServiceList.astro';
+import PriceNote from '../design/components/PriceNote.astro';
 import Process from '../design/components/Process.astro';
-import TechBand from '../design/components/TechBand.astro';
-import OwnershipBlock from '../design/components/OwnershipBlock.astro';
+import ProseSection from '../design/components/ProseSection.astro';
 import Testimonial from '../design/components/Testimonial.astro';
 import FAQ from '../design/components/FAQ.astro';
 import ContactSection from '../design/components/ContactSection.astro';
 import { cardLine, money, prices } from '../design/pricing';
 import { services, buildSteps, testimonials, faq, launchSheetRows } from '../design/content';
+
+const listItems = [
+  ...services,
+  {
+    number: '05',
+    name: 'Website care plans',
+    description: 'Hosting, updates, unlimited text and photo edits and a monthly report.',
+    pricePrefix: 'From',
+    price: money(prices.care),
+    card: cardLine(prices.care, 'From'),
+    unit: 'a month',
+    href: '/services/website-care-plans/',
+  },
+];
 ---
 
 <SiteLayout
-  title="Long Island SEO and Web Design | Optimize Long Island"
-  description={`Custom websites for ${money(prices.launch)}, built with AI and checked by a person. SEO and ads management for Long Island businesses. Free analysis.`}
+  title="Long Island Marketing Agency | Optimize Long Island"
+  description={`Custom websites from ${money(prices.launch)}, built with AI and checked by a person, plus SEO, AI search visibility and ads management for Long Island businesses.`}
 >
   <Hero
-    eyebrow="Long Island web design and SEO"
-    lede="AI does the heavy lifting on a modern stack. An experienced person directs it and checks every page before it goes live. Typically live within 7 business days of receiving your content. You own all of it."
+    eyebrow="Long Island marketing agency"
+    lede="Optimize Long Island is a West Islip, NY agency that designs and builds custom websites with AI, has a person check every one, and runs SEO, Google Ads and Facebook and Instagram ads for Long Island businesses. Prices are published."
     facts={['Fixed public prices', 'Checked by a person', 'You own everything', 'No WordPress, no plugins']}
   >
-    <Fragment slot="title">Custom websites for <span class="hl">{money(prices.launch)}</span>. Built with AI, checked by people.</Fragment>
+    <Fragment slot="title">A custom website for <span class="hl">{money(prices.launch)}</span>, built with AI and checked by a person.</Fragment>
     <BuildSheet
       slot="sheet"
       animate
@@ -43,11 +56,12 @@ import { services, buildSteps, testimonials, faq, launchSheetRows } from '../des
       <div class="section-head">
         <div>
           <p class="eyebrow">Services</p>
-          <h2>Four services. Prices up front.</h2>
+          <h2>What does Optimize Long Island do, and what does it cost?</h2>
         </div>
-        <a class="link head-link" href="/pricing/">Full price list →</a>
+        <a class="link head-link" href="/pricing/">See every price →</a>
       </div>
-      <ServiceList items={services} />
+      <p class="intro">We sell four services and a care plan, each with a price you can read before you call: <a href="/services/long-island-web-design-company/">custom websites from {money(prices.launch)}</a>, <a href="/services/seo/">Long Island SEO services</a>, <a href="/services/ppc/">Google Ads management</a>, <a href="/services/social-media/">Facebook and Instagram ads</a>, and <a href="/services/website-care-plans/">care plans from {money(prices.care)} a month</a>. Every plan starts with a free analysis.</p>
+      <ServiceList items={listItems} />
       <PriceNote />
     </div>
   </section>
@@ -57,24 +71,44 @@ import { services, buildSteps, testimonials, faq, launchSheetRows } from '../des
       <div class="section-head">
         <div>
           <p class="eyebrow">How it works</p>
-          <h2>From questionnaire to live site in four steps.</h2>
+          <h2>How does a website get built in days, not months?</h2>
         </div>
       </div>
       <Process steps={buildSteps.map(({ title, text }) => ({ title, text }))} />
-      <p class="after"><a class="link" href="/services/long-island-web-design-company/">More about how we build websites →</a></p>
+      <p class="after"><a class="link" href="/services/long-island-web-design-company/">See the full build process →</a></p>
     </div>
   </section>
 
-  <TechBand />
+  <ProseSection heading="What makes this different?" eyebrow="Three things">
+    <h3>Built with AI, checked by a person</h3>
+    <p>AI does the heavy lifting on a modern stack. A person directs the work and reviews every site before it goes live. Here is <a href="/services/long-island-web-design-company/#technology">how your site is built</a>.</p>
+    <h3>Are you named in AI answers? We work on it and track it.</h3>
+    <p>On Growth SEO, a fixed set of customer questions is put to ChatGPT, Google AI Overviews and Perplexity on a schedule, and we record whether your business is named. Here is <a href="/services/ai-search-visibility/">how we track AI answers</a>.</p>
+    <h3>SEO run on real search data</h3>
+    <p>Keyword demand is measured for your own service area, and your own Google data is compared with the same month last year. Here is <a href="/reporting/">what we measure each month</a>.</p>
+  </ProseSection>
 
-  <OwnershipBlock />
+  <ProseSection heading="What is the technology behind it?" eyebrow="The stack" tone="paper">
+    <ul>
+      <li><strong>Claude</strong>, an AI model made by Anthropic, designs and builds the site.</li>
+      <li><strong>Astro</strong> is the framework. It ships fast, lightweight pages.</li>
+      <li><strong>GitHub</strong> stores the code, so every change is saved and can be rolled back.</li>
+      <li><strong>Vercel</strong> hosts it on a global network.</li>
+      <li>No WordPress, no plugins to break or get hacked, and no page builder bloat.</li>
+    </ul>
+    <p>We use these tools and have no partnership with, or endorsement from, the companies that make them. <a href="/about/">How AI and people split the work</a>, and where a person steps in, is on the About page.</p>
+  </ProseSection>
+
+  <ProseSection heading="Do I own my website?" eyebrow="Ownership">
+    <p>Yes. The site, the content and the domain are yours. If you leave, you take everything with you, so there is no lock-in.</p>
+  </ProseSection>
 
   <section class="section section--paper" id="clients">
     <div class="wrap">
       <div class="section-head">
         <div>
           <p class="eyebrow">Clients</p>
-          <h2>What clients say.</h2>
+          <h2>What do clients say?</h2>
         </div>
       </div>
       <div class="quotes">
@@ -87,13 +121,15 @@ import { services, buildSteps, testimonials, faq, launchSheetRows } from '../des
     </div>
   </section>
 
-  <FAQ items={[faq.cost, faq.template, faq.time, faq.own, faq.changes]} />
+  <FAQ heading="Questions people ask before they call." items={[faq.cost, faq.template, faq.ai, faq.pay, faq.own]} />
 
-  <ContactSection />
+  <ContactSection heading="Get a free analysis." />
 </SiteLayout>
 
 <style>
   section { scroll-margin-top: var(--header-h); }
+  .intro { max-width: 68ch; margin-bottom: 40px; color: var(--muted); }
+  .intro a { text-decoration: underline; text-underline-offset: 3px; }
   .after { margin-top: 48px; font-weight: 500; }
   .quotes { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; }
   .side { display: grid; gap: 40px; }

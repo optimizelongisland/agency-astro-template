@@ -6,36 +6,51 @@ import BuildSheet from '../../design/components/BuildSheet.astro';
 import PriceGroup from '../../design/components/PriceGroup.astro';
 import PriceSheet from '../../design/components/PriceSheet.astro';
 import BundleBar from '../../design/components/BundleBar.astro';
-import IncludedList from '../../design/components/IncludedList.astro';
-import QuoteBand from '../../design/components/QuoteBand.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import DefTable from '../../design/components/DefTable.astro';
 import FAQ from '../../design/components/FAQ.astro';
+import RelatedLinks from '../../design/components/RelatedLinks.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { adsCardLine, money, prices, googleAdsPlan } from '../../design/pricing';
-import { testimonials, faq } from '../../design/content';
+import { adsCardLine, cardPrice, money, prices, googleAdsPlan } from '../../design/pricing';
+
+const wc = (n: number, unit = '') => `${money(n)}${unit} (${cardPrice(n)}${unit} by credit card)`;
+
+const lede = `Optimize Long Island manages Google Ads for Long Island businesses. Setup is ${wc(prices.adsSetup)} one time and covers account structure, conversion and call tracking, and a landing page. Management is ${wc(prices.adsManagement, ' a month')} for ad budgets up to ${money(prices.adsBudgetCap)} a month. For larger budgets the fee is ${prices.adsPercent}% of ad spend, and never less than ${money(prices.adsManagement)}. Your ad spend is paid directly to Google and is separate from our fee. A person approves every change to your account.`;
+
+const setup = [
+  { label: 'Account structure', text: 'How the account is organized: which campaigns run, what each one targets, and which searches each one answers.' },
+  { label: 'Conversion and call tracking', text: 'Tracking that counts the things you care about, such as form submissions and phone calls from your ads, so the numbers mean something.' },
+  { label: 'A landing page', text: 'A page built for people who click an ad, so they land on something that matches what they searched for.' },
+];
 
 const items = [
-  faq.adspend,
   {
-    question: 'What does it cost?',
-    answer: `Setup is ${money(prices.adsSetup)} one time. Management is ${money(prices.adsManagement)} a month for ad budgets up to ${money(prices.adsBudgetCap)} a month. Above that, ${prices.adsPercent}% of ad spend.`,
+    question: 'How much should I spend on Google Ads?',
+    answer: `There is no fixed answer. Most local businesses start between ${money(prices.adSpendStartLow)} and ${money(prices.adSpendStartHigh)} a month in ad spend. That money is paid directly to Google, and it is separate from our management fee. We talk through the right amount for your business in the free consultation.`,
   },
   {
-    question: 'Who pays Google for the ads?',
-    answer: 'You do, directly to Google. Ad spend is separate from the management fee.',
+    question: 'What do you charge to manage Google Ads?',
+    answer: `Our fee is ${wc(prices.adsSetup)} for setup and ${wc(prices.adsManagement, ' a month')} for management on ad budgets up to ${money(prices.adsBudgetCap)} a month. For larger budgets the fee is ${prices.adsPercent}% of ad spend, and never less than ${money(prices.adsManagement)}. Your ad spend is paid to Google and is not part of the fee.`,
+  },
+  {
+    question: 'Is Google Ads worth it for a local business?',
+    answer: 'It depends on what a new customer is worth to you, and nobody can promise results. What we do is measure cost per lead and compare the ad platform\'s conversion count with the leads you really received, so the answer rests on your numbers. The free analysis looks at what a lead is worth to your business.',
   },
 ];
-const description = `Google Ads management for Long Island businesses: ${money(prices.adsManagement)} a month plus ${money(prices.adsSetup)} setup. Ad spend is paid directly to Google.`;
 ---
 
-<SiteLayout title="Google Ads Management Long Island | Optimize Long Island" {description}>
-  <ServiceSchema serviceName="Google Ads management" description="Google Ads management for local businesses, with conversion and call tracking." />
+<SiteLayout
+  title="Google Ads Management on Long Island | Optimize Long Island"
+  description="Google Ads management for Long Island businesses: $500 setup and $500 a month for budgets up to $3,000, with call and conversion tracking set up."
+>
+  <ServiceSchema serviceName="Google Ads management" description="Google Ads management for Long Island businesses, with conversion and call tracking set up." />
 
   <PageHead
     crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Google Ads', url: '/services/ppc/' }]}
-    eyebrow="Google Ads management, Long Island"
-    title="Google Ads management with tracking built in."
-    lede="We set up and manage your Google Ads account. Setup covers account structure, conversion and call tracking, and a landing page."
+    eyebrow="Google Ads management"
+    title="Google Ads management for Long Island businesses, with tracking built in."
+    lede={lede}
   >
     <BuildSheet
       slot="aside"
@@ -45,7 +60,7 @@ const description = `Google Ads management for Long Island businesses: ${money(p
         { label: 'Setup', value: `${money(prices.adsSetup)} one time` },
         { label: 'Management', value: `${money(prices.adsManagement)} a month` },
         { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
-        { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
+        { label: 'Larger budgets', value: `${prices.adsPercent}% of ad spend, never less than ${money(prices.adsManagement)}` },
         { label: 'Ad spend', value: 'paid directly to Google' },
       ]}
       price={`${money(prices.adsManagement)} a month`}
@@ -54,16 +69,54 @@ const description = `Google Ads management for Long Island businesses: ${money(p
     />
   </PageHead>
 
-  <PriceGroup id="plans" cols={1} eyebrow="Fees" heading="Setup and management fees.">
+  <PriceGroup
+    id="plans"
+    cols={1}
+    eyebrow="Fees"
+    heading="What does Google Ads management cost?"
+    intro="Two fees: a one-time setup and a monthly management fee."
+    more={{ href: '/pricing/#google-ads', text: 'Google Ads prices' }}
+  >
     <PriceSheet plan={googleAdsPlan} />
     <BundleBar slot="notes" />
   </PriceGroup>
 
-  <IncludedList heading="What you get." items={['Account structure', 'Conversion and call tracking', 'A landing page']} />
+  <ProseSection heading="What is the difference between the fee and the ad spend?" eyebrow="Two costs" tone="paper">
+    <p>A Google Ads account has two separate costs, and it helps to keep them apart.</p>
+    <ul>
+      <li><strong>Ad spend</strong> is what you pay Google when people click your ads. You pay it directly to Google.</li>
+      <li><strong>Our fee</strong> is what you pay us to set up and run the account: {wc(prices.adsManagement, ' a month')} for budgets up to {money(prices.adsBudgetCap)} a month.</li>
+    </ul>
+    <p>Most local businesses start between {money(prices.adSpendStartLow)} and {money(prices.adSpendStartHigh)} a month in ad spend. There is no fixed right answer, and we discuss it in the free consultation. For a longer look at how the two costs add up, read <a href="/blog/how-much-does-google-ads-cost/">what Google Ads costs a local business</a>.</p>
+  </ProseSection>
 
-  <QuoteBand tone="bg" {...testimonials.bono} />
+  <ProseSection heading="What do you set up?" eyebrow="Setup">
+    <p>Setup is {wc(prices.adsSetup)}, paid once. It covers three things.</p>
+    <DefTable items={setup} />
+  </ProseSection>
+
+  <ProseSection heading="What do you check every week?" eyebrow="Weekly checks" tone="paper">
+    <p>Once an account is running, these are the things we look at every week.</p>
+    <ul>
+      <li><strong>Spend.</strong> Whether the budget is being used as planned, and where.</li>
+      <li><strong>Cost per lead.</strong> What each call or form submission from your ads is costing you.</li>
+      <li><strong>Wasted search terms.</strong> Searches that triggered your ads but do not suit your business, so they can be blocked.</li>
+      <li><strong>Reported conversions against real leads.</strong> We compare the conversion count Google reports with the leads you actually received, so you are not paying for numbers that look good on a screen.</li>
+    </ul>
+    <p>AI does the analysis. A person decides what to change and approves every change to your ad account. You get a monthly report. <a href="/reporting/">What we report each month</a> lists the measures.</p>
+  </ProseSection>
+
 
   <FAQ tone="paper" items={items} />
+
+  <RelatedLinks
+    heading="Related pages."
+    items={[
+      { href: '/services/social-media/', title: 'Facebook and Instagram ads', text: 'The same management model for social ads, and the bundle price for both.' },
+      { href: '/services/seo/', title: 'Local SEO', text: 'Unpaid search work that builds alongside ads.' },
+      { href: '/reporting/', title: 'What we report each month', text: 'The numbers behind the weekly checks.' },
+    ]}
+  />
 
   <OtherServices current="/services/ppc/" />
 

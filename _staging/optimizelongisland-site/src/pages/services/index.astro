@@ -1,50 +1,65 @@
 ---
-import CardPrice from '../../design/components/CardPrice.astro';
-import PriceNote from '../../design/components/PriceNote.astro';
 import SiteLayout from '../../design/layouts/SiteLayout.astro';
 import PageHead from '../../design/components/PageHead.astro';
 import ServiceList from '../../design/components/ServiceList.astro';
+import PriceNote from '../../design/components/PriceNote.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
 import { cardPrice, money, prices } from '../../design/pricing';
 import { services, faq } from '../../design/content';
+
+const items = [
+  {
+    question: 'Do you work with businesses outside Long Island?',
+    answer: 'Yes. We are based in West Islip, NY, and work with businesses across Long Island and the United States. The services and the prices are the same wherever you are, and every plan starts with a free analysis of your business and your current website.',
+  },
+  faq.adspend,
+  {
+    question: 'Can I combine services?',
+    answer: `Yes. Google Ads and social ads together are ${money(prices.adsBundle)} a month (${cardPrice(prices.adsBundle)} a month by credit card), and the same free analysis applies to any combination. You can also add a care plan to a website, or SEO to either. Tell us what you need and we will say what fits.`,
+  },
+];
 ---
 
 <SiteLayout
   title="Services and Prices | Optimize Long Island"
-  description={`Web design, SEO, Google Ads and social media ads for Long Island businesses, with prices. Websites from ${money(prices.launch)}. Free analysis.`}
+  description="Web design, SEO, AI search visibility, Google Ads, social ads and website care for Long Island businesses, each with its price. Free analysis."
 >
   <PageHead
     crumbs={[{ name: 'Services', url: '/services/' }]}
     eyebrow="Services"
     title="What we do, and what it costs."
-    lede="Web design, SEO, Google Ads and social media ads for Long Island businesses. Every plan starts with a free analysis."
+    lede="We offer four services for Long Island businesses (web design, SEO, Google Ads and social media ads) plus website care plans. Every one has a published price, and every plan starts with a free analysis."
   />
 
   <section class="section">
     <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Services</p>
+          <h2>Which services do you offer?</h2>
+        </div>
+        <a class="link head-link" href="/pricing/">Full price list →</a>
+      </div>
       <ServiceList items={services} large />
       <PriceNote />
     </div>
   </section>
 
-  <section class="section section--paper">
-    <div class="wrap care">
-      <div>
-        <p class="eyebrow">Care plans</p>
-        <h2>Care plans from {money(prices.care)} a month.</h2>
-        <CardPrice text={`${cardPrice(prices.care)} a month by credit card`} />
-      </div>
-      <a class="link" href="/pricing/#care">See care plans →</a>
-    </div>
-  </section>
+  <ProseSection heading="Do you help businesses show up in AI answers?" eyebrow="AI search" tone="paper">
+    <p>Yes. <a href="/services/ai-search-visibility/">AI search visibility</a> is part of our SEO work. Tracking how your business shows up in ChatGPT, Google AI Overviews and Perplexity is included in Growth SEO, which is {money(prices.seoGrowth)} a month ({cardPrice(prices.seoGrowth)} by credit card).</p>
+  </ProseSection>
 
-  <FAQ items={[faq.cost, faq.time, faq.own]} />
+  <ProseSection heading="What do care plans cover?" eyebrow="Care plans">
+    <p>Hosting, edits and updates, from {money(prices.care)} a month ({cardPrice(prices.care)} by credit card). A care plan is required to host with us. See the <a href="/services/website-care-plans/">website care plans</a> for what each one includes.</p>
+  </ProseSection>
+
+  <ProseSection heading="How do you report results?" eyebrow="Reporting" tone="paper">
+    <p>With a monthly report in plain English on every plan, and a quarterly call on Growth SEO and Care Plus. <a href="/reporting/">How we measure and report</a> lists what the numbers are and where they come from.</p>
+  </ProseSection>
+
+  <FAQ heading="Questions about our services." items={items} />
 
   <ContactSection />
 </SiteLayout>
-
-<style>
-  .care { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 32px; flex-wrap: wrap; }
-  .care a { font-weight: 500; }
-</style>

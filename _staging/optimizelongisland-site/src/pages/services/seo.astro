@@ -5,26 +5,54 @@ import PageHead from '../../design/components/PageHead.astro';
 import BuildSheet from '../../design/components/BuildSheet.astro';
 import PriceGroup from '../../design/components/PriceGroup.astro';
 import PriceSheet from '../../design/components/PriceSheet.astro';
-import IncludedList from '../../design/components/IncludedList.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import Note from '../../design/components/Note.astro';
 import QuoteBand from '../../design/components/QuoteBand.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { cardLine, money, prices, seoPlans } from '../../design/pricing';
-import { testimonials, faq } from '../../design/content';
+import { cardLine, cardPrice, money, prices, seoPlans } from '../../design/pricing';
+import { testimonials } from '../../design/content';
 
-const items = [faq.ai, faq.cost, faq.own];
-const description = `Local SEO for Long Island businesses from ${money(prices.seoLocal)} a month, including Google Maps and AI search visibility. Free analysis.`;
+const local = `${money(prices.seoLocal)} a month (${cardPrice(prices.seoLocal)} by credit card)`;
+const growth = `${money(prices.seoGrowth)} a month (${cardPrice(prices.seoGrowth)} by credit card)`;
+const multi = `${money(prices.seoMultiFrom)} a month (${cardPrice(prices.seoMultiFrom)} by credit card)`;
+
+const items = [
+  {
+    question: 'How much does local SEO cost?',
+    answer: `Local SEO is ${local}. Growth SEO is ${growth}. Multi-location businesses and highly competitive markets start from ${multi}, quoted after a free audit. Every plan starts with a free analysis, so you know what is missing before you pay anything. The post on what local SEO costs explains what each price covers.`,
+  },
+  {
+    question: 'Do I need an SEO agency?',
+    answer: 'Not always. An owner can claim the Google Business Profile, ask customers for reviews and write helpful pages. An agency adds the data work, which is demand research, competitor analysis and tracking, and the steady monthly effort that most owners cannot fit around running a business. The free analysis shows what is missing on your site and profile.',
+  },
+  {
+    question: 'Does local SEO still work?',
+    answer: 'Yes. People still search Google and Google Maps for local services, and AI assistants read the same business listings, reviews and web pages. We measure the results from your own Google data: search clicks, website visits, calls and form leads. We do not promise a particular ranking or number of leads.',
+  },
+  {
+    question: 'Will AI search find my business?',
+    answer: 'Our websites are built with the structured data and clear question-and-answer content that AI assistants read, and the SEO plans keep your profile, listings and content in order. No one can promise a business will be named in an AI answer. Growth SEO tracks how your business shows up in those answers.',
+  },
+  {
+    question: 'How long before I see results?',
+    answer: 'There is no fixed answer, and nobody can honestly guarantee one. Results depend on your market, your competitors and the state of your site and profile today. What we do is report every month against the same month a year earlier, so you can see real progress and not a seasonal swing.',
+  },
+];
 ---
 
-<SiteLayout title="SEO Services Long Island | Optimize Long Island" {description}>
-  <ServiceSchema serviceName="Local SEO" description="Local search engine optimization, including Google Maps and AI search visibility." />
+<SiteLayout
+  title="Long Island SEO Company | Optimize Long Island"
+  description={`Local SEO for Long Island businesses from ${money(prices.seoLocal)} a month: Google Business Profile, listings, content and a monthly report built on your own search data.`}
+>
+  <ServiceSchema serviceName="Local SEO" description="Local search engine optimization for Long Island businesses: Google Business Profile, listings, on-page work, content, monthly reporting and AI answer tracking on the Growth plan." />
 
   <PageHead
     crumbs={[{ name: 'Services', url: '/services/' }, { name: 'SEO', url: '/services/seo/' }]}
-    eyebrow="SEO services, Long Island"
-    title="SEO that gets local customers to find you."
-    lede="Local search engine optimization, including Google Maps and AI search visibility. Every plan starts with a free analysis."
+    eyebrow="SEO company, Long Island"
+    title={`Local SEO for Long Island businesses, from ${money(prices.seoLocal)} a month.`}
+    lede={`Optimize Long Island provides local search engine optimization for Long Island businesses from ${local}. Every plan starts with a free analysis, and we do not guarantee rankings.`}
   >
     <BuildSheet
       slot="aside"
@@ -43,38 +71,53 @@ const description = `Local SEO for Long Island businesses from ${money(prices.se
     />
   </PageHead>
 
-  <PriceGroup id="plans" eyebrow="Packages and prices" heading="Three SEO plans.">
+  <PriceGroup
+    id="plans"
+    eyebrow="Packages and prices"
+    heading="What does local SEO include, and what does it cost?"
+    intro={`Local SEO covers your Google Business Profile, your listings, your pages and two new pieces of content a month, with a monthly report. Growth SEO adds AI answer tracking, link building, review generation and new service and location pages. Larger or more competitive markets are quoted after a free audit.`}
+  >
     {seoPlans.map((p) => <PriceSheet plan={p} />)}
+    <Fragment slot="notes">
+      <p>A press release goes out up to once a quarter on both plans, only when there is real news to share. Compare the plans on our <a class="link" href="/pricing/#seo">SEO prices</a> page, or read <a class="link" href="/blog/how-much-does-local-seo-cost/">what local SEO costs</a> and what each part of the price pays for.</p>
+    </Fragment>
   </PriceGroup>
 
-  <IncludedList
-    heading="What Local SEO includes."
-    items={[
-      'Google Business Profile optimization and weekly posts',
-      'Business listings built, cleaned up and kept consistent',
-      'On-page optimization',
-      'Two new pieces of content a month',
-      'A press release up to once a quarter, when you have news',
-      'A monthly report',
-    ]}
-  />
+  <ProseSection heading="How do you decide what to work on?" eyebrow="Search data" tone="paper">
+    <p>We do not start from a template list of tasks. Each plan begins with research on how people search for what you sell, and the work follows from what that research shows.</p>
+    <p><strong>Demand, measured for your area.</strong> Keyword research uses real monthly search volume, competition difficulty and intent, measured for your own service area and not a national average. A phrase that is popular across the country may mean little on Long Island, and the reverse is also true.</p>
+    <p><strong>Results as your customer sees them.</strong> We check live Google results from your area: who ranks, who appears in the map results, whether an AI Overview appears and which sites it cites. That shows what you are really competing against for each search.</p>
+    <p><strong>Competitor gaps.</strong> On Growth SEO, we look at the searches your competitors rank for that you do not, and at the sites that link to them and not to you. Those gaps become the work list.</p>
+    <p><strong>A conflict check before anything is written.</strong> Every new page or post is checked against the pages your site already has, so new content adds to your site and does not compete with it.</p>
+    <p>AI does the analysis and drafting. A person sets the direction and approves everything that goes out. The full list of what we measure is on <a href="/reporting/">everything we measure</a>, and we do not repeat it here.</p>
+  </ProseSection>
 
-  <IncludedList
-    heading="Growth SEO adds."
-    items={[
-      'Four pieces of content a month',
-      'New service and location pages',
-      'Link building',
-      'Review generation',
-      'Tracking of how your business shows up in AI answers (ChatGPT, Google AI Overviews, Perplexity)',
-      'Competitor tracking',
-      'A quarterly strategy call',
-    ]}
-  />
+  <ProseSection heading="What about Google Maps?" eyebrow="Google Maps">
+    <p>For most local searches, the map results sit above the ordinary listings, so your Google Business Profile matters as much as your website. We optimize the profile and post to it every week.</p>
+    <p>Your business listings are built where they are missing and cleaned up where they are wrong, so your name, address and phone number read the same everywhere. Inconsistent details confuse Google and customers alike. Review generation is part of Growth SEO.</p>
+    <p>We report the results in the terms that matter to a local business: calls, direction requests, website clicks and profile views. For a step-by-step view of the profile work, read our <a href="/blog/google-business-profile-optimization/">Google Business Profile checklist</a>. We also have a page on <a href="/west-islip-ny-seo-company/">SEO in West Islip</a>.</p>
+  </ProseSection>
 
-  <QuoteBand tone="bg" {...testimonials.solar} />
+  <ProseSection heading="Will my business show up in AI answers?" eyebrow="AI answers" tone="paper">
+    <p>Growth SEO tracks how your business shows up in ChatGPT, Google AI Overviews and Perplexity. No one can guarantee that an assistant will name your business, and we do not.</p>
+    <p>Read <a href="/services/ai-search-visibility/">how AI answer tracking works</a> for the method. If you want to understand why a site does not appear in ordinary Google results first, start with <a href="/blog/why-is-my-website-not-showing-up-on-google/">why a site does not show up on Google</a>.</p>
+  </ProseSection>
 
-  <FAQ tone="paper" items={items} />
+  <ProseSection heading="How will I know it is working?" eyebrow="Reporting">
+    <p>You get a monthly report in plain English. It uses your own Google Search Console, Google Analytics and Google Business Profile data, and it lists what we did that month.</p>
+    <p>Each month is compared with the same month a year earlier, because most local businesses are seasonal. A landscaper looks quiet in January whatever the SEO is doing, and a year-over-year comparison accounts for that. Growth SEO also includes a quarterly strategy call.</p>
+    <p>If you are not sure what local SEO is, <a href="/blog/importance-of-local-seo-how-to-rank-your-business-on-google-for-local-customers/">what local SEO is</a> explains it from the beginning. The report itself is described on <a href="/reporting/">how we measure</a>.</p>
+    <Note variant="limits" title="What we do not promise">
+      <ul>
+        <li>No ranking guarantees, and no promised number of calls or leads.</li>
+        <li>No live dashboard. Reporting is monthly, with a quarterly strategy call on Growth SEO.</li>
+      </ul>
+    </Note>
+  </ProseSection>
+
+  <QuoteBand tone="paper" {...testimonials.solar} />
+
+  <FAQ tone="bg" heading="Questions about local SEO." items={items} pricingLink={false} />
 
   <OtherServices current="/services/seo/" />
 

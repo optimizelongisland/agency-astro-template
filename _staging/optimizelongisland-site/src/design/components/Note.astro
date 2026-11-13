@@ -1,0 +1,25 @@
+---
+// A plain boxed note. variant "limits" is the honest "what we do not do or
+// measure" block; "note" is any aside. Slot takes paragraphs and lists.
+interface Props {
+  title?: string;
+  variant?: 'note' | 'limits';
+}
+const { variant = 'note', title = variant === 'limits' ? 'The limits' : undefined } = Astro.props;
+---
+
+<aside class:list={['note', variant]}>
+  {title && <p class="t mono">{title}</p>}
+  <div class="c"><slot /></div>
+</aside>
+
+<style>
+  .note { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 22px 24px; font-size: 17px; line-height: 1.6; color: var(--ink); }
+  .limits { background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--deep); }
+  .t { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px !important; }
+  .c :global(p), .c :global(ul) { margin-bottom: 12px !important; max-width: 62ch; }
+  .c :global(ul) { padding-left: 20px; }
+  .c > :global(:last-child) { margin-bottom: 0 !important; }
+  .c :global(a) { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  @media (max-width: 640px) { .note { padding: 18px 16px; font-size: 16px; } }
+</style>

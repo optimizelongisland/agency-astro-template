@@ -1,0 +1,49 @@
+---
+// Long-form section: eyebrow, H2 (usually a question) and a readable body.
+// Put paragraphs, lists, h3s and links in the slot as plain HTML. Tables,
+// DefTable, StepList and Note can also sit inside the slot.
+interface Props {
+  heading: string;
+  eyebrow?: string;
+  id?: string;
+  tone?: 'bg' | 'paper';
+}
+const { heading, eyebrow, id, tone = 'bg' } = Astro.props;
+---
+
+<section class:list={['ps', { 'section--paper': tone === 'paper' }]} id={id}>
+  <div class="wrap cols">
+    <header class="head">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2>{heading}</h2>
+    </header>
+    <div class="body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ps { padding: 72px 0; scroll-margin-top: calc(var(--header-h) + 16px); }
+  .cols { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 16px 64px; align-items: start; }
+  h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.015em; }
+  .body { font-size: 18px; line-height: 1.7; min-width: 0; }
+  .body :global(p), .body :global(ul), .body :global(ol) { margin-bottom: 20px; max-width: 64ch; }
+  .body :global(ul), .body :global(ol) { padding-left: 22px; }
+  .body :global(li) { margin-bottom: 8px; padding-left: 4px; }
+  .body :global(h3) { font-size: 21px; margin: 32px 0 10px; }
+  .body :global(strong) { font-weight: 600; }
+  .body :global(a:not(.btn)) { color: var(--accent-2); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .body :global(.btn) { margin-bottom: 20px; }
+  .body :global(.def), .body :global(.steps), .body :global(.note) { margin: 28px 0; }
+  .body > :global(:first-child) { margin-top: 0; }
+  .body > :global(:last-child) { margin-bottom: 0; }
+  @media (max-width: 900px) {
+    .ps { padding: 56px 0; }
+    .cols { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  }
+  @media (max-width: 640px) {
+    .ps { padding: 44px 0; }
+    .body { font-size: 17px; line-height: 1.65; }
+  }
+</style>

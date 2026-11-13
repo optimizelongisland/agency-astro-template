@@ -1,34 +1,70 @@
 ---
-import CardPrice from '../../design/components/CardPrice.astro';
 import SiteLayout from '../../design/layouts/SiteLayout.astro';
 import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
 import PageHead from '../../design/components/PageHead.astro';
 import BuildSheet from '../../design/components/BuildSheet.astro';
 import PriceGroup from '../../design/components/PriceGroup.astro';
 import PriceSheet from '../../design/components/PriceSheet.astro';
-import Process from '../../design/components/Process.astro';
-import TechBand from '../../design/components/TechBand.astro';
-import OwnershipBlock from '../../design/components/OwnershipBlock.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import StepList from '../../design/components/StepList.astro';
 import QuoteBand from '../../design/components/QuoteBand.astro';
 import FAQ from '../../design/components/FAQ.astro';
+import RelatedLinks from '../../design/components/RelatedLinks.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import CheckStamp from '../../design/components/CheckStamp.astro';
-import { cardLine, money, prices, websitePlans, carePlans } from '../../design/pricing';
-import { buildSteps, testimonials, faq, launchSheetRows } from '../../design/content';
+import { cardLine, cardPrice, money, prices, websitePlans } from '../../design/pricing';
+import { testimonials, launchSheetRows } from '../../design/content';
 
-const items = [faq.cost, faq.template, faq.time, faq.own, faq.care, faq.wordpress, faq.content, faq.changes, faq.ai];
-const description = `Custom web design for Long Island businesses from ${money(prices.launch)}. Designed and built with AI, reviewed by a person. You own the site.`;
+const wc = (n: number, unit = '') => `${money(n)}${unit} (${cardPrice(n)}${unit} by credit card)`;
+
+const lede = `Optimize Long Island designs custom websites for Long Island businesses at a fixed price: ${wc(prices.launch)} for up to 5 pages and ${wc(prices.growth)} for up to 12 pages. Each site is built with AI and reviewed by a person before launch, and is typically live within 7 business days of receiving your content. You own the site, the content and the domain.`;
+
+const steps = [
+  { title: 'You answer a short questionnaire', text: 'It covers your business, your services and the towns you serve. You also send your logo and photos. A shared folder is fine.' },
+  { title: 'AI designs and builds the site', text: 'Claude, an AI model made by Anthropic, designs and builds your site from your content, your colors and reference sites you like. It is built for your business, not poured into a template.' },
+  { title: 'A person reviews every page', text: 'Someone on our side checks each page before anything goes live. Nothing launches until it has been reviewed.' },
+  { title: 'Launch', text: 'Your site is typically live within 7 business days of receiving your content. Launch includes two rounds of revisions.' },
+];
+
+const items = [
+  {
+    question: 'How can a custom website cost $1,000?',
+    answer: `AI does most of the design and build work that used to take a team weeks, so the labor cost is far lower. A person directs the work and checks every page before launch. A Launch Website is ${wc(prices.launch)}. It is still designed for your business, and you pay for the result, not the hours.`,
+  },
+  {
+    question: 'Is it a template?',
+    answer: 'No. Each site is designed for your business from its own content, your colors and reference sites you like. Claude builds it on Astro, and a person checks every page before it goes live. That makes it custom work rather than a template with your name dropped in.',
+  },
+  {
+    question: 'Do you write the content?',
+    answer: 'It depends on the package. Launch uses your own answers and materials: the short questionnaire, your logo and your photos. Growth includes copywriting from a short interview. Copywriting from scratch is not part of Launch, so if you want us to write your pages, choose the Growth Website.',
+  },
+  {
+    question: 'What if I need changes later?',
+    answer: `Text and photo edits are unlimited on a care plan and done within one business day. A new page is ${wc(prices.extraPage)}, or one new page or blog post every month is included with Care Plus at ${wc(prices.carePlus, ' a month')}.`,
+  },
+  {
+    question: 'Can I pay someone to design my website?',
+    answer: `Yes. Pick from three packages: Launch at ${money(prices.launch)} (${cardPrice(prices.launch)} by credit card), Growth at ${money(prices.growth)} (${cardPrice(prices.growth)}), or a custom build from ${money(prices.customFrom)} (${cardPrice(prices.customFrom)}). Every plan starts with a free analysis, so you can talk through what you need before you decide anything.`,
+  },
+  {
+    question: 'Will AI search find my site?',
+    answer: 'Sites are built with the structured data and clear question-and-answer content that Google AI Overviews, ChatGPT and other assistants read. Nobody can promise that a business will be named in an AI answer. Ongoing visibility work is part of our SEO plans, and we explain it on our AI search page.',
+  },
+];
 ---
 
-<SiteLayout title="Long Island Web Design Company | Optimize Long Island" description={description}>
-  <ServiceSchema serviceName="Web design" description="Custom websites, designed and built with AI and reviewed by a person, at a fixed public price." />
+<SiteLayout
+  title="Long Island Web Design Company | Optimize Long Island"
+  description="Custom websites for Long Island businesses: $1,000 for up to 5 pages, $2,500 for up to 12. Built with AI, reviewed by a person, and yours to keep."
+>
+  <ServiceSchema serviceName="Web design" description="Custom websites for Long Island businesses, designed and built with AI and reviewed by a person, at a fixed public price." />
 
   <PageHead
     crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Web design', url: '/services/long-island-web-design-company/' }]}
     eyebrow="Long Island web design"
-    title="Custom web design at a fixed price."
-    lede="Custom websites, designed and built with AI and reviewed by a person, at a fixed public price. Typically live within 7 business days of receiving your content."
+    title="Long Island web design at a fixed, public price."
+    lede={lede}
   >
     <BuildSheet
       slot="aside"
@@ -41,73 +77,71 @@ const description = `Custom web design for Long Island businesses from ${money(p
     />
   </PageHead>
 
-  <PriceGroup id="websites" eyebrow="Packages and prices" heading="Pick a package." intro={`Extra pages are ${money(prices.extraPage)} each.`} introCard={`${cardLine(prices.extraPage)} for an extra page`}>
+  <PriceGroup
+    id="websites"
+    eyebrow="Packages and prices"
+    heading="How much does a website cost?"
+    intro={`Extra pages are ${money(prices.extraPage)} each (${cardPrice(prices.extraPage)} by credit card). Every price is fixed and public. The full list is on the pricing page.`}
+    more={{ href: '/pricing/#websites', text: 'See the full price list' }}
+  >
     {websitePlans.map((p) => <PriceSheet plan={p} />)}
   </PriceGroup>
 
-  <section class="section section--paper">
-    <div class="wrap two">
-      <div>
-        <p class="eyebrow">For a Launch Website</p>
-        <h2>What you provide.</h2>
-        <ul class="plain">
-          <li><CheckStamp size={18} /><span>Answers to a short questionnaire</span></li>
-          <li><CheckStamp size={18} /><span>Your logo</span></li>
-          <li><CheckStamp size={18} /><span>Photos, or a shared folder of them</span></li>
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow">Not included</p>
-        <h2 class="muted">Not included in Launch.</h2>
-        <ul class="plain muted">
-          <li>Copywriting from scratch</li>
-          <li>Logo design</li>
-          <li>Photography</li>
-          <li>E-commerce</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <ProseSection heading="What do you need from me?" eyebrow="What you provide" tone="paper">
+    <p>For a Launch Website you give us three things: answers to a short questionnaire, your logo, and your photos. A shared folder of photos is fine. We build from what you send, so the more specific your answers are, the more the site sounds like your business.</p>
+    <p>Launch does not include copywriting from scratch, logo design, photography or e-commerce. If you have no logo or photos yet, tell us in the free analysis and we will say plainly what that means for your package.</p>
+    <p>The Growth Website adds copywriting from a short interview, so you do not have to write the pages yourself. It also includes a page for each service and each town you serve, and a blog set up with three starter posts. If you need online booking, customer logins, databases or e-commerce, that is a custom build, quoted from {money(prices.customFrom)} ({cardPrice(prices.customFrom)} by credit card).</p>
+  </ProseSection>
 
-  <section class="section" id="process">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">How it works</p>
-          <h2>How your site gets built, step by step.</h2>
-        </div>
-      </div>
-      <Process steps={buildSteps} />
-    </div>
-  </section>
+  <ProseSection heading="How does the build work, step by step?" eyebrow="The process">
+    <p>The process has four steps. The first is yours, and the rest are ours.</p>
+    <StepList steps={steps} />
+    <p>The seven business days start when we have your content, meaning your questionnaire answers, logo and photos. Sending them promptly is the quickest way to get live. Launch includes two rounds of revisions, so you can ask for changes after you see the site.</p>
+  </ProseSection>
 
-  <TechBand expanded />
+  <ProseSection heading="Why does the technology matter to you?" eyebrow="How it is built" tone="paper" id="technology">
+    <p>You do not need to care about frameworks. You do need to care about what they mean for your site: it loads quickly, it is hard to break, and nothing you pay for can be lost. This is how we build, and what each part does for you.</p>
+    <ul>
+      <li><strong>Speed.</strong> Your site is built on Astro, a modern framework that ships fast, lightweight pages. Pages that load quickly are easier for visitors to use on a phone and easier for Google to read.</li>
+      <li><strong>Security.</strong> There is no WordPress, no plugins to break or get hacked, and no page builder bloat. Hosting runs on Vercel's global network.</li>
+      <li><strong>Safety.</strong> The code is stored and versioned on GitHub, so every change is saved and can be rolled back if something goes wrong.</li>
+      <li><strong>Quality.</strong> Claude, an AI model made by Anthropic, does the heavy lifting on design and build. A person directs the work and reviews every page before launch.</li>
+      <li><strong>Built to be found.</strong> Every Launch site includes on-page SEO basics and structured data, and has Google Analytics and Search Console set up. Ongoing <a href="/services/seo/">local SEO</a> builds on that, and we explain <a href="/services/ai-search-visibility/">getting named in AI answers</a> on its own page.</li>
+    </ul>
+    <p>Every Launch site is mobile-first, meaning it is designed to work well on a phone before it is adapted to a larger screen.</p>
+  </ProseSection>
 
-  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us, and it starts on the day you buy.">
-    {carePlans.map((p) => <PriceSheet plan={p} />)}
-    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
-  </PriceGroup>
+  <ProseSection heading="Can you move my existing site without losing my rankings?" eyebrow="Moving a site">
+    <p>Yes, with the Growth Website. It includes a move from your old site with redirects, so the Google rankings your old pages have earned carry over to the new ones. A redirect tells Google that an old address now lives at a new one.</p>
+    <p>If your current site is on WordPress, the same applies. Tell us the address in the lead form below and we will look at it in your free analysis.</p>
+  </ProseSection>
 
-  <OwnershipBlock size="regular" />
+  <ProseSection heading="What happens after launch?" eyebrow="Care plans" tone="paper">
+    <p>A care plan is required to host with us, and it starts on the day you buy, not at launch. There are two.</p>
+    <ul>
+      <li><strong>Care:</strong> {wc(prices.care, ' a month')}. Hosting, a security certificate, software kept up to date, unlimited text and photo edits, and a monthly report.</li>
+      <li><strong>Care Plus:</strong> {wc(prices.carePlus, ' a month')}. Everything in Care, plus one new page or blog post every month and a quarterly review call.</li>
+    </ul>
+    <p>You can <a href="/services/website-care-plans/">see what each care plan covers</a> on its own page.</p>
+  </ProseSection>
+
+  <ProseSection heading="Do I own my website?" eyebrow="Ownership">
+    <p>Yes. The site, the content and the domain are yours. If you leave, you take everything with you. There is no lock-in.</p>
+  </ProseSection>
 
   <QuoteBand tone="paper" {...testimonials.tent} />
 
   <FAQ items={items} />
 
+  <RelatedLinks
+    heading="Further reading on web design."
+    items={[
+      { href: '/blog/how-much-does-a-website-cost/', title: 'What a small business website costs', text: 'The price ranges and what drives them.' },
+      { href: '/blog/how-to-design-a-website-for-your-local-business/', title: 'How to plan a website for a local business', text: 'What to decide before any design starts.' },
+    ]}
+  />
+
   <OtherServices current="/services/long-island-web-design-company/" tone="paper" />
 
-  <ContactSection heading="Get a free web design analysis." />
+  <ContactSection heading="Get my free web design analysis." />
 </SiteLayout>
-
-<style>
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-  .two h2 { margin-bottom: 28px; font-size: clamp(28px, 3.4vw, 36px); }
-  .plain { list-style: none; }
-  .plain li { display: flex; gap: 14px; align-items: flex-start; border-top: 1px solid var(--line); padding: 18px 0; font-size: 18px; }
-  .plain li :global(svg) { margin-top: 3px; }
-  .plain.muted li { color: var(--muted); }
-  .muted { color: var(--muted); }
-  h2.muted { color: var(--ink); }
-  .after { text-align: center; margin-top: 8px; font-size: 17px; }
-  @media (max-width: 900px) { .two { grid-template-columns: 1fr; gap: 48px; } }
-</style>

@@ -1,0 +1,158 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import ProseSection from '../design/components/ProseSection.astro';
+import DefTable from '../design/components/DefTable.astro';
+import Note from '../design/components/Note.astro';
+import QuoteBand from '../design/components/QuoteBand.astro';
+import FAQ from '../design/components/FAQ.astro';
+import RelatedLinks from '../design/components/RelatedLinks.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { testimonials } from '../design/content';
+
+const measures = [
+  {
+    label: 'Search performance',
+    text: 'Clicks, impressions and average position for every search and every page, from your own Google Search Console data, compared with the same month a year earlier.',
+  },
+  {
+    label: 'Website analytics',
+    text: 'Visits, where visitors came from, and leads: form submissions, and tracked calls where call tracking is set up.',
+  },
+  {
+    label: 'Google Business Profile',
+    text: 'Calls, direction requests, website clicks and views from your profile.',
+  },
+  {
+    label: 'Keyword research',
+    text: 'Monthly search volume, competition difficulty and intent for each keyword, measured for your own service area and not a national average.',
+  },
+  {
+    label: 'Search results as a customer sees them',
+    text: 'We check results from your own area: who ranks, who is in the map results, whether an AI Overview appears, and which sites it cites.',
+  },
+  {
+    label: 'AI answer tracking',
+    text: 'On the Growth SEO plan, a fixed set of customer questions is put to AI assistants on a schedule, and we record whether your business is named.',
+    href: '/services/ai-search-visibility/',
+    linkText: 'How AI answer tracking works.',
+  },
+  {
+    label: 'Competitor analysis',
+    text: 'Which searches competitors rank for that you do not, and which sites link to them and not to you.',
+  },
+  {
+    label: 'Backlink monitoring',
+    text: 'New and lost links, the sites that link to you, link quality and anchor text.',
+  },
+  {
+    label: 'Technical audits',
+    text: 'Page speed and Core Web Vitals, crawling and indexing, mobile usability, structured data, and whether AI crawlers are allowed to read your site.',
+    href: '/blog/why-is-my-website-not-showing-up-on-google/',
+    linkText: 'How to check indexing in Search Console.',
+  },
+  {
+    label: 'Ad accounts',
+    text: 'If you run ads with us, spend, cost per lead and wasted search terms are checked weekly, and the ad platform\'s conversion count is checked against the leads you really received.',
+    href: '/services/ppc/',
+    linkText: 'What we check in your ad account.',
+  },
+];
+
+const items = [
+  {
+    question: 'What is SEO reporting?',
+    answer: 'SEO reporting is a regular summary of how a website performs in search: how many people saw it, how many clicked, which searches and pages brought them, and how many became calls or leads. Ours is a monthly plain-English report that also lists what we did that month, compared with the same month a year earlier.',
+  },
+  {
+    question: 'How do I know if SEO is working?',
+    answer: 'Compare your calls and form leads with the same month last year, then check the search numbers behind them: clicks, impressions and average position. If leads and clicks are rising against last year while the work continues, it is helping. Nobody can promise a ranking, so we report what the numbers show.',
+  },
+  {
+    question: 'Do I get access to my own data?',
+    answer: 'Google Analytics and Search Console setup is included with every Launch website, and the search and visit numbers in your report come from them. The report is sent to you each month, and it also includes your Google Business Profile results. If you want to see the source behind any figure in a report, ask us.',
+  },
+  {
+    question: 'How often do I get a report?',
+    answer: 'Monthly, on every plan, with a quarterly call on Growth SEO and Care Plus only. The monthly report is in plain English and covers the measures on this page and what was done that month. It is not a live dashboard, so the figures update once a month. The quarterly call is a strategy call on Growth SEO and a review call on Care Plus.',
+  },
+];
+---
+
+<SiteLayout
+  title="SEO Reporting and Measurement | Optimize Long Island"
+  description="What Optimize Long Island measures for our clients, from Search Console and Analytics to AI answers and ad spend, and what the monthly report shows."
+>
+  <PageHead
+    crumbs={[{ name: 'How we measure', url: '/reporting/' }]}
+    eyebrow="How we measure"
+    title="What we measure, and what you see each month."
+    lede="A monthly report in plain English on every plan, and a quarterly call on Growth SEO and Care Plus. The numbers come from your own Google data and from search research measured for your own service area."
+  />
+
+  <ProseSection heading="What will I get each month?" eyebrow="The report">
+    <p>Every SEO, ads and care plan client gets a monthly report in plain English. It shows the numbers listed further down this page and what we did that month. The numbers come from your own Google data (Search Console, Analytics and Google Business Profile), plus search research measured for your own service area.</p>
+    <p>In practice, a monthly report answers four plain questions:</p>
+    <ul>
+      <li><strong>Did more people find you?</strong> Search clicks, impressions and average position, against the same month last year.</li>
+      <li><strong>Did they come to the site?</strong> Visits, and where those visitors came from.</li>
+      <li><strong>Did they contact you?</strong> Form submissions and, where call tracking is set up, tracked calls, plus calls, direction requests and website clicks from your Google Business Profile.</li>
+      <li><strong>What did we do?</strong> The work completed that month, listed in plain English.</li>
+    </ul>
+    <p>A quarterly call is included on two plans only. On <a href="/services/seo/">our SEO plans</a>, Growth SEO includes a quarterly strategy call. On Care Plus, you get a quarterly review call. Every <a href="/services/website-care-plans/">care plan</a> also includes a monthly report on visitors and Google searches.</p>
+    <p>Reporting is monthly. There is no live dashboard, so the figures do not change between reports.</p>
+    <p>AI does the analysis and drafting behind the report. A person decides what to do about it and approves what goes out, including every change to an ad account.</p>
+  </ProseSection>
+
+  <ProseSection heading="Why compare with last year instead of last month?" eyebrow="Seasons" tone="paper">
+    <p>Most local businesses are seasonal. A business that is busy in spring will look as if it is failing in winter if the only comparison is the month before.</p>
+    <p>So the report sets each month's clicks, impressions and positions against the same month a year earlier. That shows whether the business is growing, not whether the calendar changed. A month-to-month comparison misleads, and a year-over-year one does not.</p>
+  </ProseSection>
+
+  <ProseSection heading="What do you measure?" eyebrow="The measures">
+    <p>These are the measures we use. Which ones appear in your report depends on your plan and on what you run with us. Each row says what is measured and where the number comes from.</p>
+    <DefTable items={measures} />
+    <p>AI does the analysis across all of these. The numbers are only useful if someone acts on them, so a person reads each report before it is sent and decides what to change.</p>
+  </ProseSection>
+
+  <ProseSection heading="How do you make sure new content does not compete with my existing pages?" eyebrow="Conflict check" tone="paper">
+    <p>Before anything is written, every new page or post is checked against the pages your site already has.</p>
+    <p>The check is there so that new content adds to what the site already says instead of competing with it.</p>
+  </ProseSection>
+
+  <ProseSection heading="Which KPIs matter for a local business?" eyebrow="KPIs">
+    <p>A KPI is a number you use to judge whether the work is paying off. For a local business, we put them in this order.</p>
+    <ol>
+      <li><strong>Calls and form leads.</strong> These are the customers. Leads come from form submissions, and from tracked calls where call tracking is set up.</li>
+      <li><strong>Google Business Profile actions.</strong> Calls, direction requests and website clicks from your profile show people acting on what they found.</li>
+      <li><strong>Search clicks and positions.</strong> Clicks, impressions and average position tell you whether more people are finding you, and which searches and pages bring them.</li>
+    </ol>
+    <p>Positions come last on purpose. A higher position is a means to more calls, not the goal. If you are weighing what to spend, <a href="/blog/how-much-does-local-seo-cost/">what local SEO costs each month</a> explains what the work includes.</p>
+  </ProseSection>
+
+  <ProseSection heading="What do you not measure yet?" eyebrow="Limits" tone="paper">
+    <Note variant="limits">
+      <ul>
+        <li>There is no real-time or live dashboard. Reporting is monthly, with a quarterly call on Growth SEO and Care Plus.</li>
+        <li>We do not quote a count of keywords or data points tracked. What matters is whether the measures above are moving.</li>
+        <li>We report what happened. We do not promise a ranking, a number of leads or a place in an AI answer.</li>
+      </ul>
+    </Note>
+  </ProseSection>
+
+  <QuoteBand tone="bg" {...testimonials.solar} />
+
+  <FAQ tone="paper" heading="Questions about reporting." items={items} pricingLink={false} />
+
+  <RelatedLinks
+    heading="Where each measure is used."
+    items={[
+      { href: '/services/seo/', title: 'Local SEO plans', text: 'The monthly work the report describes.' },
+      { href: '/services/ai-search-visibility/', title: 'AI search visibility', text: 'How we track whether AI assistants name your business.' },
+      { href: '/services/ppc/', title: 'Google Ads management', text: 'What we check in your ad account each week.' },
+      { href: '/blog/why-is-my-website-not-showing-up-on-google/', title: 'Why is my website not showing up on Google?', text: 'How to check indexing in Search Console.' },
+    ]}
+  />
+
+  <ContactSection />
+</SiteLayout>

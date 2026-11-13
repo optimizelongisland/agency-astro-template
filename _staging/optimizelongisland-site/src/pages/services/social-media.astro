@@ -6,36 +6,50 @@ import BuildSheet from '../../design/components/BuildSheet.astro';
 import PriceGroup from '../../design/components/PriceGroup.astro';
 import PriceSheet from '../../design/components/PriceSheet.astro';
 import BundleBar from '../../design/components/BundleBar.astro';
-import IncludedList from '../../design/components/IncludedList.astro';
-import QuoteBand from '../../design/components/QuoteBand.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import DefTable from '../../design/components/DefTable.astro';
 import FAQ from '../../design/components/FAQ.astro';
 import OtherServices from '../../design/components/OtherServices.astro';
 import ContactSection from '../../design/components/ContactSection.astro';
-import { adsCardLine, money, prices, socialAdsPlan } from '../../design/pricing';
-import { testimonials, faq } from '../../design/content';
+import { adsCardLine, cardPrice, money, prices, socialAdsPlan } from '../../design/pricing';
+
+const wc = (n: number, unit = '') => `${money(n)}${unit} (${cardPrice(n)}${unit} by credit card)`;
+
+const lede = `Optimize Long Island manages Facebook and Instagram ads for Long Island businesses. Setup is ${wc(prices.adsSetup)} one time and covers pixel and conversion tracking, audiences and your first set of ads. Management is ${wc(prices.adsManagement, ' a month')} for ad budgets up to ${money(prices.adsBudgetCap)} a month, and for larger budgets the fee is ${prices.adsPercent}% of ad spend, never less than ${money(prices.adsManagement)}. Management includes new ad creative every month. Ad spend is paid directly to Meta.`;
+
+const setup = [
+  { label: 'Pixel and conversion tracking', text: 'Tracking on your site that records the actions you want from an ad, so results are counted rather than guessed.' },
+  { label: 'Audiences', text: 'The groups of people your ads are shown to, set up for your business.' },
+  { label: 'The first set of ads', text: 'Your first ads, written and designed so the account launches with something to run.' },
+];
 
 const items = [
-  faq.adspend,
   {
-    question: 'What does it cost?',
-    answer: `Setup is ${money(prices.adsSetup)} one time. Management is ${money(prices.adsManagement)} a month for ad budgets up to ${money(prices.adsBudgetCap)} a month. Above that, ${prices.adsPercent}% of ad spend.`,
+    question: 'How much should I spend on Facebook ads?',
+    answer: `There is no fixed answer. Most local businesses start between ${money(prices.adSpendStartLow)} and ${money(prices.adSpendStartHigh)} a month in ad spend. That is paid directly to Meta and is separate from our management fee. We talk through the right amount for your business in the free consultation.`,
   },
   {
-    question: 'Who pays Meta for the ads?',
-    answer: 'You do, directly to Meta. Ad spend is separate from the management fee.',
+    question: 'Do you make the ads?',
+    answer: 'Yes. New ad creative every month is included in management, so the ads your audience sees are refreshed rather than left to run unchanged. Setup also includes your first set of ads. Ad spend, the money Meta charges to show them, is paid separately and directly to Meta.',
+  },
+  {
+    question: 'Can I run Google Ads and social ads together?',
+    answer: `Yes. Google Ads and social ads together are ${wc(prices.adsBundle, ' a month')}. Ad spend for both is paid directly to Google and Meta and is separate from that fee. If you are not sure which to start with, the free analysis looks at your business and helps you decide.`,
   },
 ];
-const description = `Facebook and Instagram ads management for Long Island businesses: ${money(prices.adsManagement)} a month plus ${money(prices.adsSetup)} setup. New creative monthly.`;
 ---
 
-<SiteLayout title="Social Media Advertising Long Island | Optimize Long Island" {description}>
-  <ServiceSchema serviceName="Social media ads management" description="Facebook and Instagram ads management for local businesses." />
+<SiteLayout
+  title="Social Media Ads on Long Island | Optimize Long Island"
+  description="Facebook and Instagram ads managed for Long Island businesses: $500 setup and $500 a month for budgets up to $3,000, with new ad creative every month."
+>
+  <ServiceSchema serviceName="Social media ads management" description="Facebook and Instagram ads management for Long Island businesses, with new ad creative every month." />
 
   <PageHead
     crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Social media ads', url: '/services/social-media/' }]}
-    eyebrow="Social media advertising, Long Island"
-    title="Facebook and Instagram ads, managed for you."
-    lede="We set up and manage your Facebook and Instagram ads. Setup covers pixel and conversion tracking, audiences and your first set of ads."
+    eyebrow="Social media ads"
+    title="Facebook and Instagram ads, managed for Long Island businesses."
+    lede={lede}
   >
     <BuildSheet
       slot="aside"
@@ -45,9 +59,8 @@ const description = `Facebook and Instagram ads management for Long Island busin
         { label: 'Setup', value: `${money(prices.adsSetup)} one time` },
         { label: 'Management', value: `${money(prices.adsManagement)} a month` },
         { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
-        { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
+        { label: 'Larger budgets', value: `${prices.adsPercent}% of ad spend, never less than ${money(prices.adsManagement)}` },
         { label: 'Ad spend', value: 'paid directly to Meta' },
-        { label: 'New ad creative', value: 'every month' },
       ]}
       price={`${money(prices.adsManagement)} a month`}
       unit={`+ ${money(prices.adsSetup)} setup`}
@@ -55,18 +68,46 @@ const description = `Facebook and Instagram ads management for Long Island busin
     />
   </PageHead>
 
-  <PriceGroup id="plans" cols={1} eyebrow="Fees" heading="Setup and management fees.">
+  <PriceGroup
+    id="plans"
+    cols={1}
+    eyebrow="Fees"
+    heading="What does social media ads management cost?"
+    intro="A one-time setup and a monthly management fee. New ad creative every month is part of management."
+    more={{ href: '/pricing/#social-ads', text: 'Social ads prices' }}
+  >
     <PriceSheet plan={socialAdsPlan} />
     <BundleBar slot="notes" />
   </PriceGroup>
 
-  <IncludedList heading="What you get." items={['Pixel and conversion tracking', 'Audiences', 'The first set of ads', 'New ad creative every month']} />
+  <ProseSection heading="Is this ads or posting?" eyebrow="What this is" tone="paper">
+    <p>This is ads. We run paid Facebook and Instagram campaigns that show your business to people in the places you serve.</p>
+  </ProseSection>
 
-  <QuoteBand tone="bg" {...testimonials.tent} />
+  <ProseSection heading="What do you set up first?" eyebrow="Setup">
+    <p>Setup is {wc(prices.adsSetup)}, paid once. Before an ad runs, three things are put in place.</p>
+    <DefTable items={setup} />
+  </ProseSection>
 
-  <FAQ tone="paper" items={items} />
+  <ProseSection heading="How do you keep the ads working?" eyebrow="Ongoing work" tone="paper">
+    <p>Ads wear out. People see the same picture and headline too often and stop noticing it. Here is how that is kept in check.</p>
+    <ul>
+      <li><strong>New ad creative every month.</strong> Fresh ads are part of management, not an extra.</li>
+      <li><strong>Weekly account check.</strong> Each week we check spend and cost per lead.</li>
+      <li><strong>Reported conversions against real leads.</strong> Meta reports a conversion count. We compare it with the leads your business actually received.</li>
+      <li><strong>A person approves every change.</strong> AI does the analysis, and a person approves every change to the ad account.</li>
+    </ul>
+    <p>You see the results in a monthly report. <a href="/reporting/">What we report each month</a> lists the measures.</p>
+  </ProseSection>
 
-  <OtherServices current="/services/social-media/" />
+  <ProseSection heading="Should I run Facebook ads or Google Ads first?" eyebrow="Where to start">
+    <p>The two reach different people. <a href="/services/ppc/">Google Ads management</a> puts your business in front of people who are already searching for what you sell. Social ads put it in front of people who are not searching yet, but who might want it.</p>
+    <p>Which to start with depends on your business, and the free analysis is where we decide. You can also run both together, at {wc(prices.adsBundle, ' a month')} for the two.</p>
+  </ProseSection>
+
+    <FAQ items={items} />
+
+  <OtherServices current="/services/social-media/" tone="paper" />
 
   <ContactSection heading="Get a free social ads analysis." />
 </SiteLayout>

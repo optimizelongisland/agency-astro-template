@@ -30,6 +30,7 @@ const {
     </div>
     <div class="contact-card">
       <LeadForm buttonLabel={leadButton} extraFields={leadFields} id={id} />
+      <p class="privacy-line"><a href="/privacy/">How we handle what you send: privacy policy.</a></p>
     </div>
   </div>
 </section>
@@ -48,6 +49,8 @@ const {
     --field-bg: #ffffff; --field-border: #7A8D9B; --field-radius: 8px; --field-padding: 13px 14px;
     --label-size: 14px; --label-weight: 600; --form-gap: 18px;
   }
+  .privacy-line { margin: 16px 0 0; font-size: 14px; color: var(--muted); }
+  .privacy-line a { text-decoration: underline; text-underline-offset: 2px; padding: 6px 0; display: inline-block; }
   .contact-card :global(.btn) { width: 100%; justify-content: center; }
   @media (max-width: 900px) { .cols { grid-template-columns: 1fr; gap: 32px; } }
   @media (max-width: 640px) { .contact-card { padding: 24px 20px; } }

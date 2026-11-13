@@ -5,6 +5,7 @@ import PriceGroup from '../design/components/PriceGroup.astro';
 import PriceSheet from '../design/components/PriceSheet.astro';
 import BundleBar from '../design/components/BundleBar.astro';
 import CardPrice from '../design/components/CardPrice.astro';
+import RelatedLinks from '../design/components/RelatedLinks.astro';
 import FAQ from '../design/components/FAQ.astro';
 import ContactSection from '../design/components/ContactSection.astro';
 import { cardLine, money, prices, websitePlans, carePlans, seoPlans, googleAdsPlan, socialAdsPlan } from '../design/pricing';
@@ -20,14 +21,14 @@ const chips = [
 ---
 
 <SiteLayout
-  title="Pricing | Optimize Long Island"
-  description={`Every price, up front. Websites from ${money(prices.launch)}, care plans from ${money(prices.care)} a month, SEO from ${money(prices.seoLocal)} a month, and ads management.`}
+  title="Prices for Websites, SEO and Ads | Optimize Long Island"
+  description={`Every Optimize Long Island price in one place: websites from ${money(prices.launch)}, care plans from ${money(prices.care)} a month, SEO from ${money(prices.seoLocal)} a month and ads management.`}
 >
   <PageHead
     crumbs={[{ name: 'Pricing', url: '/pricing/' }]}
     eyebrow="Pricing"
     title="Every price, up front."
-    lede="Fixed prices for websites. Monthly prices for care, SEO and ads. Every plan starts with a free analysis."
+    lede="Fixed prices for websites. Monthly prices for care, SEO and ads. Every plan starts with a free analysis. Listed prices are for check, cash or bank transfer, and the credit card price is shown beside each."
   >
     <ul class="chips">
       {chips.map(([l, h]) => <li><a href={h}>{l}</a></li>)}
@@ -53,7 +54,7 @@ const chips = [
     </div>
   </section>
 
-  <PriceGroup id="websites" eyebrow="Websites" heading="Fixed-price websites.">
+  <PriceGroup id="websites" eyebrow="Websites" heading="Fixed-price websites." more={{ href: '/services/long-island-web-design-company/', text: 'Web design' }}>
     {websitePlans.map((p) => <PriceSheet plan={p} />)}
     <div slot="notes" class="notes">
       <div>
@@ -66,22 +67,32 @@ const chips = [
     </div>
   </PriceGroup>
 
-  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us, and it starts on the day you buy.">
+  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us, and it starts on the day you buy." more={{ href: '/services/website-care-plans/', text: 'Website care plans' }}>
     {carePlans.map((p) => <PriceSheet plan={p} />)}
     <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.<CardPrice text={cardLine(prices.careYearly)} /></p>
   </PriceGroup>
 
-  <PriceGroup id="seo" eyebrow="SEO" heading="Monthly SEO plans.">
+  <PriceGroup id="seo" eyebrow="SEO" heading="Monthly SEO plans." more={{ href: '/services/seo/', text: 'Local SEO' }}>
     {seoPlans.map((p) => <PriceSheet plan={p} />)}
   </PriceGroup>
 
-  <PriceGroup id="ads" tone="paper" cols={2} eyebrow="Ads management" heading="Google Ads and social ads.">
+  <PriceGroup id="ads" tone="paper" cols={2} eyebrow="Ads management" heading="Google Ads and social ads." more={[{ href: '/services/ppc/', text: 'Google Ads management' }, { href: '/services/social-media/', text: 'Facebook and Instagram ads' }]}>
     <PriceSheet plan={googleAdsPlan} />
     <PriceSheet plan={socialAdsPlan} />
     <Fragment slot="notes"><BundleBar /></Fragment>
   </PriceGroup>
 
   <FAQ heading="Pricing questions." items={[faq.pay, faq.cost, faq.care, faq.changes, faq.adspend, faq.wordpress]} pricingLink={false} />
+
+  <RelatedLinks
+    heading="Questions about cost?"
+    eyebrow="Cost guides"
+    items={[
+      { href: '/blog/how-much-does-a-website-cost/', title: 'What a small business website costs', text: 'What changes the price, and what each package buys.' },
+      { href: '/blog/how-much-does-local-seo-cost/', title: 'What local SEO costs each month', text: 'What the work includes at each plan.' },
+      { href: '/blog/how-much-does-google-ads-cost/', title: 'How Google Ads costs work', text: 'Ad spend and the management fee, explained.' },
+    ]}
+  />
 
   <ContactSection />
 </SiteLayout>

@@ -38,7 +38,7 @@ const current = (href: string) => path === href || (href !== '/' && path.startsW
   .site-header { position: sticky; top: 0; z-index: 20; background: var(--deep); border-bottom: 1px solid var(--line-deep); color: var(--on-deep); }
   .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--header-h); }
   .brand { display: inline-flex; padding: 8px 0; }
-  .desktop-nav ul { display: flex; gap: 28px; list-style: none; }
+  .desktop-nav ul { display: flex; gap: 24px; list-style: none; }
   .desktop-nav a { font-size: 15px; font-weight: 500; color: var(--on-deep); padding: 6px 0; display: inline-block; border-bottom: 2px solid transparent; }
   .desktop-nav a:hover { color: var(--accent); }
   .desktop-nav a[aria-current='page'] { border-bottom-color: var(--accent); }
@@ -56,7 +56,7 @@ const current = (href: string) => path === href || (href !== '/' && path.startsW
   .mobile-nav li:last-child { border: 0; padding-top: 24px; }
   .mobile-nav .btn { width: 100%; }
 
-  @media (max-width: 1079px) {
+  @media (max-width: 1199px) {
     .desktop-nav { display: none; }
     .menu-toggle { display: flex; }
     .site-header.is-open .mobile-nav { display: block; }

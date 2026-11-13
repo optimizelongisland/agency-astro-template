@@ -231,7 +231,7 @@ export const seoPlans: Plan[] = [
 
 const adSpecs = (who: string): Row[] => [
   { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
-  { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
+  { label: 'Larger budgets', value: `${prices.adsPercent}% of ad spend, never less than ${money(prices.adsManagement)}` },
   { label: 'Ad spend', value: `paid directly to ${who}` },
 ];
 const adFees = [

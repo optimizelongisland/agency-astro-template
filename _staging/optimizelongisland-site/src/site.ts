@@ -12,7 +12,7 @@ export const business = {
   city: 'West Islip',
   region: 'NY',
   postalCode: '11795',
-  areaServed: ['Long Island', 'Suffolk County', 'Nassau County', 'New York'],
+  areaServed: ['Long Island', 'Suffolk County', 'Nassau County'],
 
   // Full URLs for every real profile this business has (Facebook, Instagram,
   // Google Business Profile, Yelp, LinkedIn). Tells Google and AI engines that

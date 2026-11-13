@@ -1,0 +1,30 @@
+---
+// Numbered method steps, stacked. For a method of any length; Process.astro
+// stays the four-step horizontal strip. Use inside ProseSection or alone.
+interface Props {
+  steps: { title: string; text: string }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="steps">
+  {
+    steps.map((s, i) => (
+      <li>
+        <span class="n mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .steps { list-style: none; padding: 0 !important; border-top: 1px solid var(--line); }
+  li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding: 22px 0; margin: 0 !important; border-bottom: 1px solid var(--line); }
+  .n { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); font-size: 14px; color: var(--ink); }
+  h3 { font-size: 20px !important; margin: 0 0 6px !important; }
+  p { margin: 0 !important; font-size: 16px; color: var(--muted); max-width: 58ch; line-height: 1.6; }
+</style>

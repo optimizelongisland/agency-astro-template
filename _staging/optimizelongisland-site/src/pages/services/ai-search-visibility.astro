@@ -1,0 +1,128 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import ProseSection from '../../design/components/ProseSection.astro';
+import StepList from '../../design/components/StepList.astro';
+import Note from '../../design/components/Note.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import RelatedLinks from '../../design/components/RelatedLinks.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { cardPrice, money, prices, seoPlans } from '../../design/pricing';
+
+const growth = `${money(prices.seoGrowth)} a month (${cardPrice(prices.seoGrowth)} by credit card)`;
+const local = `${money(prices.seoLocal)} a month (${cardPrice(prices.seoLocal)} by credit card)`;
+
+const steps = [
+  { title: 'A fixed set of customer questions', text: 'We write the questions real customers ask when they are looking for what you sell, worded for your service area. This is the set we use every time.' },
+  { title: 'Put to ChatGPT, Google AI Overviews and Perplexity', text: 'The same questions are put to ChatGPT, Google AI Overviews and Perplexity again and again on a schedule, not once. A single answer proves little, because assistants can word things differently from one day to the next.' },
+  { title: 'Recorded each time', text: 'For every answer we record whether your business is named, which competitors are named instead, and which sources the answer cites. The cited sources show where an assistant is getting its information.' },
+  { title: 'The set stays the same', text: 'Because the questions do not change, one round of answers can be compared with the next. If your business starts to be named, or stops, the record shows it.' },
+];
+
+const items = [
+  {
+    question: 'Does AI do SEO?',
+    answer: 'In our work, yes and no. AI does the analysis and the drafting, which is how we can look at far more search data than a person could read. A person sets the direction and approves everything that goes out. Nothing is published, and no change is made, without a person checking it first.',
+  },
+  {
+    question: 'How is this different from regular SEO?',
+    answer: 'The foundations are the same: a sound site, a Google Business Profile, consistent listings, reviews and useful content. The difference is that we also track the answers themselves. A fixed set of customer questions is put to AI assistants on a schedule, so you can see whether your business is named.',
+  },
+  {
+    question: 'Which AI assistants do you track?',
+    answer: 'Growth SEO tracks how your business shows up in ChatGPT, Google AI Overviews and Perplexity. We also check live Google results from your area, including whether an AI Overview appears and which sites it cites. Ask us during your free analysis if you want to know more about what is covered.',
+  },
+  {
+    question: 'How soon will my business show up in AI answers?',
+    answer: 'We cannot say, and no honest agency can. Whether an assistant names a business depends on the assistant, the question and what it can read about you. What we can do is ask the same questions every period, so any change, good or bad, is recorded and you can see it.',
+  },
+  {
+    question: 'Will my website be readable by AI assistants?',
+    answer: 'We build every website with structured data and clear question-and-answer content, which are the things these systems read. Technical audits also check whether AI crawlers are allowed to read your site, because a setting that blocks them can keep a good site out of the answers.',
+  },
+];
+---
+
+<SiteLayout
+  title="AI Search Visibility on Long Island | Optimize Long Island"
+  description="How we help Long Island businesses get named in answers from ChatGPT, Google AI Overviews and Perplexity, and how we track those answers on a schedule."
+>
+  <ServiceSchema serviceName="AI search visibility" description="Work to get a business named and its site cited in AI answers from Google AI Overviews, ChatGPT and Perplexity, with tracking of those answers on a schedule on the Growth SEO plan." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'AI search visibility', url: '/services/ai-search-visibility/' }]}
+    eyebrow="AI search visibility"
+    title="Getting your business into AI answers, and tracking whether it is there."
+    lede={`AI search visibility is whether your business is named, and your site cited, when someone asks an AI assistant the questions your customers ask. We work on it as part of SEO, and we track it. Tracking is included in Growth SEO at ${growth}.`}
+  />
+
+  <ProseSection heading="What is AI search visibility?" eyebrow="The basics">
+    <p>AI search visibility is whether your business is named, and your website cited as a source, when someone asks an AI assistant a question like the ones your customers ask. It covers Google AI Overviews, ChatGPT, Gemini, Claude and Perplexity.</p>
+    <p>A customer who once searched Google for a plumber, an accountant or a restaurant may now ask an assistant the same thing and get a short written answer with a few businesses in it. If you are in that answer, you are in the running. If you are not, the customer may never see your site. That is the gap this work is aimed at. No one can guarantee a place in an AI answer, so we tell you what we do and what we measure.</p>
+  </ProseSection>
+
+  <ProseSection heading="How do you track whether AI assistants name my business?" eyebrow="The method" tone="paper">
+    <p>This is our method, step by step.</p>
+    <StepList steps={steps} />
+    <p>Alongside the assistants, we check live Google results as a local customer sees them from your own area. That includes whether an AI Overview appears for a search and which sites it cites, so we know who the answer is drawing on.</p>
+    <p>AI does the analysis and the drafting. A person reads the results, decides what to change and approves everything that goes out.</p>
+  </ProseSection>
+
+  <ProseSection heading="What do you change to get a business named?" eyebrow="The work">
+    <p>The tracking shows where you stand. These are the parts of the work that aim to change it.</p>
+    <ul>
+      <li><strong>Structured data and question-and-answer content.</strong> Our websites are built with the structured data and clear answers to customer questions that these systems read. See <a href="/services/long-island-web-design-company/">websites built with structured data</a>.</li>
+      <li><strong>Google Business Profile and listings.</strong> A well-kept profile and consistent business listings are part of Local SEO.</li>
+      <li><strong>New content that answers customer questions.</strong> Two pieces a month on Local SEO, four on Growth SEO.</li>
+      <li><strong>Review generation.</strong> Part of Growth SEO.</li>
+      <li><strong>Technical audits.</strong> We check whether AI crawlers are allowed to read your site.</li>
+    </ul>
+    <p>For the detail, read <a href="/blog/how-to-get-chatgpt-to-recommend-your-business/">how ChatGPT decides which businesses to recommend</a> and <a href="/blog/how-to-show-up-in-google-ai-overviews/">how Google AI Overviews choose sources</a>.</p>
+  </ProseSection>
+
+  <ProseSection heading="What will I see in my report?" eyebrow="Reporting" tone="paper">
+    <p>On Growth SEO, the AI answer results sit in your monthly report next to your Google data, so you can see calls and clicks beside whether you were named. The answers are tracked on a schedule and reported in your monthly report. Growth SEO also includes a quarterly strategy call. It is a report, not a live dashboard, so the figures update once a month. <a href="/reporting/">What the monthly report shows</a> is described in full on the reporting page.</p>
+  </ProseSection>
+
+  <PriceGroup
+    id="plans"
+    cols={2}
+    narrow
+    eyebrow="Plans"
+    heading="Which plan includes it, and what does it cost?"
+    intro={`Growth SEO is ${growth} and includes tracking of how your business shows up in ChatGPT, Google AI Overviews and Perplexity. Local SEO is ${local} and covers the groundwork: your profile, your listings and your content. Every website we build includes structured data from the start. Every plan starts with a free analysis.`}
+  >
+    <PriceSheet plan={seoPlans[0]} />
+    <PriceSheet plan={seoPlans[1]} />
+    <Fragment slot="notes">
+      <p>See the <a class="link" href="/services/seo/">local SEO plans</a> or the full <a class="link" href="/pricing/#seo">SEO prices</a>.</p>
+    </Fragment>
+  </PriceGroup>
+
+  <ProseSection heading="Can you guarantee my business will appear in AI answers?" eyebrow="Honest answer">
+    <p>No. Nobody outside the companies that run the assistants controls what they say, and an agency that promises a place in an answer is promising something it cannot deliver.</p>
+    <Note variant="limits" title="What we do instead">
+      <ul>
+        <li>We do the work listed above to give the assistants good, readable information about your business.</li>
+        <li>We ask the same customer questions every period and record the results, good or bad.</li>
+        <li>We tell you what changed and what we will do next.</li>
+      </ul>
+    </Note>
+  </ProseSection>
+
+
+  <FAQ tone="bg" heading="Questions about AI search." items={items} pricingLink={false} />
+
+  <RelatedLinks
+    items={[
+      { href: '/services/seo/', title: 'Long Island SEO', text: 'The monthly work that AI visibility builds on.' },
+      { href: '/blog/how-to-get-chatgpt-to-recommend-your-business/', title: 'How ChatGPT decides which businesses to recommend', text: 'The how-to detail.' },
+      { href: '/blog/how-to-show-up-in-google-ai-overviews/', title: 'How Google AI Overviews choose sources', text: 'The how-to detail.' },
+    ]}
+  />
+
+  <ContactSection heading="Get a free AI search analysis." />
+</SiteLayout>
