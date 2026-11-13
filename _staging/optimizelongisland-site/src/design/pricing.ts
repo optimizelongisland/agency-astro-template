@@ -249,6 +249,6 @@ export const bundleLine = { text: 'Google Ads and social ads together:', price: 
 export const serviceTiers = {
   web: `Launch ${money(prices.launch)} · Growth ${money(prices.growth)} · Custom from ${money(prices.customFrom)}`,
   seo: `Local ${money(prices.seoLocal)} · Growth ${money(prices.seoGrowth)} · Multi-location from ${money(prices.seoMultiFrom)}`,
-  ppc: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} ad budget`,
-  social: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} ad budget`,
+  ppc: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} a month in ad spend`,
+  social: `Setup ${money(prices.adsSetup)} · ${money(prices.adsManagement)} a month up to ${money(prices.adsBudgetCap)} a month in ad spend`,
 };

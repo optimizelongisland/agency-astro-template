@@ -106,7 +106,7 @@ export const testimonials = {
 };
 
 export const buildSteps = [
-  { title: 'Questionnaire', text: 'You answer a short questionnaire and send your logo and photos.', more: 'The questionnaire is short. A shared folder of photos is fine.' },
+  { title: 'Questionnaire', text: 'You answer a short questionnaire and send your logo and photos.', more: 'A shared folder of photos is fine.' },
   { title: 'AI design and build', text: 'Claude designs and builds your site from your content, colors and reference sites you like.', more: 'It is custom, not a template.' },
   { title: 'Human review', text: 'A person checks every page before it goes live.', more: 'Nothing launches until it has been reviewed.' },
   { title: 'Launch', text: 'Typically live within 7 business days of receiving your content.', more: 'Hosting is on a care plan, and you own the site.' },

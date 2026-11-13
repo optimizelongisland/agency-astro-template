@@ -47,6 +47,7 @@ const description = `Facebook and Instagram ads management for Long Island busin
         { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
         { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
         { label: 'Ad spend', value: 'paid directly to Meta' },
+        { label: 'New ad creative', value: 'every month' },
       ]}
       price={`${money(prices.adsManagement)} a month`}
       unit={`+ ${money(prices.adsSetup)} setup`}
@@ -58,7 +59,7 @@ const description = `Facebook and Instagram ads management for Long Island busin
     <BundleBar slot="notes" />
   </PriceGroup>
 
-  <IncludedList heading="What you get." items={['Pixel and conversion tracking', 'Audiences', 'The first set of ads', 'New ad creative every month', `Management for ad budgets up to ${money(prices.adsBudgetCap)} a month`, `${prices.adsPercent}% of ad spend above that`]} />
+  <IncludedList heading="What you get." items={['Pixel and conversion tracking', 'Audiences', 'The first set of ads', 'New ad creative every month']} />
 
   <QuoteBand tone="bg" {...testimonials.tent} />
 

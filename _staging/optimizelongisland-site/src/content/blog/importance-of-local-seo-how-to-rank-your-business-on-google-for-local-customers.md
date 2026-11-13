@@ -25,13 +25,13 @@ It is important to note that different businesses have different requirements an
 
 ## How to Implement Local SEO?
 
-As mentioned earlier, you can do a proper local SEO for your business yourself. However, it is important that you follow some proven strategies to make sure your business's website ranks higher in Google for relevant local keywords. Here are some important ways you can implement local SEO for your business:
+You can do local SEO for your business yourself, but it works best if you follow proven strategies. These help make sure your business's website ranks higher in Google for relevant local keywords. Here are some important ways you can implement local SEO for your business:
 
 **Keyword Research:** The first step to marketing your business online is to determine which keywords your customers are using. For this, you can use Google's Keyword Planner Tool. Using this tool, you can find out what people are searching for in your local area. Once you know the keywords people are using, you can create content that targets those keywords. This will help you rank your business on Google for those specific keywords.
 
 **Create an Outstanding Website:** If you want to implement local SEO for your business, you need to make sure your website is user-friendly. This means that your website should be easy to navigate and your content should be simple to understand. The website should also be aesthetically pleasing. If your website meets these basic requirements, it will be much easier to implement local SEO for your business. Need to upgrade your [website design](/services/long-island-web-design-company/)? Give us a call today.
 
-**Create a Great Online Presence:** If you want to make sure your business ranks higher in Google for relevant keywords, you need to make sure your online presence is strong. This means that you should have a strong online presence across multiple platforms. You can also use Google My Business to create an online presence for your business. This will help you rank your business on Google for relevant keywords.
+**Create a Great Online Presence:** If you want to make sure your business ranks higher in Google for relevant keywords, you need to make sure your online presence is strong. This means that you should have a strong online presence across multiple platforms. You can also use Google Business Profile to create an online presence for your business. This will help you rank your business on Google for relevant keywords.
 
 ## Bottom Line
 
