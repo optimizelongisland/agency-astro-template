@@ -1,0 +1,32 @@
+---
+// The typed wordmark. When the logo file arrives, replace the markup in this
+// one component and nothing else.
+interface Props {
+  tone?: 'dark' | 'light'; // dark = shown on a navy background
+  stack?: boolean; // always two lines
+  responsive?: boolean; // two lines below 480px
+}
+const { tone = 'dark', stack = false, responsive = false } = Astro.props;
+---
+
+<span class:list={['wordmark', tone, { stack, responsive }]}><span class="a">Optimize</span> <span class="b">Long Island</span></span>
+
+<style>
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .dark .a { color: var(--on-deep); }
+  .dark .b { color: var(--accent); }
+  .light .a { color: var(--ink); }
+  .light .b { color: var(--accent-2); }
+  .stack .a, .stack .b { display: block; }
+  @media (max-width: 480px) {
+    .responsive { font-size: 15px; }
+    .responsive .a, .responsive .b { display: block; }
+  }
+</style>

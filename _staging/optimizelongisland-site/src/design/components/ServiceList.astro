@@ -1,0 +1,60 @@
+---
+// Ruled list of services with starting prices. Each row is one link.
+interface Item {
+  number: string; name: string; description: string; pricePrefix?: string;
+  price: string; unit: string; href: string; tiers?: string;
+}
+interface Props { items: Item[]; large?: boolean }
+const { items, large = false } = Astro.props;
+---
+
+<ul class:list={['list', { large }]}>
+  {
+    items.map((s) => (
+      <li>
+        <a href={s.href} class="row">
+          <span class="no mono">{s.number}</span>
+          <span class="name"><h3>{s.name}</h3></span>
+          <span class="desc">{s.description}</span>
+          <span class="pricebox">
+            {s.pricePrefix && <span class="pre mono">{s.pricePrefix}</span>}
+            <span class="price num">{s.price}</span>
+            <span class="unit mono">{s.unit}</span>
+            {large && s.tiers && <span class="tiers mono">{s.tiers}</span>}
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .list { list-style: none; border-bottom: 1px solid var(--line); }
+  li { border-top: 1px solid var(--line); }
+  .row { position: relative; display: grid; grid-template-columns: 1fr 4fr 4fr 2fr 1fr; gap: 24px; align-items: center; padding: 32px 0; transition: background 0.15s ease; }
+  .row::before { content: ''; position: absolute; left: 0; top: -1px; bottom: 0; width: 3px; background: var(--accent); opacity: 0; transition: opacity 0.15s ease; }
+  .row:hover { background: var(--paper); }
+  .row:hover::before { opacity: 1; }
+  .no { font-size: 13px; color: var(--muted); padding-left: 12px; }
+  h3 { font-size: 28px; letter-spacing: -0.015em; }
+  .desc { font-size: 16px; color: var(--muted); }
+  .pricebox { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+  .pre { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .price { font-size: 28px; font-weight: 600; line-height: 1.2; }
+  .unit, .tiers { font-size: 13px; color: var(--muted); }
+  .tiers { margin-top: 8px; }
+  .arrow { font-size: 20px; text-align: right; padding-right: 8px; transition: transform 0.15s ease; color: var(--accent-2); }
+  .row:hover .arrow { transform: translateX(4px); }
+  .large .row { padding: 40px 0; grid-template-columns: 1fr 3fr 4fr 3fr 1fr; }
+  .large h3 { font-size: 32px; }
+  @media (max-width: 900px) {
+    .row, .large .row { grid-template-columns: auto 1fr auto; gap: 8px 14px; padding: 24px 0; }
+    .no { grid-column: 1; padding-left: 8px; align-self: center; }
+    .name { grid-column: 2 / 4; }
+    h3, .large h3 { font-size: 22px; }
+    .desc { grid-column: 1 / 4; padding-left: 8px; }
+    .pricebox { grid-column: 1 / 3; align-items: flex-start; text-align: left; padding-left: 8px; margin-top: 6px; }
+    .arrow { grid-column: 3; grid-row: 4; align-self: end; }
+  }
+</style>

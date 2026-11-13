@@ -1,0 +1,68 @@
+---
+// The price card. Same row and stamp styles as BuildSheet.
+import CheckStamp from './CheckStamp.astro';
+import SheetRows from './SheetRows.astro';
+import type { Plan } from '../pricing';
+interface Props { plan: Plan; columns?: boolean }
+const { plan, columns = false } = Astro.props;
+const { kicker, name, pricePrefix, price, unit, fees, specs, plusLabel, items, featured, ctaLabel, ctaHref } = plan;
+---
+
+<article class:list={['ps', { featured }]} id={['google-ads', 'social-ads'].includes(plan.id) ? plan.id : `plan-${plan.id}`}>
+  <p class="kicker">{kicker}</p>
+  <h3>{name}</h3>
+  {
+    price && (
+      <p class="price">
+        {pricePrefix && <span class="pre">{pricePrefix}</span>}
+        <span class="n num">{price}</span>
+        {unit && <span class="u">{unit}</span>}
+      </p>
+    )
+  }
+  {
+    fees && (
+      <div class="fees">
+        {fees.map((f) => (
+          <p class="fee">
+            <span class="fl">{f.label}</span>
+            <span class="n small num">{f.price}</span>
+            <span class="u">{f.unit}</span>
+          </p>
+        ))}
+      </div>
+    )
+  }
+  <hr />
+  {specs.length > 0 && <SheetRows rows={specs} />}
+  {plusLabel && <p class="plus">{plusLabel}</p>}
+  <ul class:list={['items', { columns }]}>
+    {items.map((i) => <li><CheckStamp size={18} /><span>{i}</span></li>)}
+  </ul>
+  <a class:list={['btn', featured ? 'btn-solid' : 'btn-line']} href={ctaHref}>{ctaLabel}</a>
+</article>
+
+<style>
+  .ps { container-type: inline-size; position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; }
+  .ps.featured::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--accent); }
+  .kicker { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  h3 { font-size: 24px; }
+  .price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: 20px; }
+  .pre { font-size: 15px; color: var(--muted); }
+  .n { font-size: clamp(40px, 5vw, 48px); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+  .n.small { font-size: 32px; }
+  .u { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--muted); }
+  .fees { margin-top: 20px; display: grid; gap: 10px; }
+  .fee { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .fl { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); min-width: 108px; }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
+  .plus { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 18px 0 0; }
+  .items { list-style: none; font-size: 15px; line-height: 1.5; margin: 16px 0 28px; }
+  .items li { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .items li :global(svg) { margin-top: 2px; }
+  .ps > .btn { margin-top: auto; width: 100%; }
+  .items + .btn { }
+  .columns { column-count: 2; column-gap: 32px; }
+  .columns li { break-inside: avoid; }
+  @media (max-width: 640px) { .ps { padding: 24px 20px; } .columns { column-count: 1; } }
+</style>

@@ -1,0 +1,70 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import BuildSheet from '../../design/components/BuildSheet.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import BundleBar from '../../design/components/BundleBar.astro';
+import IncludedList from '../../design/components/IncludedList.astro';
+import QuoteBand from '../../design/components/QuoteBand.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import OtherServices from '../../design/components/OtherServices.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { money, prices, socialAdsPlan } from '../../design/pricing';
+import { testimonials, faq } from '../../design/content';
+
+const items = [
+  faq.adspend,
+  {
+    question: 'What does it cost?',
+    answer: `Setup is ${money(prices.adsSetup)} one time. Management is ${money(prices.adsManagement)} a month for ad budgets up to ${money(prices.adsBudgetCap)} a month. Above that, ${prices.adsPercent}% of ad spend.`,
+  },
+  {
+    question: 'Who pays Meta for the ads?',
+    answer: 'You do, directly to Meta. Ad spend is separate from the management fee.',
+  },
+];
+const description = `Facebook and Instagram ads management for Long Island businesses: ${money(prices.adsManagement)} a month plus ${money(prices.adsSetup)} setup. New creative monthly.`;
+---
+
+<SiteLayout title="Social Media Advertising Long Island | Optimize Long Island" {description}>
+  <ServiceSchema serviceName="Social media ads management" description="Facebook and Instagram ads management for local businesses." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Social media ads', url: '/services/social-media/' }]}
+    eyebrow="Social media advertising, Long Island"
+    title="Facebook and Instagram ads, managed for you."
+    lede="We set up and manage your Facebook and Instagram ads. Setup covers pixel and conversion tracking, audiences and your first set of ads."
+  >
+    <BuildSheet
+      slot="aside"
+      title="Build sheet"
+      subtitle="Social media ads"
+      rows={[
+        { label: 'Setup', value: `${money(prices.adsSetup)} one time` },
+        { label: 'Management', value: `${money(prices.adsManagement)} a month` },
+        { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
+        { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
+        { label: 'Ad spend', value: 'paid directly to Meta' },
+      ]}
+      price={`${money(prices.adsManagement)} a month`}
+      unit={`+ ${money(prices.adsSetup)} setup`}
+    />
+  </PageHead>
+
+  <PriceGroup id="plans" cols={1} eyebrow="Fees" heading="Setup and management fees.">
+    <PriceSheet plan={socialAdsPlan} />
+    <BundleBar slot="notes" />
+  </PriceGroup>
+
+  <IncludedList heading="What you get." items={['Pixel and conversion tracking', 'Audiences', 'The first set of ads', 'New ad creative every month', `Management for ad budgets up to ${money(prices.adsBudgetCap)} a month`, `${prices.adsPercent}% of ad spend above that`]} />
+
+  <QuoteBand tone="bg" {...testimonials.tent} />
+
+  <FAQ tone="paper" items={items} />
+
+  <OtherServices current="/services/social-media/" />
+
+  <ContactSection heading="Get a free social ads analysis." />
+</SiteLayout>

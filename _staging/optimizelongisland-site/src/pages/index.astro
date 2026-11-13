@@ -1,0 +1,98 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import Hero from '../design/components/Hero.astro';
+import BuildSheet from '../design/components/BuildSheet.astro';
+import ServiceList from '../design/components/ServiceList.astro';
+import Process from '../design/components/Process.astro';
+import TechBand from '../design/components/TechBand.astro';
+import OwnershipBlock from '../design/components/OwnershipBlock.astro';
+import Testimonial from '../design/components/Testimonial.astro';
+import FAQ from '../design/components/FAQ.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { money, prices } from '../design/pricing';
+import { services, buildSteps, testimonials, faq, launchSheetRows } from '../design/content';
+---
+
+<SiteLayout
+  title="Long Island SEO and Web Design | Optimize Long Island"
+  description={`Custom websites for ${money(prices.launch)}, built with AI and checked by a person. SEO and ads management for Long Island businesses. Free analysis.`}
+>
+  <Hero
+    eyebrow="Long Island web design and SEO"
+    lede="AI does the heavy lifting on a modern stack. An experienced person directs it and checks every page before it goes live. Typically live within 7 business days of receiving your content. You own all of it."
+    facts={['Fixed public prices', 'Checked by a person', 'You own everything', 'No WordPress, no plugins']}
+  >
+    <Fragment slot="title">Custom websites for <span class="hl">{money(prices.launch)}</span>. Built with AI, checked by people.</Fragment>
+    <BuildSheet
+      slot="sheet"
+      animate
+      title="Build sheet"
+      subtitle="Launch website"
+      rows={launchSheetRows}
+      checkLabel="Checked by a person"
+      price={money(prices.launch)}
+      unit="one time"
+      link={{ href: '/pricing/#websites', label: "What's included →" }}
+    />
+  </Hero>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Services</p>
+          <h2>Four services. Prices up front.</h2>
+        </div>
+        <a class="link head-link" href="/pricing/">Full price list →</a>
+      </div>
+      <ServiceList items={services} />
+    </div>
+  </section>
+
+  <section class="section section--paper" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>From questionnaire to live site in four steps.</h2>
+        </div>
+      </div>
+      <Process steps={buildSteps.map(({ title, text }) => ({ title, text }))} />
+      <p class="after"><a class="link" href="/services/long-island-web-design-company/">More about how we build websites →</a></p>
+    </div>
+  </section>
+
+  <TechBand />
+
+  <OwnershipBlock />
+
+  <section class="section section--paper" id="clients">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Clients</p>
+          <h2>What clients say.</h2>
+        </div>
+      </div>
+      <div class="quotes">
+        <Testimonial size="large" {...testimonials.solar} />
+        <div class="side">
+          <Testimonial {...testimonials.tent} />
+          <Testimonial {...testimonials.bono} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQ items={[faq.cost, faq.template, faq.time, faq.own, faq.changes]} />
+
+  <ContactSection />
+</SiteLayout>
+
+<style>
+  section { scroll-margin-top: var(--header-h); }
+  .after { margin-top: 48px; font-weight: 500; }
+  .quotes { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; }
+  .side { display: grid; gap: 40px; }
+  @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; gap: 40px; } }
+</style>

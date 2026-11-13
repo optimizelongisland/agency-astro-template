@@ -1,0 +1,70 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import BuildSheet from '../../design/components/BuildSheet.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import BundleBar from '../../design/components/BundleBar.astro';
+import IncludedList from '../../design/components/IncludedList.astro';
+import QuoteBand from '../../design/components/QuoteBand.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import OtherServices from '../../design/components/OtherServices.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { money, prices, googleAdsPlan } from '../../design/pricing';
+import { testimonials, faq } from '../../design/content';
+
+const items = [
+  faq.adspend,
+  {
+    question: 'What does it cost?',
+    answer: `Setup is ${money(prices.adsSetup)} one time. Management is ${money(prices.adsManagement)} a month for ad budgets up to ${money(prices.adsBudgetCap)} a month. Above that, ${prices.adsPercent}% of ad spend.`,
+  },
+  {
+    question: 'Who pays Google for the ads?',
+    answer: 'You do, directly to Google. Ad spend is separate from the management fee.',
+  },
+];
+const description = `Google Ads management for Long Island businesses: ${money(prices.adsManagement)} a month plus ${money(prices.adsSetup)} setup. Ad spend is paid directly to Google.`;
+---
+
+<SiteLayout title="Google Ads Management Long Island | Optimize Long Island" {description}>
+  <ServiceSchema serviceName="Google Ads management" description="Google Ads management for local businesses, with conversion and call tracking." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Google Ads', url: '/services/ppc/' }]}
+    eyebrow="Google Ads management, Long Island"
+    title="Google Ads management with tracking built in."
+    lede="We set up and manage your Google Ads account. Setup covers account structure, conversion and call tracking, and a landing page."
+  >
+    <BuildSheet
+      slot="aside"
+      title="Build sheet"
+      subtitle="Google Ads"
+      rows={[
+        { label: 'Setup', value: `${money(prices.adsSetup)} one time` },
+        { label: 'Management', value: `${money(prices.adsManagement)} a month` },
+        { label: 'Covers ad budgets', value: `up to ${money(prices.adsBudgetCap)} a month` },
+        { label: 'Above that', value: `${prices.adsPercent}% of ad spend` },
+        { label: 'Ad spend', value: 'paid directly to Google' },
+      ]}
+      price={`${money(prices.adsManagement)} a month`}
+      unit={`+ ${money(prices.adsSetup)} setup`}
+    />
+  </PageHead>
+
+  <PriceGroup id="plans" cols={1} eyebrow="Fees" heading="Setup and management fees.">
+    <PriceSheet plan={googleAdsPlan} />
+    <BundleBar slot="notes" />
+  </PriceGroup>
+
+  <IncludedList heading="What you get." items={['Account structure', 'Conversion and call tracking', 'A landing page', `Management for ad budgets up to ${money(prices.adsBudgetCap)} a month`, `${prices.adsPercent}% of ad spend above that`]} />
+
+  <QuoteBand tone="bg" {...testimonials.bono} />
+
+  <FAQ tone="paper" items={items} />
+
+  <OtherServices current="/services/ppc/" />
+
+  <ContactSection heading="Get a free Google Ads analysis." />
+</SiteLayout>

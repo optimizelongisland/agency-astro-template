@@ -1,0 +1,31 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// Service schema - use on individual service pages (e.g. /sprinkler-repair)
+// to tell Google/AI engines exactly what this specific service is, separate
+// from the site-wide LocalBusiness schema in SEO.astro.
+import { business } from '../../../site';
+
+interface Props {
+  serviceName: string;
+  description: string;
+  areaServed?: string[]; // defaults to the business's full service area
+  priceRange?: string; // e.g. "$$" or "$150-$400"
+}
+const { serviceName, description, areaServed = business.areaServed, priceRange } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: serviceName,
+  description,
+  provider: {
+    '@type': 'LocalBusiness',
+    name: business.businessName,
+  },
+  areaServed: areaServed.map((a) => ({ '@type': 'City', name: a })),
+  ...(priceRange && { priceRange }),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

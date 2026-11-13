@@ -1,0 +1,23 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="Page Not Found | Optimize Long Island" description="This page could not be found. Try the services, pricing or contact pages.">
+  <section class="section">
+    <div class="wrap narrow">
+      <h1>That page is not here.</h1>
+      <p class="lede">It may have moved. These pages will get you back on track.</p>
+      <div class="actions">
+        <a class="btn btn-solid" href="/">Home</a>
+        <a class="btn btn-line" href="/services/">Services</a>
+        <a class="btn btn-line" href="/pricing/">Pricing</a>
+        <a class="btn btn-line" href="/contact/">Contact</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  h1 { margin-bottom: 20px; }
+  .lede { color: var(--muted); margin-bottom: 32px; }
+</style>

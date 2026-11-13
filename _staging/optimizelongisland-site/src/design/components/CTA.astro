@@ -1,0 +1,22 @@
+---
+// Blog post call to action box.
+import { business, telHref } from '../../site';
+interface Props { text: string; href: string; linkText: string }
+const { text, href, linkText } = Astro.props;
+---
+
+<aside class="cta">
+  <p>{text} <a class="link" href={href}>{linkText}</a></p>
+  <div class="row">
+    <a class="btn btn-solid" href="/contact/">Get my free analysis</a>
+    <a class="call mono" href={telHref}>{business.phone}</a>
+  </div>
+</aside>
+
+<style>
+  .cta { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; margin-top: 56px; }
+  p { margin-bottom: 20px; }
+  .row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; }
+  .call { color: var(--accent-2); font-size: 15px; }
+  @media (max-width: 640px) { .cta { padding: 24px 20px; } .btn { width: 100%; } }
+</style>

@@ -1,0 +1,53 @@
+---
+// Section wrapper for a group of price cards.
+interface Props {
+  id?: string;
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+  cols?: 1 | 2 | 3;
+  narrow?: boolean; // 2-card group centered as a pair (care plans)
+  tone?: 'bg' | 'paper';
+}
+const { id, eyebrow, heading, intro, cols = 3, narrow = false, tone = 'bg' } = Astro.props;
+---
+
+<section class:list={['section', { 'section--paper': tone === 'paper' }]} id={id}>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2>{heading}</h2>
+        {intro && <p class="sub">{intro}</p>}
+      </div>
+    </div>
+    <div class:list={['grid', `c${cols}`, { narrow }]}>
+      <slot />
+    </div>
+    <div class="notes"><slot name="notes" /></div>
+  </div>
+</section>
+
+<style>
+  section { scroll-margin-top: var(--header-h); }
+  .grid { display: grid; gap: 24px; }
+  .c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .c1 { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+  .c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .narrow { max-width: 860px; margin: 0 auto; }
+  .notes:empty { display: none; }
+  .notes { margin-top: 32px; }
+  @media (max-width: 1023px) {
+    .c3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .c3 > :global(:nth-child(3)) { grid-column: 1 / -1; }
+    .c3 > :global(:nth-child(3) .items) { column-count: 2; column-gap: 32px; }
+  }
+  @media (max-width: 719px) {
+    .c2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .c3 { grid-template-columns: 1fr; gap: 16px; }
+    .c3 > :global(:nth-child(3) .items) { column-count: 1; }
+    .c2 { gap: 16px; }
+  }
+</style>

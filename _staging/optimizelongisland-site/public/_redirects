@@ -1,0 +1,10 @@
+# Netlify-native redirects - if hosting on Netlify, prefer this file over
+# astro.config.mjs `redirects` for URL migrations. This produces a true
+# server-level 301, which is a cleaner signal than the meta-refresh page
+# Astro generates in static mode. Not used if hosting on Vercel - use
+# vercel.json's `redirects` array instead (see README).
+#
+# Format: /old-path  /new-path  301
+#
+# /blog/2021/05/spring-lawn-tips  /blog/spring-lawn-prep-tips  301
+# /services/sprinkler-repair-huntington-ny  /huntington-sprinkler-repair  301

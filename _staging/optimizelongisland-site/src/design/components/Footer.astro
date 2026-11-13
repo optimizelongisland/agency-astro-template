@@ -1,0 +1,71 @@
+---
+import Wordmark from './Wordmark.astro';
+import { business, telHref } from '../../site';
+const { phone, email, city, region, postalCode, socialProfiles } = business;
+const year = new Date().getFullYear();
+const [facebook, instagram, gbp] = socialProfiles;
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="grid">
+      <div class="about">
+        <Wordmark tone="dark" />
+        <p>Websites, SEO and ads for Long Island businesses.</p>
+        <p>{city}, {region} {postalCode}</p>
+        <p><a class="mono tel" href={telHref}>{phone}</a></p>
+        <p><a href={`mailto:${email}`}>{email}</a></p>
+      </div>
+      <nav aria-label="Services">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="/services/long-island-web-design-company/">Web Design</a></li>
+          <li><a href="/services/seo/">SEO</a></li>
+          <li><a href="/services/ppc/">Google Ads</a></li>
+          <li><a href="/services/social-media/">Social Ads</a></li>
+          <li><a href="/services/">All services</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Company">
+        <h2>Company</h2>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/west-islip-ny-seo-company/">SEO in West Islip</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Follow">
+        <h2>Follow</h2>
+        <ul>
+          <li><a href={facebook}>Facebook</a></li>
+          <li><a href={instagram}>Instagram</a></li>
+          <li><a href={gbp}>Google Business Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="bottom">
+      <span>© {year} {business.businessName}</span>
+      <span>This site was designed and built with Claude on Astro and checked by a person, the same way we build yours.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--night); color: var(--on-deep-muted); padding: 72px 0 32px; font-size: 15px; }
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 48px; }
+  .about p { margin-top: 12px; }
+  .about p:first-of-type { margin-top: 16px; }
+  .tel { color: var(--accent); font-size: 15px; }
+  h2 { font-family: var(--font-mono); font-weight: 500; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--on-deep); margin-bottom: 16px; line-height: 1.4; }
+  ul { list-style: none; }
+  li a { display: inline-block; padding: 6px 0; }
+  a:hover { color: var(--accent); }
+  .site-footer :focus-visible { outline-color: var(--accent); }
+  .bottom { display: flex; justify-content: space-between; gap: 12px 40px; flex-wrap: wrap; border-top: 1px solid var(--line-deep); padding-top: 24px; font-size: 13px; }
+  .bottom span:last-child { max-width: 52ch; text-align: right; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 32px; } .site-footer { padding-top: 48px; } .bottom span:last-child { text-align: left; } }
+</style>

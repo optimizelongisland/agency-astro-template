@@ -1,0 +1,40 @@
+---
+import CheckStamp from './CheckStamp.astro';
+interface Props {
+  steps: { title: string; text: string; more?: string }[];
+  checkStep?: number; // index of the step marked with the stamp
+}
+const { steps, checkStep = 2 } = Astro.props;
+---
+
+<ol class="steps">
+  {
+    steps.map((s, i) => (
+      <li>
+        <span class="marker mono">{i === checkStep ? <CheckStamp size={44} /> : String(i + 1).padStart(2, '0')}</span>
+        <div class="body">
+          <h3>{s.title}</h3>
+          <p>{s.text}{s.more && ` ${s.more}`}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+  .steps::before { content: ''; position: absolute; top: 22px; left: 22px; right: 22px; height: 1px; background: var(--line); }
+  li { position: relative; }
+  .marker { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); font-size: 14px; position: relative; margin-bottom: 20px; }
+  .marker :global(svg) { width: 44px; height: 44px; }
+  .marker:has(svg) { border: 0; }
+  h3 { font-size: 20px; margin-bottom: 8px; }
+  p { font-size: 15px; color: var(--muted); max-width: 28ch; line-height: 1.55; }
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: 1fr; gap: 28px; }
+    .steps::before { top: 22px; bottom: 22px; left: 22px; right: auto; width: 1px; height: auto; }
+    li { display: grid; grid-template-columns: 44px 1fr; gap: 20px; }
+    .marker { margin-bottom: 0; }
+    p { max-width: 46ch; }
+  }
+</style>

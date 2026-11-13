@@ -1,0 +1,48 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import { business, telHref } from '../../site';
+interface Props {
+  crumbs: { name: string; url: string }[];
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  cta?: boolean; // show the free analysis button and call link
+}
+const { crumbs, eyebrow, title, lede, cta = true } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+
+<section class="section--deep head">
+  <div class="wrap">
+    <Breadcrumbs items={crumbs} tone="dark" />
+    <div class:list={['grid', { two: hasAside }]}>
+      <div class="text">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        {lede && <p class="lede">{lede}</p>}
+        <slot />
+        {
+          cta && (
+            <div class="actions">
+              <a class="btn btn-solid" href="#contact">Get my free analysis</a>
+              <a class="btn btn-line-light" href={telHref}>Call {business.phone}</a>
+            </div>
+          )
+        }
+      </div>
+      {hasAside && <div class="aside"><slot name="aside" /></div>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { padding: 0 0 72px; }
+  .grid { margin-top: 32px; display: grid; gap: 24px; align-items: center; }
+  .two { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; }
+  .text { max-width: 760px; }
+  h1 { margin-bottom: 20px; }
+  .lede { color: var(--on-deep-muted); margin-bottom: 32px; }
+  .text :global(.chips) { margin-bottom: 8px; }
+  @media (max-width: 900px) { .two { grid-template-columns: 1fr; gap: 40px; } }
+  @media (max-width: 640px) { .head { padding-bottom: 48px; } .grid { margin-top: 20px; } .actions .btn { width: 100%; } }
+</style>

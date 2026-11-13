@@ -1,0 +1,57 @@
+---
+// Home hero: navy, with the faint drafting grid, the headline, and the Build Sheet.
+import CheckStamp from './CheckStamp.astro';
+import { business, telHref } from '../../site';
+interface Props { eyebrow: string; lede: string; facts: string[] }
+const { eyebrow, lede, facts } = Astro.props;
+---
+
+<section class="hero section--deep">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="cols">
+      <div class="text">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1><slot name="title" /></h1>
+        <p class="lede">{lede}</p>
+        <div class="actions">
+          <a class="btn btn-solid" href="#contact">Get my free analysis</a>
+          <a class="btn btn-line-light" href="/pricing/">See pricing</a>
+        </div>
+        <p class="call">Or call <a class="mono" href={telHref}>{business.phone}</a></p>
+      </div>
+      <div class="sheet"><slot name="sheet" /></div>
+    </div>
+    <ul class="facts">
+      {facts.map((f) => <li><CheckStamp size={16} /><span>{f}</span></li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; padding: 96px 0 0; overflow: hidden; }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent); mask-image: linear-gradient(to bottom, #000 40%, transparent); }
+  .wrap { position: relative; }
+  .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: center; }
+  h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 28px; }
+  h1 :global(.hl) { color: var(--accent); }
+  .lede { color: var(--on-deep-muted); margin-bottom: 36px; }
+  .call { margin-top: 20px; font-size: 14px; color: var(--on-deep-muted); }
+  .call a { color: var(--accent); font-size: 14px; }
+  .facts { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 72px; border-top: 1px solid var(--line-deep); }
+  .facts li { display: flex; align-items: center; gap: 10px; padding: 28px 16px 28px 0; font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--on-deep-muted); }
+  .facts li + li { padding-left: 20px; border-left: 1px solid var(--line-deep); }
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 40px; }
+    .facts { grid-template-columns: 1fr 1fr; margin-top: 48px; }
+    .facts li { font-size: 12px; padding: 18px 12px 18px 0; }
+    .facts li + li { padding-left: 0; border-left: 0; }
+    .facts li:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line-deep); }
+    .facts li:nth-child(n + 3) { border-top: 1px solid var(--line-deep); }
+  }
+  @media (max-width: 640px) {
+    .hero { padding-top: 40px; }
+    .actions .btn { width: 100%; }
+    .actions { gap: 12px; }
+  }
+</style>

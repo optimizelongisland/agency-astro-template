@@ -1,0 +1,86 @@
+---
+import Wordmark from './Wordmark.astro';
+import { business, telHref } from '../../site';
+import { nav } from '../content';
+const { phone } = business;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const current = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand" aria-label="Optimize Long Island, home"><Wordmark tone="dark" responsive /></a>
+
+    <nav class="desktop-nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => <li><a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="right">
+      <a class="phone mono" href={telHref}>{phone}</a>
+      <a class="btn btn-solid btn-sm contact-btn" href="/contact/">Contact</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile">
+    <ul>
+      {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      <li><a class="btn btn-solid" href="/contact/">Get my free analysis</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 20; background: var(--deep); border-bottom: 1px solid var(--line-deep); color: var(--on-deep); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--header-h); }
+  .brand { display: inline-flex; padding: 8px 0; }
+  .desktop-nav ul { display: flex; gap: 28px; list-style: none; }
+  .desktop-nav a { font-size: 15px; font-weight: 500; color: var(--on-deep); padding: 6px 0; display: inline-block; border-bottom: 2px solid transparent; }
+  .desktop-nav a:hover { color: var(--accent); }
+  .desktop-nav a[aria-current='page'] { border-bottom-color: var(--accent); }
+  .right { display: flex; align-items: center; gap: 16px; }
+  .phone { color: var(--accent); font-size: 15px; padding: 10px 0; }
+  .menu-toggle { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px; }
+  .menu-toggle span { display: block; width: 100%; height: 2px; background: var(--on-deep); transition: transform 0.15s ease, opacity 0.15s ease; }
+  .menu-toggle[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-nav { display: none; background: var(--deep-2); }
+  .mobile-nav ul { list-style: none; padding: 0 var(--gutter) 24px; max-width: var(--max-width); margin: 0 auto; }
+  .mobile-nav li { border-bottom: 1px solid var(--line-deep); }
+  .mobile-nav li a:not(.btn) { display: block; padding: 16px 0; font-size: 20px; font-weight: 500; color: var(--on-deep); }
+  .mobile-nav li:last-child { border: 0; padding-top: 24px; }
+  .mobile-nav .btn { width: 100%; }
+
+  @media (max-width: 1079px) {
+    .desktop-nav { display: none; }
+    .menu-toggle { display: flex; }
+    .site-header.is-open .mobile-nav { display: block; }
+  }
+  @media (max-width: 639px) {
+    .contact-btn { display: none; }
+    .phone { border: 1.5px solid var(--accent); border-radius: var(--radius-pill); font-size: 14px; padding: 8px 12px; }
+    .right { gap: 8px; }
+    .menu-toggle { margin-right: -10px; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const header = document.querySelector<HTMLElement>('.site-header');
+  toggle?.addEventListener('click', () => {
+    const isOpen = header?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+  document.querySelectorAll('#mobile-nav a').forEach((link) => {
+    link.addEventListener('click', () => {
+      header?.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

@@ -1,0 +1,47 @@
+---
+// Visible breadcrumb trail. Structured data comes from the locked core
+// component BreadcrumbSchema, fed the same items. Do not include "Home".
+import BreadcrumbSchema, { type Crumb } from '../../core/components/schema/BreadcrumbSchema.astro';
+
+interface Props {
+  items: Crumb[];
+  tone?: 'dark' | 'light';
+}
+const { items, tone = 'light' } = Astro.props;
+const allItems = [{ name: 'Home', url: '/' }, ...items];
+---
+
+<nav class:list={['breadcrumbs', tone]} aria-label="Breadcrumb">
+  <ol>
+    {
+      allItems.map((item, i) => (
+        <li>
+          {i < allItems.length - 1 ? (
+            <>
+              <a href={item.url}>{item.name}</a>
+              <span class="sep" aria-hidden="true">/</span>
+            </>
+          ) : (
+            <span aria-current="page">{item.name}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<BreadcrumbSchema items={items} />
+
+<style>
+  .breadcrumbs { padding: 56px 0 0; }
+  ol { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; list-style: none; font-size: 13px; }
+  li { display: flex; align-items: center; gap: 8px; }
+  a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .dark { color: var(--on-deep-muted); }
+  .dark [aria-current='page'] { color: var(--on-deep); }
+  .dark a:hover { color: var(--on-deep); }
+  .light { color: var(--muted); padding-top: 40px; }
+  .light [aria-current='page'] { color: var(--ink); }
+  .light a:hover { color: var(--accent-2); }
+  @media (max-width: 640px) { .breadcrumbs { padding-top: 32px; } }
+</style>

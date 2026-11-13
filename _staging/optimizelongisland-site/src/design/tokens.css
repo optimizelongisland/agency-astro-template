@@ -1,0 +1,40 @@
+/*
+  TOKENS.CSS - the site's design tokens. DESIGN LAYER.
+  Required tokens are marked [core]; the locked lead form reads them.
+*/
+
+:root {
+  /* --- Color --- */
+  --bg: #F3F6F8;          /* page background, a cool off-white */
+  --paper: #FFFFFF;       /* [core] cards, alternate sections, form card */
+  --ink: #0A1A26;         /* [core] body text and headings on light */
+  --muted: #4B5D6B;       /* [core] secondary text on light */
+  --deep: #002338;        /* [core] brand navy */
+  --on-deep: #FFFFFF;     /* [core] text on navy */
+  --accent: #00AFEF;      /* brand cyan: fills, stamps, rules, text ON NAVY ONLY */
+  --accent-2: #006F99;    /* cyan-ink: links and focus ring on light */
+  --line: #D4DEE5;        /* borders and dividers on light */
+  --error: #B42318;       /* [core] form errors */
+
+  /* --- Extra color tokens --- */
+  --night: #000D15;
+  --deep-2: #0B3350;
+  --on-deep-muted: #A8C4D6;
+  --line-deep: rgba(255, 255, 255, 0.14);
+  --accent-hover: #4CC6F3;
+  --accent-soft: #E3F6FD;
+  --field-border: #7A8D9B;
+
+  /* --- Type --- */
+  --font-display: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif; /* [core] */
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* --- Layout --- */
+  --max-width: 1200px;
+  --radius: 10px;         /* [core] */
+  --radius-pill: 999px;
+  --gutter: 32px;
+  --section-y: 120px;
+  --header-h: 72px;
+}

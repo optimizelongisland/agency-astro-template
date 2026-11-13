@@ -1,0 +1,14 @@
+---
+import { bundleLine } from '../pricing';
+---
+
+<div class="bundle">
+  <p class="line">{bundleLine.text} <strong class="num">{bundleLine.price}</strong>.</p>
+</div>
+<p class="note">Ad spend is paid directly to Google or Meta and is separate from the management fee.</p>
+
+<style>
+  .bundle { background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; }
+  .line { font-size: 17px; color: var(--ink); }
+  .note { margin-top: 12px; font-size: 14px; color: var(--muted); }
+</style>

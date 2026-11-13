@@ -1,0 +1,10 @@
+---
+interface Props { size?: number }
+const { size = 20 } = Astro.props;
+---
+
+<svg class="check-stamp" viewBox="0 0 20 20" width={size} height={size} aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="var(--accent)"></circle><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+<style>
+  .check-stamp { flex: none; display: block; }
+</style>

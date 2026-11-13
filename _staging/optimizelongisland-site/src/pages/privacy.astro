@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import { business } from '../site';
+---
+
+<SiteLayout
+  title="Privacy Policy | Optimize Long Island"
+  description="How Optimize Long Island handles the information you send through this website."
+  noindex
+>
+  <PageHead crumbs={[{ name: 'Privacy', url: '/privacy/' }]} eyebrow="Privacy" title="Privacy policy." cta={false} />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose narrow">
+        <h2>What we collect</h2>
+        <p>If you use the contact form, we collect the name, email address, phone number and message you type in. If you choose a service or enter your current website in the form, we collect that too.</p>
+        <h2>How we use it</h2>
+        <p>The form sends what you entered to {business.businessName} by email so we can reply to you. We use it only to answer your enquiry.</p>
+        <h2>Analytics</h2>
+        <p>This site may use Google Analytics to count visits and see which pages are read. It does not collect your name or contact details.</p>
+        <h2>We do not sell your data</h2>
+        <p>We do not sell your information.</p>
+        <h2>Deleting your information</h2>
+        <p>To ask us to delete what you sent, email <a href={`mailto:${business.email}`}>{business.email}</a>.</p>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

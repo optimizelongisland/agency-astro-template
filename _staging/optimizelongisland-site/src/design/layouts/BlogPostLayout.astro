@@ -1,0 +1,42 @@
+---
+// DESIGN LAYER. Blog post: calm page head on --bg, 720px reading column, CTA box.
+import SiteLayout from './SiteLayout.astro';
+import BlogPostSchema from '../../core/components/schema/BlogPostSchema.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTA from '../components/CTA.astro';
+import type { CollectionEntry } from 'astro:content';
+import { business } from '../../site';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  cta: { text: string; href: string; linkText: string };
+}
+const { post, cta } = Astro.props;
+const { title, seoTitle, metaDescription, publishDate, updatedDate, author } = post.data;
+
+const formattedDate = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+<SiteLayout title={`${seoTitle ?? title} | ${business.businessName}`} description={metaDescription}>
+  <article class="post">
+    <div class="wrap narrow head">
+      <Breadcrumbs items={[{ name: 'Blog', url: '/blog/' }, { name: title, url: `/blog/${post.id}/` }]} tone="light" />
+      <p class="meta mono">{formattedDate} · {author}</p>
+      <h1>{title}</h1>
+    </div>
+    <div class="wrap narrow body prose">
+      <slot />
+      <CTA {...cta} />
+    </div>
+  </article>
+
+  <BlogPostSchema title={title} description={metaDescription} publishDate={publishDate} updatedDate={updatedDate} author={author} />
+</SiteLayout>
+
+<style>
+  .head { padding-bottom: 24px; }
+  .meta { font-size: 13px; color: var(--muted); margin: 28px 0 16px; letter-spacing: 0.04em; }
+  h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; max-width: 20ch; }
+  .body { padding-bottom: var(--section-y); font-size: 18px; line-height: 1.7; }
+  @media (max-width: 640px) { .body { font-size: 17px; } }
+</style>

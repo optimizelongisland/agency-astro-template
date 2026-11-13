@@ -1,0 +1,41 @@
+---
+// Label / value rows joined by dotted leaders (the Build Sheet row style).
+// Long rows stack the value under the label on narrow containers.
+interface Props {
+  rows: { label: string; value: string }[];
+  tone?: 'light' | 'dark';
+  animate?: boolean;
+}
+const { rows, tone = 'light', animate = false } = Astro.props;
+---
+
+<ul class:list={['rows', tone, { animate }]}>
+  {
+    rows.map((r, i) => (
+      <li class:list={['row', { long: r.label.length + r.value.length > 30 }]} style={animate ? `--i:${i}` : undefined}>
+        <span class="l">{r.label}</span>
+        <span class="leader" aria-hidden="true" />
+        <span class="v num">{r.value}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .rows { list-style: none; font-family: var(--font-mono); font-weight: 500; font-size: 14px; line-height: 1.5; }
+  .row { display: flex; align-items: baseline; padding: 10px 0; }
+  .l { color: var(--muted); }
+  .v { color: var(--ink); text-align: right; }
+  .leader { flex: 1; min-width: 12px; border-bottom: 1.5px dotted var(--line); margin: 0 8px; transform: translateY(-4px); }
+  .dark .l { color: var(--on-deep-muted); }
+  .dark .v { color: var(--on-deep); }
+  .dark .leader { border-bottom-color: var(--line-deep); }
+  .animate .row { opacity: 0; transform: translateY(4px); animation: rowin 240ms ease-out forwards; animation-delay: calc(200ms + var(--i) * 70ms); }
+  @keyframes rowin { to { opacity: 1; transform: none; } }
+  @media (max-width: 640px) { .rows { font-size: 13px; } }
+  @container (max-width: 560px) {
+    .row.long { flex-wrap: wrap; }
+    .row.long .leader { display: none; }
+    .row.long .v { flex-basis: 100%; text-align: left; }
+  }
+</style>

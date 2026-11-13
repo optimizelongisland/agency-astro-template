@@ -1,0 +1,23 @@
+---
+// Shown after a successful contact form submission (a clean URL for conversion counting).
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import { business, telHref } from '../site';
+---
+
+<SiteLayout title="Thank You | Optimize Long Island" description="Thanks for getting in touch. We will be in contact shortly." noindex>
+  <section class="section">
+    <div class="wrap narrow">
+      <h1>Thanks. We got your message.</h1>
+      <p class="lede">If it is urgent, call <a class="mono link" href={telHref}>{business.phone}</a>.</p>
+      <div class="actions">
+        <a class="btn btn-solid" href="/pricing/">See pricing</a>
+        <a class="btn btn-line" href="/blog/">Read the blog</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  h1 { margin-bottom: 20px; }
+  .lede { color: var(--muted); margin-bottom: 32px; }
+</style>

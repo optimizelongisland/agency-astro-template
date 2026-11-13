@@ -1,0 +1,40 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import PriceSheet from '../design/components/PriceSheet.astro';
+import QuoteBand from '../design/components/QuoteBand.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { money, prices, seoPlans } from '../design/pricing';
+import { testimonials } from '../design/content';
+---
+
+<SiteLayout
+  title="SEO Company in West Islip, NY | Optimize Long Island"
+  description={`Optimize Long Island is a West Islip, NY SEO company. Local SEO from ${money(prices.seoLocal)} a month, including Google Maps and AI search. Free analysis.`}
+>
+  <PageHead
+    crumbs={[{ name: 'SEO company in West Islip, NY', url: '/west-islip-ny-seo-company/' }]}
+    eyebrow="West Islip, NY"
+    title="SEO company in West Islip, NY."
+    lede="We are based in West Islip and work with local businesses on Long Island and across the United States."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose narrow">
+        <p>Local SEO is how a business shows up when someone nearby searches for what it sells. We handle Google Business Profile optimization, business listings, on-page optimization and new content, with a monthly report so you can see what was done.</p>
+        <p>It includes Google Maps and AI search visibility. Every plan starts with a free analysis.</p>
+        <p><a href="/services/seo/">All SEO plans →</a></p>
+      </div>
+      <div class="card"><PriceSheet plan={seoPlans[0]} /></div>
+    </div>
+  </section>
+
+  <QuoteBand tone="paper" {...testimonials.solar} />
+
+  <ContactSection heading="Get a free SEO analysis." />
+</SiteLayout>
+
+<style>
+  .card { max-width: 420px; margin-top: 48px; }
+</style>

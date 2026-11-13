@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPostLayout from '../../design/layouts/BlogPostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const web = { text: 'Need a website that brings in calls and leads?', href: '/services/long-island-web-design-company/', linkText: 'See our web design service.' };
+const seo = { text: 'Want more local customers from Google?', href: '/services/seo/', linkText: 'See our SEO service.' };
+const cta = post.data.tags.includes('SEO') ? seo : web;
+---
+
+<BlogPostLayout post={post} cta={cta}>
+  <Content />
+</BlogPostLayout>

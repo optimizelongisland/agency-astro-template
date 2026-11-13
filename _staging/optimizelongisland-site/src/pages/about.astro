@@ -1,0 +1,87 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import TechBand from '../design/components/TechBand.astro';
+import Testimonial from '../design/components/Testimonial.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { testimonials } from '../design/content';
+---
+
+<SiteLayout
+  title="About Optimize Long Island | West Islip, NY"
+  description="Optimize Long Island is a West Islip, NY agency that builds websites with AI, has a person check every one, and serves Long Island and clients across the US."
+>
+  <PageHead
+    crumbs={[{ name: 'About', url: '/about/' }]}
+    eyebrow="About"
+    title="A Long Island agency that builds the new way."
+    lede="AI does the heavy lifting on a modern technology stack. Experienced people direct and check the work."
+  />
+
+  <section class="section section--paper">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Who does what</p>
+          <h2>AI builds. People decide.</h2>
+        </div>
+      </div>
+      <div class="two">
+        <div>
+          <h3>AI does the heavy lifting</h3>
+          <p>Design and build work that used to take a team weeks is done with Claude, an AI model made by Anthropic, on Astro. That is why a custom site can cost $1,000, and why it can be live in days, not months.</p>
+        </div>
+        <div>
+          <h3>People direct and check it</h3>
+          <p>An experienced person directs the work and reviews every site before it goes live. After launch, a person handles your edits, updates and monthly report on a care plan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="facts">
+        <li><span class="k mono">Based in</span><span class="v">West Islip, NY</span></li>
+        <li><span class="k mono">Serving</span><span class="v">Long Island (Suffolk and Nassau) and clients across the United States</span></li>
+        <li><span class="k mono">Experience</span><span class="v">More than 10 years in internet marketing and web design</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <TechBand />
+
+  <section class="section section--paper">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Clients</p>
+          <h2>What clients say.</h2>
+        </div>
+      </div>
+      <div class="quotes">
+        <Testimonial size="large" {...testimonials.solar} />
+        <div class="side">
+          <Testimonial {...testimonials.tent} />
+          <Testimonial {...testimonials.bono} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</SiteLayout>
+
+<style>
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  h3 { font-size: 28px; margin-bottom: 16px; }
+  .two p { color: var(--muted); max-width: 46ch; }
+  .facts { list-style: none; border-bottom: 1px solid var(--line); }
+  .facts li { display: grid; grid-template-columns: 1fr 3fr; gap: 24px; padding: 28px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .k { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .v { font-size: clamp(20px, 2.4vw, 26px); font-weight: 600; letter-spacing: -0.01em; }
+  .quotes { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; }
+  .side { display: grid; gap: 40px; }
+  @media (max-width: 900px) { .two, .quotes { grid-template-columns: 1fr; gap: 40px; } }
+  @media (max-width: 640px) { .facts li { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; } }
+</style>

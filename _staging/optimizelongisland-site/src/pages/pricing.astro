@@ -1,0 +1,78 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import PriceGroup from '../design/components/PriceGroup.astro';
+import PriceSheet from '../design/components/PriceSheet.astro';
+import BundleBar from '../design/components/BundleBar.astro';
+import FAQ from '../design/components/FAQ.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { money, prices, websitePlans, carePlans, seoPlans, googleAdsPlan, socialAdsPlan } from '../design/pricing';
+import { faq } from '../design/content';
+
+const chips = [
+  ['Websites', '#websites'],
+  ['Care plans', '#care'],
+  ['SEO', '#seo'],
+  ['Google Ads', '#google-ads'],
+  ['Social ads', '#social-ads'],
+];
+---
+
+<SiteLayout
+  title="Pricing | Optimize Long Island"
+  description={`Every price, up front. Websites from ${money(prices.launch)}, care plans from ${money(prices.care)} a month, SEO from ${money(prices.seoLocal)} a month, and ads management.`}
+>
+  <PageHead
+    crumbs={[{ name: 'Pricing', url: '/pricing/' }]}
+    eyebrow="Pricing"
+    title="Every price, up front."
+    lede="Fixed prices for websites. Monthly prices for care, SEO and ads. Every plan starts with a free analysis."
+  >
+    <ul class="chips">
+      {chips.map(([l, h]) => <li><a href={h}>{l}</a></li>)}
+    </ul>
+  </PageHead>
+
+  <PriceGroup id="websites" eyebrow="Websites" heading="Fixed-price websites.">
+    {websitePlans.map((p) => <PriceSheet plan={p} />)}
+    <div slot="notes" class="notes">
+      <div>
+        <p><strong>Extra pages:</strong> {money(prices.extraPage)} each.</p>
+        <p><strong>What you provide for Launch:</strong> answers to a short questionnaire, your logo and your photos.</p>
+      </div>
+      <div>
+        <p><strong>Not included in Launch:</strong> copywriting from scratch, logo design, photography, e-commerce.</p>
+      </div>
+    </div>
+  </PriceGroup>
+
+  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us.">
+    {carePlans.map((p) => <PriceSheet plan={p} />)}
+    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.</p>
+  </PriceGroup>
+
+  <PriceGroup id="seo" eyebrow="SEO" heading="Monthly SEO plans.">
+    {seoPlans.map((p) => <PriceSheet plan={p} />)}
+  </PriceGroup>
+
+  <PriceGroup id="ads" tone="paper" cols={2} eyebrow="Ads management" heading="Google Ads and social ads.">
+    <PriceSheet plan={googleAdsPlan} />
+    <PriceSheet plan={socialAdsPlan} />
+    <Fragment slot="notes"><BundleBar /></Fragment>
+  </PriceGroup>
+
+  <FAQ heading="Pricing questions." items={[faq.cost, faq.care, faq.changes, faq.adspend, faq.wordpress]} pricingLink={false} />
+
+  <ContactSection />
+</SiteLayout>
+
+<style>
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+  .chips a { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--on-deep); border: 1px solid rgba(255, 255, 255, 0.45); border-radius: var(--radius-pill); padding: 8px 14px; }
+  .chips a:hover { border-color: var(--accent); }
+  .notes { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; border-top: 1px solid var(--line); padding-top: 32px; font-size: 15px; color: var(--muted); }
+  .notes p + p { margin-top: 10px; }
+  .notes strong { color: var(--ink); font-weight: 600; }
+  .after { text-align: center; font-size: 17px; }
+  @media (max-width: 900px) { .notes { grid-template-columns: 1fr; gap: 12px; } }
+</style>

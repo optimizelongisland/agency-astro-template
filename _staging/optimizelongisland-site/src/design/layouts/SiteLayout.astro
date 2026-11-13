@@ -1,0 +1,37 @@
+---
+// DESIGN LAYER - restyle or replace freely.
+// The visible page shell: fonts, header, footer and the main content area.
+// It wraps CoreLayout, which supplies the SEO tags, structured data and
+// analytics. Keep <main id="main-content"> (the skip link targets it).
+import CoreLayout from '../../core/layouts/CoreLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import './../tokens.css';
+import './../global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ratingValue?: number;
+  reviewCount?: number;
+  noindex?: boolean;
+}
+---
+
+<CoreLayout {...Astro.props}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <Header />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer />
+</CoreLayout>

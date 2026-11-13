@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../design/layouts/SiteLayout.astro';
+import PageHead from '../design/components/PageHead.astro';
+import ContactSection from '../design/components/ContactSection.astro';
+import { business } from '../site';
+const [facebook, instagram, gbp] = business.socialProfiles;
+---
+
+<SiteLayout
+  title="Contact Optimize Long Island | Free Analysis"
+  description="Call (631) 517-0607, email, or send the form for a free analysis. Optimize Long Island, West Islip, NY, serving Long Island and clients across the US."
+>
+  <PageHead crumbs={[{ name: 'Contact', url: '/contact/' }]} eyebrow="Contact" title="Get a free analysis." cta={false} />
+
+  <ContactSection tone="light" heading="Call, email or send the form." subheading="Every plan starts with a free analysis. Tell us about your business and what you need.">
+    <p class="addr">{business.city}, {business.region} {business.postalCode}</p>
+    <p class="addr">Serving Long Island and clients across the United States</p>
+    <p class="social">
+      <a class="link" href={facebook}>Facebook</a>
+      <a class="link" href={instagram}>Instagram</a>
+      <a class="link" href={gbp}>Google Business Profile</a>
+    </p>
+  </ContactSection>
+</SiteLayout>
+
+<style>
+  .addr { margin-top: 20px; color: var(--ink); }
+  .social { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .social a { padding: 6px 0; }
+</style>

@@ -1,0 +1,58 @@
+---
+// Visible FAQ list; FaqSchema (locked core) is fed the same items.
+import FaqSchema, { type FaqItem } from '../../core/components/schema/FaqSchema.astro';
+import { business, telHref } from '../../site';
+
+interface Props {
+  heading?: string;
+  eyebrow?: string;
+  items: FaqItem[];
+  pricingLink?: boolean;
+  tone?: 'bg' | 'paper';
+}
+const { heading = 'Straight answers.', eyebrow = 'Questions', items, pricingLink = true, tone = 'bg' } = Astro.props;
+---
+
+<section class:list={['faq', 'section', { 'section--paper': tone === 'paper' }]} id="faq">
+  <div class="wrap cols">
+    <div class="aside">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{heading}</h2>
+      <p class="more">
+        {pricingLink && <><a class="link" href="/pricing/">More on the pricing page →</a><br /></>}
+        <a class="link" href={telHref}>{business.phone}</a>
+      </p>
+    </div>
+    <div class="faq-list">
+      {
+        items.map((item) => (
+          <details class="faq-item" name="faq">
+            <summary>
+              <span>{item.question}</span>
+              <span class="plus" aria-hidden="true">+</span>
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<FaqSchema items={items} />
+
+<style>
+  .cols { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; align-items: start; }
+  .aside { position: sticky; top: calc(var(--header-h) + 32px); }
+  .aside h2 { margin-bottom: 24px; }
+  .more { line-height: 2; font-weight: 500; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; font-weight: 600; font-size: 18px; list-style: none; padding: 22px 0; min-height: 56px; }
+  summary::-webkit-details-marker { display: none; }
+  .plus { font-family: var(--font-mono); font-weight: 500; font-size: 20px; color: var(--accent-2); transition: transform 0.15s ease; flex: none; }
+  .faq-item[open] .plus { transform: rotate(45deg); }
+  .faq-item p { margin: 0 0 24px; color: var(--muted); font-size: 16px; max-width: 60ch; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; gap: 32px; } .aside { position: static; } }
+  @media (max-width: 640px) { summary { font-size: 17px; } }
+</style>

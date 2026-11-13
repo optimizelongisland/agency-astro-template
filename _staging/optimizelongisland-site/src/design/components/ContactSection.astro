@@ -1,0 +1,54 @@
+---
+// The section around the lead form. The form itself is the locked core LeadForm.
+import LeadForm from '../../core/components/LeadForm.astro';
+import { business, telHref } from '../../site';
+import { leadFields, leadButton } from '../content';
+
+interface Props {
+  heading?: string;
+  subheading?: string;
+  tone?: 'deep' | 'light';
+  id?: string;
+}
+const {
+  heading = 'Get a free analysis.',
+  subheading = 'Every plan starts with one. Tell us about your business and what you need.',
+  tone = 'deep',
+  id = 'contact',
+} = Astro.props;
+---
+
+<section class:list={['contact', 'section', { 'section--deep': tone === 'deep', light: tone === 'light' }]} id={id}>
+  <div class="wrap cols">
+    <div class="intro">
+      <p class="eyebrow">Free analysis</p>
+      <h2>{heading}</h2>
+      <p class="sub">{subheading}</p>
+      <p><a class="phone mono" href={telHref}>{business.phone}</a></p>
+      <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
+      <slot />
+    </div>
+    <div class="contact-card">
+      <LeadForm buttonLabel={leadButton} extraFields={leadFields} id={id} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact { scroll-margin-top: calc(var(--header-h) + 16px); }
+  .cols { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 16px 8.33%; align-items: start; }
+  .sub { font-size: 18px; color: var(--on-deep-muted); margin: 20px 0 28px; max-width: 40ch; }
+  .light .sub { color: var(--muted); }
+  .phone { display: inline-block; font-size: 28px; color: var(--accent); margin-bottom: 10px; }
+  .light .phone { color: var(--ink); }
+  .mail { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .light .mail { color: var(--accent-2); }
+  .contact-card {
+    background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px;
+    --field-bg: #ffffff; --field-border: #7A8D9B; --field-radius: 8px; --field-padding: 13px 14px;
+    --label-size: 14px; --label-weight: 600; --form-gap: 18px;
+  }
+  .contact-card :global(.btn) { width: 100%; justify-content: center; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; gap: 32px; } }
+  @media (max-width: 640px) { .contact-card { padding: 24px 20px; } }
+</style>

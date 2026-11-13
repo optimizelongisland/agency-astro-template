@@ -1,0 +1,46 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import ServiceList from '../../design/components/ServiceList.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { money, prices } from '../../design/pricing';
+import { services, faq } from '../../design/content';
+---
+
+<SiteLayout
+  title="Services and Prices | Optimize Long Island"
+  description={`Web design, SEO, Google Ads and social media ads for Long Island businesses, with prices. Websites from ${money(prices.launch)}. Free analysis.`}
+>
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }]}
+    eyebrow="Services"
+    title="What we do, and what it costs."
+    lede="Web design, SEO, Google Ads and social media ads for Long Island businesses. Every plan starts with a free analysis."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ServiceList items={services} large />
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap care">
+      <div>
+        <p class="eyebrow">Care plans</p>
+        <h2>Care plans from {money(prices.care)} a month.</h2>
+      </div>
+      <a class="link" href="/pricing/#care">See care plans →</a>
+    </div>
+  </section>
+
+  <FAQ items={[faq.cost, faq.time, faq.own]} />
+
+  <ContactSection />
+</SiteLayout>
+
+<style>
+  .care { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 32px; flex-wrap: wrap; }
+  .care a { font-weight: 500; }
+</style>

@@ -1,0 +1,68 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import BuildSheet from '../../design/components/BuildSheet.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import IncludedList from '../../design/components/IncludedList.astro';
+import QuoteBand from '../../design/components/QuoteBand.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import OtherServices from '../../design/components/OtherServices.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import { money, prices, seoPlans } from '../../design/pricing';
+import { testimonials, faq } from '../../design/content';
+
+const items = [faq.ai, faq.cost, faq.own];
+const description = `Local SEO for Long Island businesses from ${money(prices.seoLocal)} a month, including Google Maps and AI search visibility. Free analysis.`;
+---
+
+<SiteLayout title="SEO Services Long Island | Optimize Long Island" {description}>
+  <ServiceSchema serviceName="Local SEO" description="Local search engine optimization, including Google Maps and AI search visibility." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'SEO', url: '/services/seo/' }]}
+    eyebrow="SEO services, Long Island"
+    title="SEO that gets local customers to find you."
+    lede="Local search engine optimization, including Google Maps and AI search visibility. Every plan starts with a free analysis."
+  >
+    <BuildSheet
+      slot="aside"
+      title="Build sheet"
+      subtitle="Local SEO"
+      rows={[
+        { label: 'Google Business Profile', value: 'optimized, weekly posts' },
+        { label: 'Listings', value: 'cleaned up, kept consistent' },
+        { label: 'Content', value: '2 pieces a month' },
+        { label: 'Report', value: 'monthly' },
+      ]}
+      pricePrefix="From"
+      price={money(prices.seoLocal)}
+      unit="a month"
+    />
+  </PageHead>
+
+  <PriceGroup id="plans" eyebrow="Packages and prices" heading="Three SEO plans.">
+    {seoPlans.map((p) => <PriceSheet plan={p} />)}
+  </PriceGroup>
+
+  <IncludedList
+    heading="What Local SEO includes."
+    items={[
+      'Google Business Profile optimization and weekly posts',
+      'Business listings cleaned up and kept consistent',
+      'On-page optimization',
+      'Two new pieces of content a month',
+      'A monthly report',
+      'Growth SEO adds tracking of how your business shows up in AI answers (ChatGPT, Google AI Overviews, Perplexity)',
+    ]}
+  />
+
+  <QuoteBand tone="bg" {...testimonials.solar} />
+
+  <FAQ tone="paper" items={items} />
+
+  <OtherServices current="/services/seo/" />
+
+  <ContactSection heading="Get a free SEO analysis." />
+</SiteLayout>

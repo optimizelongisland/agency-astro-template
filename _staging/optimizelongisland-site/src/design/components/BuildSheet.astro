@@ -1,0 +1,59 @@
+---
+// The Build Sheet: an itemized spec card that always ends in a check stamp.
+import CheckStamp from './CheckStamp.astro';
+import SheetRows from './SheetRows.astro';
+interface Props {
+  title: string;
+  subtitle?: string;
+  rows: { label: string; value: string }[];
+  checkLabel?: string;
+  price?: string;
+  unit?: string;
+  pricePrefix?: string;
+  link?: { href: string; label: string };
+  tone?: 'light' | 'dark';
+  animate?: boolean;
+}
+const { title, subtitle, rows, checkLabel = 'Checked by a person', price, unit, pricePrefix, link, tone = 'light', animate = false } = Astro.props;
+---
+
+<div class:list={['sheet', tone, { animate }]}>
+  <div class="head"><span>{title}</span>{subtitle && <span>{subtitle}</span>}</div>
+  <SheetRows rows={rows} {tone} {animate} />
+  <div class="check" style={animate ? `--i:${rows.length}` : undefined}>
+    <CheckStamp /><span>{checkLabel}</span>
+  </div>
+  {
+    price && (
+      <div class="foot">
+        <div class="price">
+          {pricePrefix && <span class="pre">{pricePrefix}</span>}
+          <span class="n num">{price}</span>
+          {unit && <span class="u">{unit}</span>}
+        </div>
+        {link && <a class="link" href={link.href}>{link.label}</a>}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .sheet { container-type: inline-size; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; color: var(--ink); }
+  .sheet.dark { background: var(--deep-2); border-color: var(--line-deep); color: var(--on-deep); }
+  .head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+  .dark .head { color: var(--on-deep-muted); border-bottom-color: var(--line-deep); }
+  .check { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 12px; background: var(--accent-soft); border-radius: 6px; font-family: var(--font-mono); font-weight: 500; font-size: 14px; color: var(--ink); }
+  .dark .check { background: rgba(0, 175, 239, 0.12); color: var(--on-deep); }
+  .animate .check { opacity: 0; animation: rowin 240ms ease-out forwards; animation-delay: calc(200ms + var(--i) * 70ms); }
+  .animate .check :global(svg) { animation: stamp 240ms ease-out forwards; animation-delay: calc(200ms + var(--i) * 70ms); transform: scale(0.85); }
+  @keyframes rowin { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @keyframes stamp { to { transform: scale(1); } }
+  .foot { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+  .dark .foot { border-top-color: var(--line-deep); }
+  .price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .pre { font-size: 15px; color: var(--muted); }
+  .n { font-size: clamp(40px, 5vw, 48px); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+  .u { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--muted); }
+  .foot .link { font-size: 15px; font-weight: 500; }
+  @media (max-width: 640px) { .sheet { padding: 20px; } .check { font-size: 13px; } }
+</style>

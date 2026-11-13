@@ -1,0 +1,15 @@
+---
+import Testimonial from './Testimonial.astro';
+interface Props { quote: string; name: string; company: string; tone?: 'bg' | 'paper' }
+const { tone = 'paper', ...q } = Astro.props;
+---
+
+<section class:list={['section', { 'section--paper': tone === 'paper' }]}>
+  <div class="wrap">
+    <div class="box"><Testimonial size="large" {...q} /></div>
+  </div>
+</section>
+
+<style>
+  .box { max-width: 860px; }
+</style>

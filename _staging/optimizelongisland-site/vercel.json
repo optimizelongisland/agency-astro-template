@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/services/website-design", "destination": "/services/long-island-web-design-company/", "permanent": true },
+    { "source": "/services/website-design/", "destination": "/services/long-island-web-design-company/", "permanent": true },
+    { "source": "/contact-us", "destination": "/contact/", "permanent": true },
+    { "source": "/contact-us/", "destination": "/contact/", "permanent": true }
+  ]
+}

@@ -1,0 +1,19 @@
+---
+import ServiceList from './ServiceList.astro';
+import { services } from '../content';
+interface Props { current: string; tone?: 'bg' | 'paper' }
+const { current, tone = 'bg' } = Astro.props;
+---
+
+<section class:list={['section', { 'section--paper': tone === 'paper' }]}>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Services</p>
+        <h2>Other services</h2>
+      </div>
+      <a class="link head-link" href="/pricing/">Full price list →</a>
+    </div>
+    <ServiceList items={services.filter((s) => s.href !== current)} />
+  </div>
+</section>

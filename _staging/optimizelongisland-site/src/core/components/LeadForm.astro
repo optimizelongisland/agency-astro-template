@@ -1,0 +1,307 @@
+---
+// CORE - do not edit per client. See src/core/README.md.
+//
+// The lead form itself: fields, spam protection and submit behavior. It posts
+// to /api/contact, which emails the lead and copies it to any webhooks.
+//
+// This component renders ONLY the <form>. The section around it (heading,
+// layout, background, card) belongs to the design layer, which is free to
+// place this form anywhere.
+//
+// Styling it from the design layer, without editing this file:
+//   - Colors, radius and fonts come from the tokens in src/design/tokens.css.
+//   - The submit button gets the classes in `buttonClass` (default "btn
+//     btn-solid"), so it looks like every other button on the site.
+//   - Fine-tune with these optional CSS variables, set on any ancestor:
+//       --form-gap            space between fields            (default 20px)
+//       --field-bg            input background                (default --paper)
+//       --field-border        input border color              (default --ink at 45%)
+//       --field-border-width  input border width              (default 1.5px)
+//       --field-radius        input corner radius             (default --radius)
+//       --field-padding       input padding                   (default 12px 14px)
+//       --label-size          label font size                 (default 14px)
+//       --label-weight        label font weight               (default 600)
+//   - Pass `class` to add your own class to the <form>.
+//
+// Extra questions: pass `extraFields` to add your own fields between the
+// contact details and the message, for example which service the visitor needs:
+//   extraFields={[
+//     { name: 'service', label: 'Service needed', type: 'select', required: true,
+//       options: ['Panel upgrade', 'EV charger', 'Something else'] },
+//     { name: 'address', label: 'Property address' },
+//   ]}
+// `name` is lowercase letters, digits and underscores. Answers arrive in the
+// notification email and in the webhook payload under `extra`. Up to 8 fields.
+//
+// Works without JavaScript (plain post, then redirect to /thank-you/).
+// Honeypot is always on; Cloudflare Turnstile appears automatically when
+// PUBLIC_TURNSTILE_SITE_KEY is set.
+import { EXTRA_PREFIX, HONEYPOT_FIELD } from '../lib/leads';
+
+export interface ExtraField {
+  name: string; // lowercase letters, digits, underscores; starts with a letter
+  label: string;
+  type?: 'text' | 'select';
+  options?: string[]; // for type 'select'
+  required?: boolean;
+  placeholder?: string; // for type 'select', the first empty option's text
+}
+
+interface Props {
+  extraFields?: ExtraField[];
+  buttonLabel?: string;
+  buttonClass?: string;
+  messageLabel?: string;
+  id?: string; // prefix for field ids; change it if two forms share a page
+  class?: string;
+}
+const {
+  buttonLabel = 'Send message',
+  buttonClass = 'btn btn-solid',
+  messageLabel = 'How can we help?',
+  id = 'lead',
+  class: className,
+  extraFields = [],
+} = Astro.props;
+
+for (const field of extraFields) {
+  if (!/^[a-z][a-z0-9_]{0,29}$/.test(field.name)) {
+    throw new Error(
+      `LeadForm extraFields: "${field.name}" is not a valid field name. Use lowercase letters, digits and underscores, starting with a letter.`,
+    );
+  }
+}
+if (extraFields.length > 8) throw new Error('LeadForm extraFields: at most 8 extra fields are supported.');
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<form class:list={['lead-form', className]} method="post" action="/api/contact" data-lead-form>
+  <div class="field">
+    <label for={`${id}-name`}>Name</label>
+    <input id={`${id}-name`} name="name" type="text" autocomplete="name" maxlength="100" required />
+    <p class="field-error" data-error-for="name" id={`${id}-name-error`}></p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for={`${id}-email`}>Email</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" maxlength="254" required />
+      <p class="field-error" data-error-for="email" id={`${id}-email-error`}></p>
+    </div>
+    <div class="field">
+      <label for={`${id}-phone`}>Phone <span class="optional">(optional)</span></label>
+      <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" maxlength="30" />
+      <p class="field-error" data-error-for="phone" id={`${id}-phone-error`}></p>
+    </div>
+  </div>
+
+  {
+    extraFields.map((field) => (
+      <div class="field">
+        <label for={`${id}-${field.name}`}>
+          {field.label} {!field.required && <span class="optional">(optional)</span>}
+        </label>
+        {field.type === 'select' ? (
+          <select id={`${id}-${field.name}`} name={`${EXTRA_PREFIX}${field.name}`} required={field.required}>
+            <option value="">{field.placeholder ?? 'Please choose'}</option>
+            {(field.options ?? []).map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
+        ) : (
+          <input
+            id={`${id}-${field.name}`}
+            name={`${EXTRA_PREFIX}${field.name}`}
+            type="text"
+            maxlength="300"
+            required={field.required}
+          />
+        )}
+      </div>
+    ))
+  }
+
+  <div class="field">
+    <label for={`${id}-message`}>{messageLabel}</label>
+    <textarea id={`${id}-message`} name="message" rows="5" maxlength="5000" required></textarea>
+    <p class="field-error" data-error-for="message" id={`${id}-message-error`}></p>
+  </div>
+
+  <div class="hp" aria-hidden="true">
+    <label for={`${id}-hp`}>Leave this field empty</label>
+    <input id={`${id}-hp`} name={HONEYPOT_FIELD} type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />}
+
+  <button type="submit" class={buttonClass}>{buttonLabel}</button>
+
+  <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+</form>
+
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
+
+<script>
+  // Progressive enhancement: submit in the background, show field-level errors
+  // inline, and go to the thank-you page on success. If this script fails to
+  // load, the form still works as a normal page post.
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const idleLabel = button?.textContent ?? '';
+
+    const setStatus = (text: string, isError: boolean) => {
+      if (!status) return;
+      status.textContent = text;
+      status.classList.toggle('is-error', isError);
+    };
+
+    const clearErrors = () => {
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => (el.textContent = ''));
+      form.querySelectorAll('[aria-invalid]').forEach((el) => {
+        el.removeAttribute('aria-invalid');
+        el.removeAttribute('aria-describedby');
+      });
+    };
+
+    const showErrors = (errors: Record<string, string>) => {
+      let first: HTMLElement | null = null;
+      for (const [field, text] of Object.entries(errors)) {
+        const slot = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+        const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+        if (slot) slot.textContent = text;
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          if (slot?.id) input.setAttribute('aria-describedby', slot.id);
+          first ??= input;
+        }
+      }
+      first?.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearErrors();
+      setStatus('Sending…', false);
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending…';
+      }
+
+      const fallback = 'We could not send your message. Please call us instead.';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await response.json().catch(() => null);
+
+        if (response.ok && data?.ok) {
+          window.location.assign(data.redirect ?? '/thank-you/');
+          return;
+        }
+        if (data?.errors) showErrors(data.errors);
+        setStatus(data?.message ?? fallback, true);
+      } catch {
+        setStatus(fallback, true);
+      }
+
+      // Only reached on failure: let the visitor try again.
+      if (button) {
+        button.disabled = false;
+        button.textContent = idleLabel;
+      }
+      const turnstile = (window as unknown as { turnstile?: { reset: () => void } }).turnstile;
+      turnstile?.reset();
+    });
+  });
+</script>
+
+<style>
+  .lead-form {
+    display: grid;
+    gap: var(--form-gap, 20px);
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--form-gap, 20px);
+    align-items: start; /* an error under one field must not stretch its neighbor */
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+  label {
+    font-weight: var(--label-weight, 600);
+    font-size: var(--label-size, 14px);
+    color: var(--ink, #1a1a1a);
+  }
+  .optional {
+    font-weight: 400;
+    color: var(--muted, #555);
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px; /* 16px stops iOS from zooming in on focus */
+    color: var(--ink, #1a1a1a);
+    background: var(--field-bg, var(--paper, #fff));
+    border: var(--field-border-width, 1.5px) solid
+      var(--field-border, color-mix(in srgb, var(--ink, #1a1a1a) 45%, transparent));
+    border-radius: var(--field-radius, var(--radius, 0));
+    padding: var(--field-padding, 12px 14px);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    border-color: var(--error, #b3261e);
+  }
+  .field-error {
+    color: var(--error, #b3261e);
+    font-size: 14px;
+  }
+  .field-error:empty,
+  .form-status:empty {
+    display: none;
+  }
+  button[type='submit'] {
+    justify-self: start;
+    font-family: inherit;
+  }
+  button[type='submit'][disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .form-status {
+    font-size: 15px;
+    color: var(--muted, #555);
+  }
+  .form-status.is-error {
+    color: var(--error, #b3261e);
+    font-weight: 600;
+  }
+
+  /* Honeypot: off-screen rather than display:none, which some bots skip. */
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

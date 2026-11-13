@@ -1,0 +1,20 @@
+---
+// A plain quote. No stars, no schema (the brief gives no ratings).
+interface Props { quote: string; name: string; company: string; size?: 'large' | 'regular' }
+const { quote, name, company, size = 'regular' } = Astro.props;
+---
+
+<figure class:list={['q', size]}>
+  <blockquote>{quote}</blockquote>
+  <figcaption><span class="n">{name}</span> <span class="c">{company}</span></figcaption>
+</figure>
+
+<style>
+  .q { border-left: 3px solid var(--accent); padding-left: 24px; }
+  blockquote { font-size: 17px; line-height: 1.5; font-weight: 400; margin-bottom: 18px; color: var(--ink); }
+  .large blockquote { font-size: clamp(21px, 2.4vw, 26px); font-weight: 500; line-height: 1.4; }
+  figcaption { font-size: 15px; display: flex; flex-direction: column; }
+  .n { font-weight: 600; color: var(--ink); }
+  .c { color: var(--muted); }
+  @media (max-width: 640px) { .q { padding-left: 20px; } }
+</style>

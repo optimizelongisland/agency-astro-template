@@ -1,0 +1,111 @@
+---
+import SiteLayout from '../../design/layouts/SiteLayout.astro';
+import ServiceSchema from '../../core/components/schema/ServiceSchema.astro';
+import PageHead from '../../design/components/PageHead.astro';
+import BuildSheet from '../../design/components/BuildSheet.astro';
+import PriceGroup from '../../design/components/PriceGroup.astro';
+import PriceSheet from '../../design/components/PriceSheet.astro';
+import Process from '../../design/components/Process.astro';
+import TechBand from '../../design/components/TechBand.astro';
+import OwnershipBlock from '../../design/components/OwnershipBlock.astro';
+import QuoteBand from '../../design/components/QuoteBand.astro';
+import FAQ from '../../design/components/FAQ.astro';
+import OtherServices from '../../design/components/OtherServices.astro';
+import ContactSection from '../../design/components/ContactSection.astro';
+import CheckStamp from '../../design/components/CheckStamp.astro';
+import { money, prices, websitePlans, carePlans } from '../../design/pricing';
+import { buildSteps, testimonials, faq, launchSheetRows } from '../../design/content';
+
+const items = [faq.cost, faq.template, faq.time, faq.own, faq.care, faq.wordpress, faq.content, faq.changes, faq.ai];
+const description = `Custom web design for Long Island businesses from ${money(prices.launch)}. Designed and built with AI, reviewed by a person. You own the site.`;
+---
+
+<SiteLayout title="Long Island Web Design Company | Optimize Long Island" description={description}>
+  <ServiceSchema serviceName="Web design" description="Custom websites, designed and built with AI and reviewed by a person, at a fixed public price." />
+
+  <PageHead
+    crumbs={[{ name: 'Services', url: '/services/' }, { name: 'Web design', url: '/services/long-island-web-design-company/' }]}
+    eyebrow="Long Island web design"
+    title="Custom web design at a fixed price."
+    lede="Custom websites, designed and built with AI and reviewed by a person, at a fixed public price. Typically live within 7 business days of receiving your content."
+  >
+    <BuildSheet
+      slot="aside"
+      title="Build sheet"
+      subtitle="Launch website"
+      rows={launchSheetRows}
+      price={money(prices.launch)}
+      unit="one time"
+    />
+  </PageHead>
+
+  <PriceGroup id="websites" eyebrow="Packages and prices" heading="Pick a package." intro={`Extra pages are ${money(prices.extraPage)} each.`}>
+    {websitePlans.map((p) => <PriceSheet plan={p} />)}
+  </PriceGroup>
+
+  <section class="section section--paper">
+    <div class="wrap two">
+      <div>
+        <p class="eyebrow">For a Launch Website</p>
+        <h2>What you provide.</h2>
+        <ul class="plain">
+          <li><CheckStamp size={18} /><span>Answers to a short questionnaire</span></li>
+          <li><CheckStamp size={18} /><span>Your logo</span></li>
+          <li><CheckStamp size={18} /><span>Photos, or a shared folder of them</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Not included</p>
+        <h2 class="muted">Not included in Launch.</h2>
+        <ul class="plain muted">
+          <li>Copywriting from scratch</li>
+          <li>Logo design</li>
+          <li>Photography</li>
+          <li>E-commerce</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>How your site gets built, step by step.</h2>
+        </div>
+      </div>
+      <Process steps={buildSteps} />
+    </div>
+  </section>
+
+  <TechBand expanded />
+
+  <PriceGroup id="care" tone="paper" cols={2} narrow eyebrow="Care plans" heading="Hosting and care, by the month." intro="A care plan is required to host with us.">
+    {carePlans.map((p) => <PriceSheet plan={p} />)}
+    <p slot="notes" class="after">Pay yearly and get two months free: {money(prices.careYearly)} a year for Care.</p>
+  </PriceGroup>
+
+  <OwnershipBlock size="regular" />
+
+  <QuoteBand tone="paper" {...testimonials.tent} />
+
+  <FAQ items={items} />
+
+  <OtherServices current="/services/long-island-web-design-company/" tone="paper" />
+
+  <ContactSection heading="Get a free web design analysis." />
+</SiteLayout>
+
+<style>
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .two h2 { margin-bottom: 28px; font-size: clamp(28px, 3.4vw, 36px); }
+  .plain { list-style: none; }
+  .plain li { display: flex; gap: 14px; align-items: flex-start; border-top: 1px solid var(--line); padding: 18px 0; font-size: 18px; }
+  .plain li :global(svg) { margin-top: 3px; }
+  .plain.muted li { color: var(--muted); }
+  .muted { color: var(--muted); }
+  h2.muted { color: var(--ink); }
+  .after { text-align: center; margin-top: 8px; font-size: 17px; }
+  @media (max-width: 900px) { .two { grid-template-columns: 1fr; gap: 48px; } }
+</style>
