@@ -35,7 +35,7 @@ a neutral scaffold, not a house style. Each client gets their own design.
 2. Write the content brief: copy `client/brief.example.md` to `client/brief.md`, fill it in, and get the client's sign-off.
 3. Put the client's logo and photos under `src/assets/`.
 4. Design and build. In Claude Code, ask for a new design and give two or three reference sites you like. The `site-design` skill runs the steps: capture the references, write a design direction, build it, check it.
-5. Add `public/favicon.svg`, `public/apple-touch-icon.png` (180x180) and `public/og-image.jpg` (1200x630).
+5. Icons and share image: add the client's own `public/favicon.svg`, `public/apple-touch-icon.png` (180x180) and `public/og-image.jpg` (1200x630). If the client has no logo artwork, `npm run icons` generates all of them from the business name and the site's colors.
 6. `npm run qc` until it passes, then run the `site-qa` agent once.
 7. Push to GitHub, connect the repo to Vercel, set the contact form environment variables (see "Contact form" below), and point the domain at Vercel.
 8. Send a real test lead on the live domain.
@@ -89,6 +89,10 @@ to `src/pages/api/contact.ts`, which runs as a small Vercel function and:
    GA4 and Google Ads.
 
 Every page is still static. The form endpoint is the only server code.
+
+Need to ask something extra, such as which service the visitor wants? Pass
+`extraFields` to `LeadForm` (see the comment at the top of the file). The
+answers arrive in the email and in the webhook copy.
 
 `LeadForm` renders only the form. The section around it is design: see
 `src/design/components/ContactSection.astro`. To restyle the fields, set the
@@ -144,9 +148,13 @@ so it costs nothing and should run after every edit. It fails on:
 - body text, muted text or button text that does not meet 4.5:1 color contrast
 - a required design token missing from `tokens.css`
 - any change to the locked foundation (compared against `core.lock.json`)
-- a sitemap URL that does not match the site, or a missing share image
+- a sitemap URL that does not match the site, a missing share image, or the default Astro icon still in place
 
 On the unfilled template it fails by design.
+
+**`npm run icons`** generates the favicon, home-screen icon and share image from
+the business name and the site's colors, for clients with no logo artwork. It
+never overwrites artwork that is already there.
 
 **`npm run shots -- --out <folder> <url>...`** saves desktop and phone
 screenshots and measured design facts for any page, including the local build.
@@ -181,7 +189,7 @@ copy the locked folders and `core.lock.json` to each client repo.
 - [ ] Every page has a unique, accurate `title` and `description`
 - [ ] `og-image.jpg` (1200x630) exists in `/public` and shows correctly when the URL is shared
 - [ ] `src/site.ts` has the real business info
-- [ ] FAQ schema present on homepage and any service pages with FAQs
+- [ ] Every page that shows FAQs also emits `FaqSchema` with the same items
 - [ ] All images use `Photo` / `astro:assets`, not raw `<img src="/foo.jpg">`
 - [ ] Every image has real, descriptive alt text
 - [ ] `astro.config.mjs` `site:` matches the real production domain

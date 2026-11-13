@@ -8,7 +8,7 @@ export const business = {
   businessName: 'Client Business Name',
   phone: '(555) 555-5555',
   email: 'hello@clientdomain.com',
-  streetAddress: '123 Main St',
+  streetAddress: '123 Main St', // set to '' for a service-area business with no public address
   city: 'City',
   region: 'NY',
   postalCode: '00000',

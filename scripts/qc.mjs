@@ -247,8 +247,12 @@ else {
   }
 }
 if (!fs.existsSync(path.join(dist, 'sitemap-index.xml'))) error('sitemap', 'sitemap-index.xml was not generated');
+const faviconFile = path.join(dist, 'favicon.svg');
+if (!fs.existsSync(faviconFile)) error('public/favicon.svg', 'missing. Run `npm run icons` or add the client\'s icon.');
+else if (fs.readFileSync(faviconFile, 'utf8').includes('M50.4 78.5a75.1'))
+  error('public/favicon.svg', 'still the default Astro icon. Run `npm run icons` or add the client\'s icon.');
 if (!fs.existsSync(path.join(dist, 'og-image.jpg')))
-  error('public/og-image.jpg', 'missing (1200x630 share image used by every page without its own)');
+  error('public/og-image.jpg', 'missing (1200x630 share image). Run `npm run icons` or add the client\'s image.');
 
 // Report.
 const line = '-'.repeat(60);

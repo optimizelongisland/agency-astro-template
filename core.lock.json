@@ -1,10 +1,10 @@
 {
-  "coreVersion": "1.0.0",
+  "coreVersion": "1.1.0",
   "files": {
     "src/core/README.md": "fd9b62496f80fe3f",
-    "src/core/components/LeadForm.astro": "f4a1e1e188d7ce56",
+    "src/core/components/LeadForm.astro": "fc00561bb02cff43",
     "src/core/components/Photo.astro": "7977a2f17b795415",
-    "src/core/components/SEO.astro": "5f1c3a4b43b2d1eb",
+    "src/core/components/SEO.astro": "1457cbd20d9f74d2",
     "src/core/components/VideoEmbed.astro": "6176bef8443be229",
     "src/core/components/schema/BlogPostSchema.astro": "74df72b58ee32cba",
     "src/core/components/schema/BreadcrumbSchema.astro": "c68446eab62b9d70",
@@ -13,11 +13,12 @@
     "src/core/components/schema/ServiceSchema.astro": "c7ac530ec759f2d4",
     "src/core/components/schema/SiteSchema.astro": "538b4316a418194c",
     "src/core/layouts/CoreLayout.astro": "a7c1c8ad8a898498",
-    "src/core/lib/leads.ts": "d606e4e8ef73686c",
+    "src/core/lib/leads.ts": "042cdb4ccb97d118",
     "src/pages/api/contact.ts": "2ca85c0b20c1b22b",
-    "scripts/core-lock.mjs": "9ca8566fb54519b5",
-    "scripts/qc.mjs": "f9580500eacd2d86",
-    "scripts/shots.cjs": "618db0a3c3c70de6",
-    "tests/leads.test.mjs": "cb0e23f58dbee22c"
+    "scripts/core-lock.mjs": "d347965b6498be3e",
+    "scripts/make-icons.mjs": "e39fbddca79c3886",
+    "scripts/qc.mjs": "1624571dca7bf1b9",
+    "scripts/shots.cjs": "0bea4d0913ebc1b3",
+    "tests/leads.test.mjs": "700f5d86b8670641"
   }
 }

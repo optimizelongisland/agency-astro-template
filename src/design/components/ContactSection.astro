@@ -2,7 +2,7 @@
 // DESIGN LAYER - restyle or replace freely.
 // The section around the lead form: heading, intro and layout. The form itself
 // (fields, spam protection, sending) is the locked core component LeadForm.
-import LeadForm from '../../core/components/LeadForm.astro';
+import LeadForm, { type ExtraField } from '../../core/components/LeadForm.astro';
 import { business, telHref } from '../../site';
 
 interface Props {
@@ -10,9 +10,10 @@ interface Props {
   subheading?: string;
   buttonLabel?: string;
   messageLabel?: string;
+  extraFields?: ExtraField[]; // extra questions, e.g. which service is needed
   id?: string;
 }
-const { heading, subheading, buttonLabel, messageLabel, id = 'contact' } = Astro.props;
+const { heading, subheading, buttonLabel, messageLabel, extraFields, id = 'contact' } = Astro.props;
 ---
 
 <section class="contact section" id={id}>
@@ -26,7 +27,7 @@ const { heading, subheading, buttonLabel, messageLabel, id = 'contact' } = Astro
     </div>
 
     <div class="contact-card">
-      <LeadForm buttonLabel={buttonLabel} messageLabel={messageLabel} id={id} />
+      <LeadForm buttonLabel={buttonLabel} messageLabel={messageLabel} extraFields={extraFields} id={id} />
     </div>
   </div>
 </section>

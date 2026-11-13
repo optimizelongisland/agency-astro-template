@@ -11,6 +11,9 @@ export interface Lead {
   email: string;
   phone: string;
   message: string;
+  // Answers to any extra questions the site added to the form (LeadForm's
+  // `extraFields`), keyed by field name, e.g. { service: 'Panel upgrade' }.
+  extra?: Record<string, string>;
 }
 
 export interface LeadMeta {
@@ -31,7 +34,7 @@ export interface DeliveryResult {
   failed: string[]; // channels that errored, with a short reason
 }
 
-export type FieldErrors = Partial<Record<keyof Lead, string>>;
+export type FieldErrors = Partial<Record<'name' | 'email' | 'phone' | 'message', string>>;
 
 type Fetch = typeof fetch;
 
@@ -55,7 +58,35 @@ export function parseLead(form: FormData): Lead {
     email: clean(form.get('email')),
     phone: clean(form.get('phone')).replace(/\s+/g, ' '),
     message: clean(form.get('message')),
+    extra: parseExtras(form),
   };
+}
+
+// Extra form fields are submitted as `extra_<name>`. Only well-formed names are
+// accepted, and both the number of fields and their length are capped, so the
+// form cannot be used to push arbitrary data into a client's inbox or CRM.
+export const EXTRA_PREFIX = 'extra_';
+const EXTRA_NAME_RE = /^extra_([a-z][a-z0-9_]{0,29})$/;
+const MAX_EXTRA_FIELDS = 8;
+const MAX_EXTRA_LENGTH = 300;
+
+export function parseExtras(form: FormData): Record<string, string> {
+  const extras: Record<string, string> = {};
+  for (const key of new Set(form.keys())) {
+    const match = EXTRA_NAME_RE.exec(key);
+    if (!match) continue;
+    const value = clean(form.get(key)).replace(/\s+/g, ' ').slice(0, MAX_EXTRA_LENGTH);
+    if (!value) continue;
+    extras[match[1]] = value;
+    if (Object.keys(extras).length >= MAX_EXTRA_FIELDS) break;
+  }
+  return extras;
+}
+
+// "service_needed" -> "Service needed", for the notification email.
+export function extraLabel(name: string): string {
+  const words = name.replace(/_/g, ' ').trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 export function isHoneypotTripped(form: FormData): boolean {
@@ -106,6 +137,7 @@ export function buildEmail(lead: Lead, meta: LeadMeta): { subject: string; text:
     ['Name', lead.name],
     ['Email', lead.email],
     ['Phone', lead.phone || 'Not provided'],
+    ...Object.entries(lead.extra ?? {}).map(([name, value]): [string, string] => [extraLabel(name), value]),
     ['Message', lead.message],
     ['Submitted from', meta.page || meta.site],
     ['Received', meta.submittedAt],

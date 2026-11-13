@@ -8,7 +8,7 @@ interface Props {
   description: string;
   businessName: string;
   phone: string;
-  streetAddress: string;
+  streetAddress: string; // leave empty for a service-area business with no public address
   city: string;
   region: string; // e.g. "NY"
   postalCode: string;
@@ -47,10 +47,11 @@ const schema = {
   telephone: phone,
   address: {
     "@type": "PostalAddress",
-    streetAddress,
-    addressLocality: city,
-    addressRegion: region,
-    postalCode,
+    // Empty parts are left out rather than published as blank values.
+    ...(streetAddress && { streetAddress }),
+    ...(city && { addressLocality: city }),
+    ...(region && { addressRegion: region }),
+    ...(postalCode && { postalCode }),
   },
   areaServed: areaServed.map((a) => ({ "@type": "City", name: a })),
   url: canonicalURL.toString(),

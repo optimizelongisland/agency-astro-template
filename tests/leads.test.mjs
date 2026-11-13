@@ -8,6 +8,7 @@ import {
   escapeHtml,
   hasAnyChannel,
   isHoneypotTripped,
+  parseExtras,
   parseLead,
   splitList,
   validateLead,
@@ -36,13 +37,13 @@ const fail = () => new Response('nope', { status: 500 });
 
 test('parseLead trims, collapses whitespace and strips control characters', () => {
   const lead = parseLead(form({ name: '  Pat \u0000  Smith ', email: ' pat@example.com ', phone: '', message: ' hi\nthere ' }));
-  assert.deepEqual(lead, { name: 'Pat Smith', email: 'pat@example.com', phone: '', message: 'hi\nthere' });
+  assert.deepEqual(lead, { name: 'Pat Smith', email: 'pat@example.com', phone: '', message: 'hi\nthere', extra: {} });
 });
 
 test('parseLead treats missing and non-text fields as empty', () => {
   const fd = new FormData();
   fd.set('name', new Blob(['x']), 'file.txt');
-  assert.deepEqual(parseLead(fd), { name: '', email: '', phone: '', message: '' });
+  assert.deepEqual(parseLead(fd), { name: '', email: '', phone: '', message: '', extra: {} });
 });
 
 test('validateLead accepts a good lead, with or without a phone', () => {
@@ -150,4 +151,39 @@ test('verifyTurnstile passes only on a confirmed success', async () => {
   const empty = fakeFetch(ok);
   assert.equal(await verifyTurnstile('', 'secret', undefined, empty.impl), false);
   assert.equal(empty.calls.length, 0);
+});
+
+test('extra fields: only well-formed extra_ names are kept, trimmed and capped', () => {
+  const fd = form({
+    extra_service: '  Panel upgrade ',
+    extra_website: 'example.com',
+    extra_Bad: 'uppercase name is rejected',
+    'extra_bad-name': 'hyphen is rejected',
+    extra_: 'empty name is rejected',
+    extra_empty: '   ',
+    extra_long: 'x'.repeat(500),
+    other: 'not an extra field',
+  });
+  const extras = parseExtras(fd);
+  assert.deepEqual(Object.keys(extras).sort(), ['long', 'service', 'website']);
+  assert.equal(extras.service, 'Panel upgrade');
+  assert.equal(extras.long.length, 300);
+});
+
+test('extra fields: at most 8 are accepted', () => {
+  const fields = {};
+  for (let i = 0; i < 20; i++) fields[`extra_f${i}`] = 'v';
+  assert.equal(Object.keys(parseExtras(form(fields))).length, 8);
+});
+
+test('extra fields appear in the email (escaped) and in the webhook payload', async () => {
+  const lead = { ...goodLead, extra: { service_needed: '<b>EV charger</b>' } };
+  const email = buildEmail(lead, meta);
+  assert.ok(email.text.includes('Service needed: <b>EV charger</b>'));
+  assert.ok(email.html.includes('Service needed'));
+  assert.ok(!email.html.includes('<b>EV charger</b>'));
+
+  const { impl, calls } = fakeFetch(ok);
+  await deliverLead(lead, meta, { toEmails: [], webhookUrls: ['https://hooks.example/a'] }, impl);
+  assert.deepEqual(JSON.parse(calls[0].init.body).extra, { service_needed: '<b>EV charger</b>' });
 });

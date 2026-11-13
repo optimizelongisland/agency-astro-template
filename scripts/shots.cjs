@@ -149,9 +149,11 @@ function measure() {
       const page = await context.newPage();
       try {
         await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+        // Hide the Astro dev toolbar so it does not sit on top of the capture.
+        await page.addStyleTag({ content: 'astro-dev-toolbar { display: none !important; }' }).catch(() => {});
         await page.waitForTimeout(800);
         // Cap very long pages so the image stays viewable.
-        const height = Math.min(await page.evaluate(() => document.documentElement.scrollHeight), 7000);
+        const height = Math.min(await page.evaluate(() => document.documentElement.scrollHeight), 12000);
         const file = path.join(outDir, `${name}-${label}.png`);
         await page.screenshot({ path: file, fullPage: true, clip: { x: 0, y: 0, width: viewport.width, height } });
         facts[label] = await page.evaluate(measure);

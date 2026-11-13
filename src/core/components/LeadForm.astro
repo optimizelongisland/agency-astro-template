@@ -23,12 +23,32 @@
 //       --label-weight        label font weight               (default 600)
 //   - Pass `class` to add your own class to the <form>.
 //
+// Extra questions: pass `extraFields` to add your own fields between the
+// contact details and the message, for example which service the visitor needs:
+//   extraFields={[
+//     { name: 'service', label: 'Service needed', type: 'select', required: true,
+//       options: ['Panel upgrade', 'EV charger', 'Something else'] },
+//     { name: 'address', label: 'Property address' },
+//   ]}
+// `name` is lowercase letters, digits and underscores. Answers arrive in the
+// notification email and in the webhook payload under `extra`. Up to 8 fields.
+//
 // Works without JavaScript (plain post, then redirect to /thank-you/).
 // Honeypot is always on; Cloudflare Turnstile appears automatically when
 // PUBLIC_TURNSTILE_SITE_KEY is set.
-import { HONEYPOT_FIELD } from '../lib/leads';
+import { EXTRA_PREFIX, HONEYPOT_FIELD } from '../lib/leads';
+
+export interface ExtraField {
+  name: string; // lowercase letters, digits, underscores; starts with a letter
+  label: string;
+  type?: 'text' | 'select';
+  options?: string[]; // for type 'select'
+  required?: boolean;
+  placeholder?: string; // for type 'select', the first empty option's text
+}
 
 interface Props {
+  extraFields?: ExtraField[];
   buttonLabel?: string;
   buttonClass?: string;
   messageLabel?: string;
@@ -41,7 +61,17 @@ const {
   messageLabel = 'How can we help?',
   id = 'lead',
   class: className,
+  extraFields = [],
 } = Astro.props;
+
+for (const field of extraFields) {
+  if (!/^[a-z][a-z0-9_]{0,29}$/.test(field.name)) {
+    throw new Error(
+      `LeadForm extraFields: "${field.name}" is not a valid field name. Use lowercase letters, digits and underscores, starting with a letter.`,
+    );
+  }
+}
+if (extraFields.length > 8) throw new Error('LeadForm extraFields: at most 8 extra fields are supported.');
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
@@ -65,6 +95,32 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       <p class="field-error" data-error-for="phone" id={`${id}-phone-error`}></p>
     </div>
   </div>
+
+  {
+    extraFields.map((field) => (
+      <div class="field">
+        <label for={`${id}-${field.name}`}>
+          {field.label} {!field.required && <span class="optional">(optional)</span>}
+        </label>
+        {field.type === 'select' ? (
+          <select id={`${id}-${field.name}`} name={`${EXTRA_PREFIX}${field.name}`} required={field.required}>
+            <option value="">{field.placeholder ?? 'Please choose'}</option>
+            {(field.options ?? []).map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
+        ) : (
+          <input
+            id={`${id}-${field.name}`}
+            name={`${EXTRA_PREFIX}${field.name}`}
+            type="text"
+            maxlength="300"
+            required={field.required}
+          />
+        )}
+      </div>
+    ))
+  }
 
   <div class="field">
     <label for={`${id}-message`}>{messageLabel}</label>
@@ -189,6 +245,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     color: var(--muted, #555);
   }
   input,
+  select,
   textarea {
     width: 100%;
     font: inherit;
