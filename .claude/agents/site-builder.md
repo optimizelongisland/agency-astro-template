@@ -25,7 +25,7 @@ Every page a visitor can reach shows the client's real, approved content in the 
 2. Read `client/design-direction.md` if it exists. Follow its exact values. Where it is silent, choose what fits its concept and note the choice in your report.
 3. Fill in `src/site.ts`, set `site` in `astro.config.mjs`, and update the sitemap URL in `public/robots.txt`.
 4. Apply the direction's tokens to `src/design/tokens.css` and fonts in `src/design/layouts/SiteLayout.astro`, then build the layout and components it describes. Restyle, replace or add files under `src/design/components/` freely.
-5. Build the pages. Each page wraps its content in `SiteLayout`. Use the core pieces for anything technical: `LeadForm` for the enquiry form, the schema components for structured data, `Photo` for images. Delete the example service page and the sample blog post once real ones exist.
+5. Build the pages. Each page wraps its content in `SiteLayout`. Use the core pieces for anything technical: `LeadForm` for the enquiry form, the schema components for structured data, `Photo` for images. A page's file name is its URL: `/panel-upgrades/` is `src/pages/panel-upgrades.astro`. Delete the example service page and the sample blog post; they are template samples and `npm run qc` fails while they remain. If the brief has no blog posts yet, keep the blog index page (it shows an empty state) but leave it out of the navigation.
 6. For a client moving from an old site, map every old URL in the brief to its new one (see the README's redirects section).
 7. Run `npm run qc` and fix what it reports, then `npm test`.
 8. Look at your work: start the site with `astro dev --background`, run `npm run shots -- --out .design-refs/build http://localhost:4321/`, view the desktop and phone screenshots, fix what is wrong, and stop the server with `astro dev stop`. A build nobody looked at is not finished.
@@ -37,7 +37,7 @@ A wrong claim on a client's site is the agency's liability.
 
 - Use only facts that appear in the brief. Never invent or estimate licenses, years in business, awards, ratings, review counts, guarantees, prices, service areas or testimonials. If the brief does not say it, leave it out and note the gap.
 - Only set `ratingValue` and `reviewCount` when the brief gives real numbers. Fabricated rating schema can get a site penalized by Google.
-- Testimonials must be real quotes supplied in the brief, attributed as supplied.
+- Testimonials must be real quotes supplied in the brief, attributed as supplied. Use `ReviewCard` (which emits review structured data) only for reviews the brief gives a star rating for; a quote without a rating is shown as a plain testimonial with no stars.
 - House style for all site copy: no em dashes, no en dashes used as punctuation, plain direct sentences.
 - Every image goes through `Photo` with descriptive alt text. Use only images the client supplied.
 - Reference sites inform the design. Nothing of theirs (images, icons, wording, logo) goes into this site, and no page should mirror one of them section for section.

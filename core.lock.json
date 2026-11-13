@@ -16,7 +16,7 @@
     "src/core/lib/leads.ts": "d606e4e8ef73686c",
     "src/pages/api/contact.ts": "2ca85c0b20c1b22b",
     "scripts/core-lock.mjs": "9ca8566fb54519b5",
-    "scripts/qc.mjs": "61280d45dbbeb02a",
+    "scripts/qc.mjs": "f9580500eacd2d86",
     "scripts/shots.cjs": "618db0a3c3c70de6",
     "tests/leads.test.mjs": "cb0e23f58dbee22c"
   }

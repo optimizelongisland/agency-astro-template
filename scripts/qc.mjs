@@ -40,6 +40,9 @@ const PLACEHOLDERS = [
   'A real or representative customer quote',
   'A headline that names the outcome',
   'lorem ipsum',
+  // The sample service page and sample blog post that ship with the template.
+  'Example Service Name',
+  'sprinkler-watering-schedule',
 ];
 
 function walk(dir) {

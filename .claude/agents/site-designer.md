@@ -13,7 +13,7 @@ You run on a strong model because this is a one-time judgment call that everythi
 ## Inputs to read first
 
 1. `client/brief.md`: who the client is, what they sell, who buys it, their real content.
-2. `.design-refs/`: screenshots (view the images) and measured facts (JSON) for each reference site. If a reference has no capture there, run `npm run shots -- --out .design-refs <url>`. If that fails, say which reference you could not see and work from the others. Never describe a site you have not actually looked at.
+2. `.design-refs/`: screenshots (view the images) and measured facts (JSON) for each reference site. If a reference has no capture there, run `npm run shots -- --out .design-refs <url>`. If that fails, say which reference you could not see and work from the others. Never describe a site you have not actually looked at. Captures are often partial: above the fold only, or covered by a pop-up. Say in the direction what you could and could not see, and borrow nothing from the parts you did not see.
 3. `src/assets/` for the client's logo, colors and photos, if any.
 4. `src/design/` and `src/core/README.md`, so you know what the builder starts from and which parts are locked.
 
@@ -35,14 +35,15 @@ Write it for the builder. Exact values, not adjectives.
 
 1. **Concept.** Two or three sentences: the feeling, who it is for, and the one distinctive element.
 2. **From the references.** For each reference, what you are borrowing in principle and what you are deliberately not.
-3. **Tokens.** A complete, ready-to-paste `:root` block for `src/design/tokens.css` defining every required token (`--bg`, `--paper`, `--ink`, `--muted`, `--deep`, `--on-deep`, `--accent`, `--accent-2`, `--line`, `--error`, `--font-display`, `--font-body`, `--max-width`, `--radius`) with hex colors, plus any new tokens you need. Body text and muted text must reach 4.5:1 contrast on both backgrounds, and `--on-deep` on `--deep`; pick values with clear headroom because the build fails otherwise.
+3. **Tokens.** A complete, ready-to-paste `:root` block for `src/design/tokens.css` defining every required token (`--bg`, `--paper`, `--ink`, `--muted`, `--deep`, `--on-deep`, `--accent`, `--accent-2`, `--line`, `--error`, `--font-display`, `--font-body`, `--max-width`, `--radius`) with hex colors, plus any new tokens you need. `npm run qc` fails the build unless these pairs reach 4.5:1 contrast: `--ink` and `--muted` on both `--bg` and `--paper`, `--on-deep` on `--deep`, and `--error` on `--paper`; and `--deep` on `--bg` must reach 3:1. Pick values with clear headroom. The other tokens are not checked by the script but the scaffold components use them, so keep them defined.
 4. **Type.** The font families (at most two, open-licensed, with the exact Google Fonts names and weights, at most four weights in total), and the size, weight, line height and letter spacing for h1, h2, h3, body, small text and buttons, at desktop and phone widths.
 5. **Layout system.** Content width, section spacing, grid, corner radius, borders versus shadows, and how sections alternate so the page has rhythm.
 6. **Home page, section by section.** In order: the purpose of each section, its layout at desktop and at phone width, and which content from the brief goes in it. Be specific about the hero, since it carries the first five seconds.
-7. **Inner pages.** How service pages, the blog and the contact area follow from the home page.
+7. **Inner pages.** How service pages, the blog and the contact area follow from the home page. If the brief has no blog posts yet, say how the empty blog page should read and leave the blog out of the navigation until there is a post.
 8. **Components.** Which files in `src/design/components/` to restyle, which to replace, and which new ones to create. The lead form itself is the locked `LeadForm`; describe the section around it and any of its CSS variables to set.
-9. **Imagery.** How the client's photos are cropped and framed, and what to do where there are none. Do not specify stock or generated photos of people or work the client did not do.
-10. **Do not.** The three or four specific mistakes most likely on this build.
+9. **Reviews and testimonials.** A review that has a star rating in the brief uses `ReviewCard`, which also emits review structured data. A quote with no rating is a plain testimonial with no stars and no structured data. Never show stars or a rating the brief does not give.
+10. **Imagery.** How the client's photos are cropped and framed, and what to do where there are none. Do not specify stock or generated photos of people or work the client did not do.
+11. **Do not.** The three or four specific mistakes most likely on this build.
 
 ## Requirements every direction must meet
 
